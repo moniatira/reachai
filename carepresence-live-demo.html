@@ -30,7 +30,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 .ldot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:blink 2s infinite}
 @keyframes blink{0%,100%{box-shadow:0 0 0 0 rgba(0,212,138,.4)}50%{box-shadow:0 0 0 5px rgba(0,212,138,0)}}
 .panels{overflow:hidden}
-.panel{display:none;height:calc(100vh - 54px)}
+.panel{display:none;height:calc(100vh - 54px);min-height:0}
 .panel.on{display:grid}
 /* SCHEDULE */
 #p-schedule{grid-template-columns:260px 1fr}
@@ -73,15 +73,15 @@ select.ehr-sel{width:100%;background:var(--card2);border:1px solid var(--bdr2);b
 .csv-prev th{color:var(--mut);padding:3px 6px;text-align:left;border-bottom:1px solid var(--bdr)}
 .csv-prev td{color:var(--mut2);padding:3px 6px}
 /* CHAT */
-#p-chat{grid-template-columns:1fr 290px}
-.chat-main{display:flex;flex-direction:column;border-right:1px solid var(--bdr)}
+#p-chat{grid-template-columns:1fr 290px;min-height:0}
+.chat-main{display:flex;flex-direction:column;border-right:1px solid var(--bdr);min-height:0;overflow:hidden}
 .chat-hdr{padding:.875rem 1.25rem;border-bottom:1px solid var(--bdr);background:var(--surf);display:flex;align-items:center;gap:10px;flex-shrink:0}
 .ai-av{width:34px;height:34px;border-radius:50%;background:var(--tdim);border:2px solid rgba(0,212,138,.3);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--teal);flex-shrink:0}
 .ai-nm{font-size:13px;font-weight:600}
 .ai-st{font-size:10px;color:var(--teal);font-family:var(--mono)}
 .reset-btn{margin-left:auto;background:none;border:1px solid var(--bdr2);border-radius:7px;color:var(--mut);font-size:11px;padding:4px 10px;cursor:pointer;font-family:var(--sans)}
 .reset-btn:hover{color:var(--text);border-color:var(--bdr)}
-.msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:9px}
+.msgs{flex:1;min-height:0;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:9px;-webkit-overflow-scrolling:touch}
 .msgs::-webkit-scrollbar{width:3px}
 .msgs::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:2px}
 .mwrap{display:flex;gap:7px;animation:mi .2s ease}
@@ -137,7 +137,7 @@ select.ehr-sel{width:100%;background:var(--card2);border:1px solid var(--bdr2);b
 .card-body{font-size:11px;color:var(--mut2);line-height:1.65}
 .intake-url{background:rgba(0,0,0,.2);border-radius:6px;padding:6px 9px;font-family:var(--mono);font-size:10px;color:var(--amber);margin-top:7px}
 /* CHAT SIDEBAR */
-.chat-side{background:var(--surf);padding:1.25rem;overflow-y:auto;display:flex;flex-direction:column;gap:.875rem}
+.chat-side{background:var(--surf);padding:1.25rem;overflow-y:auto;min-height:0;display:flex;flex-direction:column;gap:.875rem}
 .side-title{font-size:11px;color:var(--mut);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em}
 .mini-week{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
 .mini-d{border-radius:8px;border:1px solid var(--bdr);background:var(--card);padding:6px 4px;text-align:center;cursor:pointer;transition:all .15s}
@@ -185,8 +185,8 @@ select.ehr-sel{width:100%;background:var(--card2);border:1px solid var(--bdr2);b
 <div class="bar">
   <div class="logo"><div class="lmark">CP</div><div class="lname">CarePresence</div></div>
   <div class="tabs">
-    <button class="tab on"  onclick="switchTab('schedule',this)">Schedule</button>
-    <button class="tab"     onclick="switchTab('chat',this)">AI Chat Booking</button>
+    <button type="button" class="tab on"  onclick="switchTab('schedule',this)">Schedule</button>
+    <button type="button" class="tab"     onclick="switchTab('chat',this)">AI Chat Booking</button>
   </div>
   <div class="livebadge"><span class="ldot"></span>Thrive Psychiatry &middot; Plano TX</div>
 </div>
@@ -221,7 +221,7 @@ select.ehr-sel{width:100%;background:var(--card2);border:1px solid var(--bdr2);b
       <div class="info-row"><span>Days covered</span><span class="info-val" id="inf-days">0</span></div>
       <div class="info-row"><span>Free slots created</span><span class="info-val" id="inf-free">0</span></div>
     </div>
-    <button class="demo-btn" onclick="loadDemo()">&#9654; Load demo CSV data</button>
+    <button type="button" class="demo-btn" onclick="loadDemo()">&#9654; Load demo CSV data</button>
     <div class="legend">
       <div class="leg"><div class="legdot" style="background:var(--red);opacity:.7"></div>Booked</div>
       <div class="leg"><div class="legdot" style="background:var(--teal)"></div>Available</div>
@@ -230,7 +230,7 @@ select.ehr-sel{width:100%;background:var(--card2);border:1px solid var(--bdr2);b
   <div class="cal-main">
     <div class="cal-hdr">
       <div class="cal-title" id="cal-lbl">Loading...</div>
-      <div class="cal-nav"><button onclick="calPrev()">&#8249;</button><button onclick="calNext()">&#8250;</button></div>
+      <div class="cal-nav"><button type="button" onclick="calPrev()">&#8249;</button><button type="button" onclick="calNext()">&#8250;</button></div>
     </div>
     <div class="calgrid" id="calgrid"></div>
   </div>
@@ -242,12 +242,12 @@ select.ehr-sel{width:100%;background:var(--card2);border:1px solid var(--bdr2);b
     <div class="chat-hdr">
       <div class="ai-av">&#10022;</div>
       <div><div class="ai-nm">Thrive Assistant</div><div class="ai-st">online &middot; no PII stored</div></div>
-      <button class="reset-btn" onclick="resetChat()">Reset chat</button>
+      <button type="button" class="reset-btn" onclick="resetChat()">Reset chat</button>
     </div>
     <div class="msgs" id="msgs"></div>
     <div class="inp-bar">
       <input class="chat-inp" id="chat-inp" placeholder="Type here or press Enter..." onkeydown="if(event.key==='Enter')sendMsg()">
-      <button class="send-btn" onclick="sendMsg()">&#10148;</button>
+      <button type="button" class="send-btn" onclick="sendMsg()">&#10148;</button>
     </div>
   </div>
   <div class="chat-side">
@@ -302,7 +302,10 @@ function switchTab(id,btn){
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
   btn.classList.add('on');
   document.getElementById('p-'+id).classList.add('on');
-  if(id==='chat' && document.getElementById('msgs').children.length===0) startChat();
+  if(id==='chat'){
+    if(document.getElementById('msgs').children.length===0) startChat();
+    setTimeout(scrollChatToEnd,50);
+  }
 }
 
 // ====================================================
@@ -563,15 +566,15 @@ function bookFromSidebar(dk,time,end){
     cSlot={date:dk,time:time,end:end,display:display};
     if(cName&&cService&&cVisitType){
       addUser('I would like '+niceTime(time)+' on '+niceDate(dk));
-      cState='confirm'; aiReply(null,'confirm');
+      cState='confirm'; aiReplyNow(null,'confirm');
     } else if(cName&&cService){
       addUser('I would like '+niceTime(time)+' on '+niceDate(dk));
-      cState='ask_visit'; aiReply('Would you prefer in-person or telehealth?','visit_type');
+      cState='ask_visit'; aiReplyNow('Would you prefer in-person or telehealth?','visit_type');
     } else if(cName){
       addUser('I would like '+niceTime(time)+' on '+niceDate(dk));
-      cState='show_services'; aiReply('What would you like to be seen for?','services');
+      cState='show_services'; aiReplyNow('What would you like to be seen for?','services');
     } else {
-      aiReply('I have '+niceTime(time)+' on '+niceDate(dk)+' available. What is your first name?','text');
+      aiReplyNow('I have '+niceTime(time)+' on '+niceDate(dk)+' available. What is your first name?','text');
       cState='ask_name';
     }
   },200);
@@ -581,6 +584,7 @@ function bookFromSidebar(dk,time,end){
 // CHAT ENGINE
 // ====================================================
 function resetChat(){
+  cancelPendingAiReply();
   document.getElementById('msgs').innerHTML='';
   cName='';cExisting=null;cService='';cVisitType='';cSlot=null;cState='ask_name';
   startChat();
@@ -596,11 +600,18 @@ function addUser(txt){
   var av=document.createElement('div');av.className='mav mav-u';av.textContent='You';
   var b=document.createElement('div');b.className='bbl bbl-u';b.textContent=txt;
   w.appendChild(b);w.appendChild(av);
-  msgs.appendChild(w);msgs.scrollTop=msgs.scrollHeight;
+  msgs.appendChild(w);scrollChatToEnd();
 }
 
 var _typingSeq=0;
+var _aiReplyTimer=null;
+function cancelPendingAiReply(){
+  if(_aiReplyTimer){clearTimeout(_aiReplyTimer);_aiReplyTimer=null;}
+  var box=document.getElementById('msgs');
+  if(box) box.querySelectorAll('[id^="typing-"]').forEach(function(n){n.remove();});
+}
 function aiReply(text,type){
+  cancelPendingAiReply();
   var msgs=document.getElementById('msgs');
   var uid='typing-'+(++_typingSeq);
   var tw=document.createElement('div');tw.className='mwrap';tw.id=uid;
@@ -608,11 +619,26 @@ function aiReply(text,type){
   var td=document.createElement('div');td.className='tdots';
   td.innerHTML='<span></span><span></span><span></span>';
   tw.appendChild(av);tw.appendChild(td);
-  msgs.appendChild(tw);msgs.scrollTop=msgs.scrollHeight;
-  setTimeout(function(){
+  msgs.appendChild(tw);scrollChatToEnd();
+  _aiReplyTimer=setTimeout(function(){
+    _aiReplyTimer=null;
     var t=document.getElementById(uid);if(t)t.remove();
+    try{
+      renderAI(text,type);
+    }catch(err){
+      renderAI('Something went wrong. Please tap Reset chat and try again.','text');
+    }
+  },220);
+}
+
+/** Next booking step: render immediately so replies are never lost to timers or scroll quirks. */
+function aiReplyNow(text,type){
+  cancelPendingAiReply();
+  try{
     renderAI(text,type);
-  },680);
+  }catch(err){
+    renderAI('Something went wrong. Please tap Reset chat and try again.','text');
+  }
 }
 
 function renderAI(text,type){
@@ -630,7 +656,11 @@ function renderAI(text,type){
     ['Yes','No'].forEach(function(lbl){
       (function(label){
         var btn=el('button','yn-btn');btn.textContent=label;
-        btn.addEventListener('click',function(){addUser(label);setTimeout(function(){disableWrap(wrap);},0);handleYN(label==='Yes');});
+        btn.addEventListener('click',function(){
+          if(btn.disabled) return;
+          row.querySelectorAll('.yn-btn').forEach(function(x){x.disabled=true;});
+          addUser(label);setTimeout(function(){disableWrap(wrap);},0);handleYN(label==='Yes');
+        });
         row.appendChild(btn);
       })(lbl);
     });
@@ -647,6 +677,8 @@ function renderAI(text,type){
         var ds=el('div','svc-desc');ds.textContent=svc.desc;
         btn.appendChild(ic);btn.appendChild(nm);btn.appendChild(ds);
         btn.addEventListener('click',function(){
+          if(btn.disabled) return;
+          grid.querySelectorAll('.svc-btn').forEach(function(x){x.disabled=true;});
           var plainName=svc.name.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
           addUser(plainName);
           setTimeout(function(){disableWrap(wrap);},0);
@@ -663,7 +695,11 @@ function renderAI(text,type){
     ['In-person','Telehealth'].forEach(function(v){
       (function(val){
         var btn=el('button','yn-btn');btn.textContent=val;
-        btn.addEventListener('click',function(){addUser(val);setTimeout(function(){disableWrap(wrap);},0);handleVisitType(val);});
+        btn.addEventListener('click',function(){
+          if(btn.disabled) return;
+          row.querySelectorAll('.yn-btn').forEach(function(x){x.disabled=true;});
+          addUser(val);setTimeout(function(){disableWrap(wrap);},0);handleVisitType(val);
+        });
         row.appendChild(btn);
       })(v);
     });
@@ -678,7 +714,13 @@ function renderAI(text,type){
       loadDemo();
       setTimeout(function(){
         var sl2=getSlots(4);
-        sl2.forEach(function(s){addSlotBtn(grid,wrap,s);});
+        if(sl2.length===0){
+          var err=el('div','');
+          err.style.cssText='font-size:11px;color:var(--mut);font-family:var(--mono);padding:8px 0;';
+          err.textContent='No free times found. Open Schedule and click \u201cLoad demo CSV data\u201d, then try again.';
+          grid.appendChild(err);
+        } else sl2.forEach(function(s){addSlotBtn(grid,wrap,s);});
+        scrollChatToEnd();
       },500);
     } else {
       slots.forEach(function(s){addSlotBtn(grid,wrap,s);});
@@ -703,9 +745,17 @@ function renderAI(text,type){
     });
     var row=el('div','yn-row');
     var ybtn=el('button','yn-btn');ybtn.textContent='Confirm \u2713';
-    ybtn.addEventListener('click',function(){addUser('Confirm booking');setTimeout(function(){disableWrap(wrap);},0);doBook();});
+    ybtn.addEventListener('click',function(){
+      if(ybtn.disabled) return;
+      ybtn.disabled=true;nbtn.disabled=true;
+      addUser('Confirm booking');setTimeout(function(){disableWrap(wrap);},0);doBook();
+    });
     var nbtn=el('button','yn-btn');nbtn.textContent='Change slot';
-    nbtn.addEventListener('click',function(){addUser('Choose different slot');setTimeout(function(){disableWrap(wrap);},0);cState='show_slots';aiReply('No problem, pick another time:','slots');});
+    nbtn.addEventListener('click',function(){
+      if(nbtn.disabled) return;
+      ybtn.disabled=true;nbtn.disabled=true;
+      addUser('Choose different slot');setTimeout(function(){disableWrap(wrap);},0);cState='show_slots';aiReplyNow('No problem, pick another time:','slots');
+    });
     row.appendChild(ybtn);row.appendChild(nbtn);card.appendChild(row);
     wrap.appendChild(card);
 
@@ -730,9 +780,12 @@ function renderAI(text,type){
     var fb=el('div','card-body');
     fb.innerHTML='<b style="color:var(--text)">New booking</b><br>'+cName+' \u00b7 '+(cExisting?'Follow-up':'New patient')+' \u00b7 '+cService+'<br>'+(cSlot?cSlot.display:'')+' \u00b7 '+cVisitType+(cExisting?'':'<br><span style="color:var(--amber)">\u26a0 Intake form pending</span>');
     fc.appendChild(ft);fc.appendChild(fb);wrap.appendChild(fc);
+  } else {
+    var fb2=el('div','bbl bbl-ai');fb2.textContent=(text!=null&&text!=='')?String(text):'Continue using the buttons above.';
+    wrap.appendChild(fb2);
   }
 
-  msgs.appendChild(wrap);msgs.scrollTop=msgs.scrollHeight;
+  msgs.appendChild(wrap);scrollChatToEnd();
 }
 
 function addSlotBtn(grid,wrap,s){
@@ -743,31 +796,70 @@ function addSlotBtn(grid,wrap,s){
     var sv=el('div','slot-vtype');sv.textContent=cVisitType||'Available';
     btn.appendChild(sd);btn.appendChild(st);btn.appendChild(sv);
     btn.addEventListener('click',function(){
-      grid.querySelectorAll('.slot-btn').forEach(function(b){b.classList.remove('picked');});
+      if(btn.disabled) return;
+      grid.querySelectorAll('.slot-btn').forEach(function(x){x.disabled=true;x.classList.remove('picked');});
       btn.classList.add('picked');
       cSlot=slot;
       addUser(slot.displayTime+' on '+slot.dayName);
       setTimeout(function(){disableWrap(wrap);},0);
       cState='confirm';
-      aiReply(null,'confirm');
+      aiReplyNow(null,'confirm');
     });
     grid.appendChild(btn);
   })(s);
 }
 
-function el(tag,cls){var e=document.createElement(tag);if(cls)e.className=cls;return e;}
+function el(tag,cls){
+  var e=document.createElement(tag);
+  if(cls)e.className=cls;
+  if(tag==='button')e.type='button';
+  return e;
+}
+function scrollChatToEnd(){
+  var box=document.getElementById('msgs');
+  if(!box)return;
+  box.scrollTop=box.scrollHeight;
+  requestAnimationFrame(function(){
+    box.scrollTop=box.scrollHeight;
+    requestAnimationFrame(function(){box.scrollTop=box.scrollHeight;});
+  });
+}
 
 function disableWrap(wrap){
   wrap.querySelectorAll('button').forEach(function(b){b.disabled=true;});
 }
 
+function matchServiceFromInput(raw){
+  var t=raw.toLowerCase().trim();
+  if(t.length<2) return null;
+  var i,svc,plain,pl,head;
+  for(i=0;i<SVCS.length;i++){
+    svc=SVCS[i];
+    plain=svc.name.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+    pl=plain.toLowerCase();
+    if(t===pl) return plain;
+    if(t.length>=3&&(pl.indexOf(t)>=0||t.indexOf(pl)>=0)) return plain;
+    head=pl.split(/\s*&\s*/)[0].trim();
+    if(head.length>=3&&(head.indexOf(t)>=0||t.indexOf(head)>=0)) return plain;
+  }
+  if(/\b(anxiety|panic|gad)\b/.test(t)) return 'Anxiety & Panic';
+  if(/\b(depress|mood)\b/.test(t)) return 'Depression';
+  if(/\badhd\b/.test(t)) return 'ADHD';
+  if(/\b(ptsd|trauma)\b/.test(t)) return 'PTSD & Trauma';
+  if(/\b(bipolar|mania)\b/.test(t)) return 'Bipolar Disorder';
+  if(/\b(med|medication|refill|prescri)\b/.test(t)) return 'Medication Mgmt';
+  return null;
+}
+
 function getSlots(n){
-  var result=[],now=new Date(),keys=Object.keys(schedule).sort();
+  var result=[],keys=Object.keys(schedule).sort();
+  // Demo schedule is anchored to TODAY (May 2026 in this file). Using the real wall clock
+  // here makes every slot "past" once the viewer's calendar moves beyond that window, so
+  // no times ever appear. Offer all generated free slots for the demo.
   for(var ki=0;ki<keys.length&&result.length<n;ki++){
     var dk=keys[ki],daySlots=schedule[dk]||[];
     for(var si=0;si<daySlots.length&&result.length<n;si++){
       var s=daySlots[si];if(s.busy) continue;
-      var dt=new Date(dk+'T'+s.time+':00');if(dt<=now) continue;
       result.push({
         date:dk,time:s.time,end:s.end,
         display:niceDate(dk)+' at '+niceTime(s.time),
@@ -788,15 +880,15 @@ function handleYN(yes){
     ?('Good to see you again, '+cName+'! What would you like to be seen for?')
     :('Welcome, '+cName+'! We\'re glad you reached out. What brings you in?');
   cState='show_services';
-  aiReply(msg,'services');
+  aiReplyNow(msg,'services');
 }
 function handleService(name){
   cService=name;cState='ask_visit';
-  aiReply('Would you prefer to come in person or do a telehealth visit?','visit_type');
+  aiReplyNow('Would you prefer to come in person or do a telehealth visit?','visit_type');
 }
 function handleVisitType(v){
   cVisitType=v;cState='show_slots';
-  aiReply('Here are the next available times:','slots');
+  aiReplyNow('Here are the next available times:','slots');
 }
 function doBook(){
   if(cSlot&&schedule[cSlot.date]){
@@ -847,6 +939,20 @@ function sendMsg(){
       aiReply('Office hours are Monday through Friday, 9am to 5pm. This assistant is available 24/7!','text');
     else
       aiReply('Our team will be happy to help with that at your appointment. Anything else?','text');
+  } else if(cState==='show_services'){
+    var svcPick=matchServiceFromInput(msg);
+    if(svcPick){handleService(svcPick);return;}
+    aiReply('Tap one of the reasons above, or say something like anxiety, ADHD, or medication.','text');
+  } else if(cState==='ask_visit'){
+    if(m.includes('tele')||m.includes('video')||m.includes('virtual')||m.includes('zoom')) handleVisitType('Telehealth');
+    else if(m.includes('person')||m.includes('office')||m.includes('in person')||m.includes('in-person')) handleVisitType('In-person');
+    else aiReply('Tap In-person or Telehealth above, or type telehealth / in person.','text');
+  } else if(cState==='show_slots'){
+    aiReply('Pick one of the available times above. If you don\u2019t see times, open the Schedule tab and load the demo CSV first.','text');
+  } else if(cState==='confirm'){
+    if(m.includes('yes')||m.includes('confirm')||m.includes('book')||m.includes('sure')){doBook();return;}
+    if(m.includes('change')||m.includes('different')||m.includes('another')){cState='show_slots';aiReply('No problem, pick another time:','slots');return;}
+    aiReply('Use Confirm booking or Change slot below, or say confirm to finish.','text');
   } else {
     aiReply('Let me get you booked! First \u2014 what is your first name?','text');cState='ask_name';
   }
