@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CarePresence — investor and customer pitch overview">
-<title>CarePresence — Pitch deck</title>
+<meta name="robots" content="noindex,nofollow">
+<title>CarePresence — Pitch deck (internal)</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -12,6 +12,7 @@
   --bg:#0c1410;--surf:#111d17;--card:#162019;
   --teal:#00d48a;--teal2:#00b876;--tdim:rgba(0,212,138,.12);
   --amber:#f0a500;--adim:rgba(240,165,0,.12);
+  --red:#ff7a7a;
   --bdr:rgba(255,255,255,.08);
   --text:#e2ede8;--mut:#6b8577;--mut2:#9ab5a5;
   --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
@@ -23,96 +24,149 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 .logo span{width:28px;height:28px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#000;font-weight:700}
 .top a{font-size:11px;color:var(--mut2);font-family:var(--mono);text-decoration:none;border:1px solid var(--bdr);padding:5px 12px;border-radius:6px}
 .top a:hover{color:var(--teal);border-color:var(--teal)}
-.viewport{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;min-height:0}
-.slide{display:none;width:100%;max-width:820px;animation:fade .35s ease}
+.viewport{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;min-height:0;overflow-y:auto}
+.slide{display:none;width:100%;max-width:880px;animation:fade .35s ease}
 .slide.on{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .slide-k{font-size:11px;font-family:var(--mono);color:var(--teal);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
-.slide h1{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:600;line-height:1.2;margin-bottom:16px}
-.slide h2{font-size:clamp(1.2rem,3vw,1.5rem);font-weight:600;margin-bottom:14px}
-.slide p,.slide li{font-size:15px;color:var(--mut2);line-height:1.65;max-width:52ch}
+.slide h1{font-size:clamp(1.45rem,4vw,2.15rem);font-weight:600;line-height:1.2;margin-bottom:16px}
+.slide h2{font-size:clamp(1.15rem,3vw,1.45rem);font-weight:600;margin-bottom:14px}
+.slide p,.slide li{font-size:15px;color:var(--mut2);line-height:1.65;max-width:58ch}
 .slide ul{margin:12px 0 0 1.1rem}
-.slide li{margin-bottom:8px}
-.card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
-@media(max-width:640px){.card-grid{grid-template-columns:1fr}}
-.mini{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:14px;font-size:13px;color:var(--mut2);line-height:1.5}
-.mini strong{display:block;color:var(--text);font-size:12px;margin-bottom:6px}
-.warn{font-size:12px;color:var(--mut2);background:var(--adim);border:1px solid rgba(240,165,0,.25);border-radius:8px;padding:12px 14px;margin-top:18px;line-height:1.55}
+.slide li{margin-bottom:10px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}
+@media(max-width:720px){.two-col{grid-template-columns:1fr}}
+.box{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.55;color:var(--mut2)}
+.box h4{font-size:12px;color:var(--text);margin-bottom:8px;font-weight:600}
+.row-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px;font-size:13px}
+@media(max-width:640px){.row-grid{grid-template-columns:1fr}}
+.cell{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:12px}
+.cell strong{display:block;color:var(--text);font-size:11px;margin-bottom:6px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.diff{border-left:3px solid var(--teal);padding-left:14px;margin-top:14px}
+.warn{font-size:11px;color:var(--mut2);background:var(--adim);border:1px solid rgba(240,165,0,.25);border-radius:8px;padding:10px 12px;margin-top:16px;line-height:1.5}
 .dots{display:flex;justify-content:center;gap:8px;padding:14px;flex-shrink:0;background:var(--surf);border-top:1px solid var(--bdr)}
 .dots button{width:9px;height:9px;border-radius:50%;border:none;background:var(--bdr);cursor:pointer;padding:0}
 .dots button.on{background:var(--teal)}
 .hint{font-size:11px;color:var(--mut);font-family:var(--mono);text-align:center;padding-bottom:8px}
+.tag{font-size:10px;color:var(--amber);font-family:var(--mono)}
 </style>
 </head>
 <body>
 <div class="deck">
   <div class="top">
     <div class="logo"><span>CP</span> CarePresence</div>
-    <a href="carepresence-live-demo.html">Open pilot preview</a>
+    <span class="tag">Presenter deck · not linked from public pilot</span>
+    <a href="carepresence-live-demo.html">Pilot preview</a>
   </div>
-  <div class="hint">Arrow keys or click dots to navigate · Present in fullscreen (F11)</div>
+  <div class="hint">Arrow keys · Space · dots · Home / End</div>
   <div class="viewport" id="viewport"></div>
   <div class="dots" id="dots"></div>
 </div>
 
 <div id="slides-markup" style="display:none">
   <div class="slide" data-title="Title">
-    <div class="slide-k">Confidential · Pilot materials</div>
+    <div class="slide-k">Behavioral health · Access &amp; scheduling</div>
     <h1>CarePresence</h1>
-    <p><strong style="color:var(--text)">Intelligent scheduling &amp; patient access for behavioral health.</strong><br><br>
-    Turn real calendar constraints into self-service booking across chat and voice—without losing operational visibility.</p>
+    <p><strong style="color:var(--text)">Availability-grounded AI booking</strong>—so patients reach real open capacity, and clinics stop reconciling phones, portals, and calendars by hand.</p>
   </div>
-  <div class="slide" data-title="Problem">
-    <div class="slide-k">Problem</div>
-    <h2>Scheduling is the bottleneck</h2>
-    <ul>
-      <li>Phones and portals don’t reflect true availability.</li>
-      <li>Staff context-switch between EHR, inbox, and callbacks.</li>
-      <li>Patients abandon when the next step isn’t obvious.</li>
-    </ul>
-  </div>
-  <div class="slide" data-title="Solution">
-    <div class="slide-k">Solution</div>
-    <h2>Availability-grounded access</h2>
-    <p>CarePresence ingests schedule truth from your workflow (CSV today; APIs tomorrow), exposes it through AI-guided chat and voice, and notifies operations when a booking lands.</p>
-  </div>
-  <div class="slide" data-title="Product">
-    <div class="slide-k">Product</div>
-    <h2>What’s in the pilot</h2>
-    <div class="card-grid">
-      <div class="mini"><strong>Schedule intelligence</strong>EHR-style exports map busy time; open slots stay visible on the calendar.</div>
-      <div class="mini"><strong>AI concierge</strong>Structured intake: patient context, modality, slot selection, confirmation.</div>
-      <div class="mini"><strong>Voice</strong>Same booking graph—hands-free when patients prefer speech.</div>
-      <div class="mini"><strong>Front desk signal</strong>New bookings surface for staff without digging through threads.</div>
+
+  <div class="slide" data-title="Pain points">
+    <div class="slide-k">Customer pain points</div>
+    <h2>What clinics and patients feel every week</h2>
+    <div class="two-col">
+      <div class="box">
+        <h4>Operations &amp; staff</h4>
+        <ul style="margin-top:8px">
+          <li>Phones ring while the schedule in the EHR already moved.</li>
+          <li>Front desk toggles between CSV exports, spreadsheets, and “who called back?”</li>
+          <li>No-show risk rises when booking isn’t tied to true availability.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>Patients &amp; access</h4>
+        <ul style="margin-top:8px">
+          <li>Portal slots don’t match what schedulers know is real.</li>
+          <li>After-hours = voicemail, not self-service against live rules.</li>
+          <li>Anxiety and ADHD populations need low-friction paths—not ten clicks.</li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="slide" data-title="Demo">
-    <div class="slide-k">Go-live narrative</div>
-    <h2>Try the pilot preview</h2>
-    <p>Open the linked prototype to walk a full booking with illustrative data. Position it as <em>workflow validation</em>, not a clinical endpoint.</p>
-    <p style="margin-top:14px"><a href="carepresence-live-demo.html" style="color:var(--teal);font-weight:600">carepresence-live-demo.html →</a></p>
+
+  <div class="slide" data-title="Market gaps">
+    <div class="slide-k">Current market gaps</div>
+    <h2>Where today’s tools stop short</h2>
+    <ul>
+      <li><strong style="color:var(--text)">Schedule truth is fragmented.</strong> EHR calendars, provider preferences, and templates rarely surface cleanly to a patient-facing channel.</li>
+      <li><strong style="color:var(--text)">Generic chatbots aren’t constraint-aware.</strong> They suggest times without honoring busy blocks, modality rules, or intake logic.</li>
+      <li><strong style="color:var(--text)">Voice &amp; messaging aren’t unified.</strong> IVR, SMS, and web booking live in different stacks—reporting and handoffs break.</li>
+      <li><strong style="color:var(--text)">Compliance is bolted on late.</strong> Pilot-friendly demos ignore BAA, retention, and audit until it’s expensive to retrofit.</li>
+    </ul>
   </div>
-  <div class="slide" data-title="Trust">
-    <div class="slide-k">Trust &amp; deployment</div>
-    <h2>Production is a joint design</h2>
-    <p>HIPAA-aligned deployments require your BAA, retention policy, identity provider, and audit requirements. The browser preview stores no PHI by design.</p>
-    <div class="warn"><strong style="color:var(--amber)">Disclaimer:</strong> This pitch and prototype are not medical devices and do not provide clinical advice.</div>
+
+  <div class="slide" data-title="Competitors">
+    <div class="slide-k">Competitive landscape</div>
+    <h2>Categories (not one-size-fits-all)</h2>
+    <div class="row-grid">
+      <div class="cell">
+        <strong>EHR-native scheduling</strong>
+        Deep in workflow; patient UX and AI concierge often lag; APIs vary by vendor and contract.
+      </div>
+      <div class="cell">
+        <strong>Scheduling / RCM platforms</strong>
+        Strong at revenue cycle and bulk scheduling; lighter on conversational booking tied to behavioral-health intake nuance.
+      </div>
+      <div class="cell">
+        <strong>Horizontal AI assistants</strong>
+        Fast demos; weak on calendar constraint ingestion from real exports and operational handoff.
+      </div>
+      <div class="cell">
+        <strong>Call centers &amp; BPO</strong>
+        Human coverage scales linearly; doesn’t replace need for self-service when volume spikes.
+      </div>
+    </div>
+    <p style="margin-top:14px;font-size:13px;font-family:var(--mono);color:var(--mut)">Names omitted—position by category for your audience.</p>
   </div>
+
+  <div class="slide" data-title="Differentiation">
+    <div class="slide-k">How CarePresence is different</div>
+    <h2>Differentiation</h2>
+    <div class="diff">
+      <p><strong style="color:var(--text)">Availability-first:</strong> Imports schedule truth from exportable workflows today (CSV → structured busy/free); API paths later—so AI never “invents” a slot.</p>
+      <p style="margin-top:10px"><strong style="color:var(--text)">Same journey, every channel:</strong> One booking graph for chat and voice—reduces abandonment and training load.</p>
+      <p style="margin-top:10px"><strong style="color:var(--text)">Operational visibility:</strong> Confirmations surface for front desk without digging through threads.</p>
+      <p style="margin-top:10px"><strong style="color:var(--text)">Enterprise-ready path:</strong> Designed for PHI boundaries, identity, and audit as part of deployment—not as an afterthought.</p>
+    </div>
+    <div class="warn">Pilot HTML preview uses illustrative data only; production is deployed with your compliance review.</div>
+  </div>
+
+  <div class="slide" data-title="Product">
+    <div class="slide-k">Product</div>
+    <h2>What the pilot demonstrates</h2>
+    <div class="row-grid">
+      <div class="cell"><strong>Schedule intelligence</strong>EHR-style CSV → busy blocks and open slots on a calendar.</div>
+      <div class="cell"><strong>AI concierge</strong>Reason for visit, modality, slot selection, confirmation.</div>
+      <div class="cell"><strong>Voice</strong>Same state machine—hands-free where appropriate.</div>
+      <div class="cell"><strong>Front desk signal</strong>New bookings visible operationally.</div>
+    </div>
+    <p style="margin-top:16px"><a href="carepresence-live-demo.html" style="color:var(--teal);font-weight:600">Open pilot preview →</a></p>
+  </div>
+
   <div class="slide" data-title="Ask">
     <div class="slide-k">Next steps</div>
-    <h2>What we’re looking for</h2>
+    <h2>What we’re asking</h2>
     <ul>
-      <li>Design-partner clinics for a scoped pilot (scheduling + intake paths).</li>
-      <li>Feedback on EHR connectors you prioritize.</li>
-      <li>Introductions to behavioral health operations leadership.</li>
+      <li>Design-partner clinics for a scoped pilot (scheduling + intake paths you choose).</li>
+      <li>Prioritized EHR / export formats for connector roadmap.</li>
+      <li>Introductions to behavioral health ops and innovation leads.</li>
     </ul>
-    <p style="margin-top:16px;font-size:13px;font-family:var(--mono);color:var(--mut)">Replace with your email · calendar link · data room</p>
+    <p style="margin-top:18px;font-size:13px;font-family:var(--mono);color:var(--mut2)">Replace with email · calendar · data room.</p>
   </div>
+
   <div class="slide" data-title="Thanks">
     <div class="slide-k">Thank you</div>
     <h1>CarePresence</h1>
     <p>Questions?</p>
-    <p style="margin-top:20px;font-size:13px;font-family:var(--mono);color:var(--mut2)">Pitch deck · companion to interactive pilot preview</p>
   </div>
 </div>
 
@@ -128,7 +182,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
     var b=document.createElement('button');
     b.type='button';
     b.title=s.dataset.title||('Slide '+(i+1));
-    b.addEventListener('click',function(){go(i);});
+    b.addEventListener('click',function(){ go(i); });
     dots.appendChild(b);
   });
   function go(i){
