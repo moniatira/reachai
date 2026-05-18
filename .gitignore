@@ -1,0 +1,19 @@
+# Secrets & local config
+.env
+.env.*
+!.env.example
+assets/vapi-demo.config.js
+
+# Recovery / scratch
+_recovered/
+
+# OAuth session data (local dev)
+integrations/calendar/data/
+
+# Dependencies
+node_modules/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log

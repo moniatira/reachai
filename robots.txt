@@ -1,0 +1,5 @@
+# BookRing — update sitemap URL when you deploy to production
+User-agent: *
+Allow: /
+
+Sitemap: https://www.bookring.io/sitemap.xml

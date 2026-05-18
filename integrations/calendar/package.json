@@ -1,0 +1,13 @@
+{
+  "name": "@bookring/calendar-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OAuth bridge for Google Calendar, Microsoft Outlook, and Calendly",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.mjs",
+    "check-env": "node scripts/check-env.mjs",
+    "google-auth-url": "node scripts/print-google-auth-url.mjs"
+  }
+}

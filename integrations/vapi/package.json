@@ -1,0 +1,8 @@
+{
+  "name": "bookring-vapi-webhook",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "webhook": "node server.mjs"
+  }
+}

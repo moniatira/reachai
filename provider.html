@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Provider portal — BookRing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/demo.css">
+<link rel="stylesheet" href="assets/provider.css">
+</head>
+<body class="demo-app portal-page">
+<header class="demo-bar">
+  <a href="index.html" class="logo"><span class="logo-mark">BR</span> BookRing</a>
+  <span style="font-size:13px;color:#a8c4b6">Provider portal</span>
+  <a href="demo.html" class="demo-back">← Customer demos</a>
+</header>
+
+<div id="portal-login" class="portal-wrap">
+  <div class="portal-card">
+    <h1>Provider sign in</h1>
+    <p>Customize what callers see in chat and phone, connect integrations, and view booking statistics.</p>
+    <label class="portal-label" for="portal-login-pw">Password</label>
+    <input type="password" id="portal-login-pw" class="portal-input" placeholder="Default: demo" autocomplete="current-password">
+    <p id="portal-login-err" class="portal-err" hidden>Incorrect password.</p>
+    <button type="button" class="demo-btn demo-btn-primary" id="portal-login-btn">Sign in</button>
+    <p class="portal-hint">Demo password is <strong>demo</strong> until you change it after login.</p>
+  </div>
+</div>
+
+<div id="portal-dash" class="portal-wrap" hidden>
+  <div class="portal-top">
+    <div>
+      <h1>Provider dashboard</h1>
+      <p>Integrations sync to the <a href="demo.html#chat" style="color:#00e89b">chat</a> and <a href="demo.html#phone" style="color:#00e89b">phone</a> demos automatically.</p>
+    </div>
+    <button type="button" class="demo-btn demo-btn-ghost" id="portal-logout">Sign out</button>
+  </div>
+
+  <section class="portal-stats" id="portal-stats" aria-label="Booking statistics"></section>
+
+  <section class="portal-card">
+    <h2>Caller &amp; chat options</h2>
+    <p class="portal-lead">What customers see and hear in the <a href="demo.html#chat" style="color:#00e89b">chat</a> and <a href="demo.html#phone" style="color:#00e89b">phone</a> demos.</p>
+    <label class="portal-label" for="portal-tagline">Tagline</label>
+    <input type="text" id="portal-tagline" class="portal-input" maxlength="120" placeholder="Book online in seconds">
+    <label class="portal-label" for="portal-services">Services (one per line)</label>
+    <textarea id="portal-services" class="portal-input portal-textarea" rows="5" placeholder="Standard appointment&#10;Extended session&#10;Consultation"></textarea>
+    <label class="portal-label" for="portal-chat-welcome">Chat welcome message</label>
+    <textarea id="portal-chat-welcome" class="portal-input portal-textarea" rows="3" placeholder="Leave blank to use default: Hi! I am the [business] assistant…"></textarea>
+    <label class="portal-label" for="portal-phone-greeting">Phone greeting (simulated call)</label>
+    <textarea id="portal-phone-greeting" class="portal-input portal-textarea" rows="2" placeholder="Thank you for calling…"></textarea>
+    <button type="button" class="demo-btn demo-btn-primary" id="portal-save-caller">Save caller options</button>
+    <p class="portal-hint">Changes apply immediately when you open the demos.</p>
+  </section>
+
+  <section class="portal-card">
+    <h2>Account</h2>
+    <label class="portal-label" for="portal-biz-name">Business name</label>
+    <input type="text" id="portal-biz-name" class="portal-input" maxlength="80">
+    <label class="portal-label" for="portal-pw">Portal password</label>
+    <input type="text" id="portal-pw" class="portal-input" autocomplete="new-password">
+    <button type="button" class="demo-btn demo-btn-primary" id="portal-save-biz">Save profile</button>
+    <p id="portal-save-msg" class="portal-hint"></p>
+  </section>
+
+  <section class="portal-card">
+    <h2>Integrations</h2>
+    <span class="demo-status off" id="portal-cal-status">Not connected</span>
+    <p class="portal-lead">Connect your calendar so chat and phone demos block real busy times. Start the OAuth bridge: <code style="font-size:11px">cd integrations/calendar &amp;&amp; npm start</code> — see <code style="font-size:11px">GOOGLE_SETUP.md</code> for credentials.</p>
+    <button type="button" class="google-signin-btn" id="portal-google-connect" hidden>
+      <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C2.38 17.27 0 20.45 0 24s2.38 6.73 6.55 10.78l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Sign in with Google Calendar
+    </button>
+    <p id="portal-bridge-hint" class="portal-hint" hidden></p>
+    <div class="cal-picker" id="portal-cal-picker">
+      <button type="button" class="cal-opt" data-provider="google"><strong>Google Calendar</strong><span>Gmail &amp; Workspace</span></button>
+      <button type="button" class="cal-opt" data-provider="outlook"><strong>Microsoft Outlook</strong><span>Office 365</span></button>
+      <button type="button" class="cal-opt" data-provider="calendly"><strong>Calendly</strong><span>Scheduling link</span></button>
+    </div>
+    <div id="portal-cal-off">
+      <button type="button" class="demo-btn demo-btn-primary" id="portal-cal-connect">Connect calendar</button>
+    </div>
+    <div id="portal-cal-on" hidden>
+      <p class="portal-lead">Signed in as <strong id="portal-cal-email"></strong></p>
+      <div class="cal-row-actions">
+        <button type="button" class="demo-btn demo-btn-primary" id="portal-cal-sync">Sync busy times</button>
+        <button type="button" class="demo-btn demo-btn-ghost" id="portal-cal-disconnect">Disconnect</button>
+      </div>
+      <div class="cal-import-list" id="portal-cal-busy"></div>
+    </div>
+    <hr class="portal-divider">
+    <label class="portal-label" for="portal-phone">Inbound booking line</label>
+    <div class="demo-config-row">
+      <input type="tel" id="portal-phone" class="portal-input" placeholder="+1 415 555 0100">
+      <button type="button" class="demo-btn demo-btn-primary" id="portal-save-phone">Save number</button>
+    </div>
+  </section>
+
+  <section class="portal-card">
+    <h2>Booking log</h2>
+    <p class="portal-lead">Every completed booking from the phone or chat demos. Summary stats are at the top of the dashboard.</p>
+    <p id="portal-calls-empty" class="portal-hint">No bookings yet — try the phone or chat demo.</p>
+    <div class="portal-table-wrap">
+      <table class="portal-table">
+        <thead>
+          <tr>
+            <th>When</th>
+            <th>Channel</th>
+            <th>Customer</th>
+            <th>Service</th>
+            <th>Time</th>
+            <th>Calendar</th>
+          </tr>
+        </thead>
+        <tbody id="portal-calls-body"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script src="assets/cp-config.js"></script>
+<script src="assets/calendar-oauth.js"></script>
+<script src="assets/integrations-demo.js"></script>
+<script src="assets/provider-dashboard.js"></script>
+<script>CPProviderPortal.initPortal();</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "@bookring/athena-appointments",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Athenahealth classic API — OAuth + Appointments (sandbox/production)",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "check-env": "node scripts/check-env.mjs",
+    "token": "node scripts/print-token.mjs",
+    "booked": "node scripts/list-booked.mjs",
+    "open": "node scripts/list-open-slots.mjs",
+    "book-slot": "node scripts/book-open-slot.mjs",
+    "portal": "node server.mjs"
+  }
+}

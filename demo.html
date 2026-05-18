@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>BookRing — book by chat or phone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/demo.css">
+</head>
+<body class="demo-app">
+<header class="demo-bar">
+  <a href="index.html" class="logo"><span class="logo-mark">BR</span> BookRing</a>
+  <nav class="demo-tabs" aria-label="Demos">
+    <button type="button" class="demo-tab" data-demo="calendar" id="tab-calendar">Calendar</button>
+    <button type="button" class="demo-tab" data-demo="chat" id="tab-chat">Chat booking</button>
+    <button type="button" class="demo-tab" data-demo="phone" id="tab-phone">Phone booking</button>
+  </nav>
+  <a href="provider.html" class="demo-back" style="margin-left:0">Provider portal</a>
+  <a href="integrations.html" class="demo-back">← Marketing</a>
+</header>
+
+<div class="demo-panels">
+  <section class="demo-panel" id="demo-calendar" aria-label="Calendar demo">
+    <div class="demo-panel-inner">
+      <h1>Connect any calendar</h1>
+      <p class="demo-lead">Connect here or in the <a href="provider.html" style="color:#00e89b">provider portal</a>. Busy times sync into chat and phone scheduling.</p>
+      <div class="demo-card">
+        <span class="demo-status off" id="cal-demo-status">Not connected</span>
+        <h2>Choose your calendar</h2>
+        <div class="cal-picker" id="cal-demo-picker">
+          <button type="button" class="cal-opt" data-provider="google"><strong>Google Calendar</strong><span>Gmail &amp; Workspace</span></button>
+          <button type="button" class="cal-opt" data-provider="outlook"><strong>Microsoft Outlook</strong><span>Office 365</span></button>
+          <button type="button" class="cal-opt" data-provider="calendly"><strong>Calendly</strong><span>Scheduling link</span></button>
+        </div>
+        <div id="cal-demo-off">
+          <button type="button" class="google-signin-btn" id="cal-demo-google-connect" hidden>
+            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C2.38 17.27 0 20.45 0 24s2.38 6.73 6.55 10.78l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            Sign in with Google Calendar
+          </button>
+          <div class="cal-row-actions">
+            <button type="button" class="demo-btn demo-btn-primary" id="btn-cal-demo-connect">Connect calendar</button>
+          </div>
+          <div id="cal-demo-setup" class="cal-setup-panel" hidden></div>
+        </div>
+        <div id="cal-demo-on" hidden>
+          <p style="font-size:13px;color:#a8c4b6;margin-bottom:8px">Signed in as <strong style="color:#f0f7f3" id="cal-demo-email"></strong></p>
+          <div class="cal-row-actions">
+            <button type="button" class="demo-btn demo-btn-primary" id="btn-cal-demo-sync">Sync busy times</button>
+            <button type="button" class="demo-btn demo-btn-ghost" id="btn-cal-demo-disconnect">Disconnect</button>
+            <a href="demo.html#chat" class="demo-btn demo-btn-ghost demo-jump-chat">Try chat booking →</a>
+          </div>
+          <div class="cal-import-list" id="cal-demo-import-list" aria-label="Busy times from calendar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo-panel" id="demo-chat" aria-label="Chat booking demo">
+    <div class="demo-panel-inner" style="max-width:960px;padding-bottom:1rem">
+      <h1>Chat booking</h1>
+      <p class="demo-lead">Customers type naturally and pick a service and time—just like texting your front desk.</p>
+      <div id="demo-chat-layout">
+        <div class="chat-main-demo">
+          <div class="chat-hdr-demo">
+            <div style="width:32px;height:32px;border-radius:50%;background:rgba(0,232,155,.15);display:flex;align-items:center;justify-content:center;color:#00e89b">✦</div>
+            <div>
+              <div style="font-size:13px;font-weight:600">BookRing Assistant</div>
+              <div style="font-size:10px;color:#00e89b;font-family:'DM Mono',monospace" id="chat-hdr-sub">Chat scheduling demo</div>
+            </div>
+            <button type="button" id="chat-demo-reset" class="demo-btn demo-btn-ghost" style="margin-left:auto;padding:6px 12px;font-size:11px">Reset</button>
+          </div>
+          <div class="chat-msgs-demo" id="chat-demo-msgs"></div>
+          <div class="chat-inp-demo">
+            <input type="text" id="chat-demo-inp" placeholder="Type your message..." autocomplete="off">
+            <button type="button" id="chat-demo-send" aria-label="Send">➤</button>
+          </div>
+        </div>
+        <aside class="chat-side-demo">
+          <div style="font-size:10px;color:#7a9488;font-family:'DM Mono',monospace;text-transform:uppercase;margin-bottom:8px">This week</div>
+          <div id="chat-demo-week" class="chat-week-grid"></div>
+          <div style="font-size:10px;color:#7a9488;font-family:'DM Mono',monospace;text-transform:uppercase;margin:12px 0 8px">Times</div>
+          <div id="chat-demo-slots" class="chat-slots-side"></div>
+          <p id="chat-side-note" style="font-size:11px;color:#7a9488;line-height:1.45;margin-top:10px">Pick what you need in the chat first — then choose a date.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo-panel" id="demo-phone" aria-label="Phone booking demo">
+    <div class="demo-panel-inner">
+      <h1>Phone booking</h1>
+      <p class="demo-lead">Call your booking line or open a live voice assistant in the browser—real calls, not a script.</p>
+      <div class="demo-card">
+        <h2>Your booking number</h2>
+        <p style="font-size:13px;color:#a8c4b6;margin-bottom:12px">Enter the number customers dial to reach your assistant.</p>
+        <div class="demo-phone-hero">
+          <div class="demo-phone-label">Call to schedule</div>
+          <div class="demo-phone-digits muted" id="phone-demo-display">Add your booking line below</div>
+          <a class="demo-btn demo-btn-primary" id="phone-demo-call" href="#" style="display:none;margin-top:14px">Call now</a>
+        </div>
+        <div class="demo-config-row">
+          <input type="tel" id="phone-demo-inp" placeholder="+1 415 555 0100" autocomplete="tel">
+          <button type="button" class="demo-btn demo-btn-primary" id="btn-phone-demo-save">Save number</button>
+        </div>
+      </div>
+      <div class="demo-card">
+        <h2>Live call in browser</h2>
+        <p id="vapi-hint" style="font-size:13px;color:#a8c4b6;margin-bottom:10px">Opens your Vapi booking assistant — allow microphone when prompted.</p>
+        <div id="vapi-mount" class="vapi-mount"></div>
+        <div id="vapi-key-row" class="demo-config-row" hidden>
+          <input type="text" id="vapi-key-inp" placeholder="Vapi public API key" autocomplete="off">
+          <button type="button" class="demo-btn demo-btn-primary" id="vapi-key-save">Save &amp; open call</button>
+        </div>
+      </div>
+      <details class="demo-card demo-preview-call">
+        <summary>Preview call flow (offline)</summary>
+        <p style="font-size:13px;color:#a8c4b6;margin:10px 0">Walk through a scripted booking without a live line.</p>
+        <button type="button" class="demo-btn demo-btn-ghost" id="btn-phone-sim">Start preview</button>
+        <div class="phone-call-log" id="phone-call-log" aria-live="polite"></div>
+        <div id="phone-sim-actions" class="phone-sim-actions" hidden></div>
+      </details>
+    </div>
+  </section>
+</div>
+
+<script>window.VAPI_DEMO=window.VAPI_DEMO||{};</script>
+<script src="assets/vapi-demo.config.js"></script>
+<script src="assets/cp-config.js"></script>
+<script src="assets/calendar-oauth.js"></script>
+<script src="assets/calendar-status.js"></script>
+<script src="assets/integrations-demo.js"></script>
+<script src="assets/demo-vapi.js"></script>
+<script src="assets/demo-phone.js"></script>
+<script src="assets/demo-chat.js"></script>
+<script src="assets/demo-router.js"></script>
+<script>CPDemoRouter.initRouter();</script>
+</body>
+</html>
