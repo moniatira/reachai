@@ -153,34 +153,21 @@
     document.getElementById('portal-dash').hidden = true;
   }
 
-  async function updateBridgeUi() {
+  function updateBridgeUi() {
     var googleBtn = document.getElementById('portal-google-connect');
-    var hint = document.getElementById('portal-bridge-hint');
-    if (!global.CPCalendarOAuth) return;
-    var up = await CPCalendarOAuth.bridgeReachable();
-    var googleOk = up && (await CPCalendarOAuth.isConfigured('google'));
-    if (googleBtn) googleBtn.hidden = !googleOk || !!cfg().calendarConnected;
-    if (hint && !googleOk) {
-      hint.hidden = false;
-      hint.textContent = up
-        ? 'Add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to integrations/calendar/.env (see GOOGLE_SETUP.md).'
-        : 'Calendar bridge offline — run: cd integrations/calendar && npm start';
-    } else if (hint) hint.hidden = true;
+    if (googleBtn) googleBtn.hidden = !!cfg().calendarConnected;
   }
 
   async function handleOAuthReturn() {
     if (!global.CPCalendarOAuth) return;
     var ret = CPCalendarOAuth.applyOAuthReturnParams();
-    if (ret && ret.error) toast('Sign-in failed: ' + ret.error);
     if (ret && ret.connected) {
       try {
         await CPCalendarOAuth.refreshFromServer();
         if (CPConfig.isPortalLoggedIn()) renderIntegrations();
         if (global.CPCalendarStatus) CPCalendarStatus.notify();
-        toast('Google Calendar connected — busy times loaded.');
-      } catch (e) {
-        toast(e.message || 'Sync failed after sign-in');
-      }
+        toast('Calendar connected.');
+      } catch (e) {}
     }
   }
 
@@ -245,34 +232,17 @@
       if (first) first.classList.add('sel');
     }
 
-    var LABELS = { google: 'Google Calendar', outlook: 'Microsoft Outlook', calendly: 'Calendly' };
-
     var googleBtn = document.getElementById('portal-google-connect');
     if (googleBtn) {
-      googleBtn.onclick = async function () {
-        toast('Redirecting to Google sign-in…');
-        var r = await CPCalendarOAuth.connectGoogle(location.href.split('#')[0]);
-        if (r.mode === 'demo') toast(r.error || 'OAuth unavailable');
+      googleBtn.onclick = function () {
+        CPCalendarOAuth.connectGoogle(location.href.split('#')[0]);
       };
     }
 
-    document.getElementById('portal-cal-connect').onclick = async function () {
-      if (!global.CPCalendarOAuth) {
-        toast('OAuth unavailable.');
-        return;
-      }
-      var reachable = await CPCalendarOAuth.bridgeReachable();
-      var configured = reachable && (await CPCalendarOAuth.isConfigured(selected));
-      if (!configured) {
-        toast(
-          reachable
-            ? 'Add OAuth credentials in integrations/calendar/.env'
-            : 'Start bridge: cd integrations/calendar && npm start'
-        );
-        return;
-      }
-      toast('Opening ' + (LABELS[selected] || selected) + ' sign-in…');
-      await CPCalendarOAuth.connectAndSync(selected, location.href.split('#')[0]);
+    document.getElementById('portal-cal-connect').onclick = function () {
+      if (!global.CPCalendarOAuth) return;
+      var p = selected === 'outlook' || selected === 'calendly' ? selected : 'google';
+      CPCalendarOAuth.startSignIn(p, location.href.split('#')[0]);
     };
 
     document.getElementById('portal-cal-sync').onclick = async function () {

@@ -16,13 +16,13 @@
     if (panels.indexOf(q) >= 0) return q;
     var h = resolveDemoId((location.hash || '').replace(/^#/, ''));
     if (panels.indexOf(h) >= 0) return h;
-    return 'calendar';
+    return 'chat';
   }
 
   function showDemo(id, opts) {
     opts = opts || {};
     id = resolveDemoId(id);
-    if (panels.indexOf(id) < 0) id = 'calendar';
+    if (panels.indexOf(id) < 0) id = 'chat';
     panels.forEach(function (p) {
       var el = document.getElementById('demo-' + p);
       var tab = document.getElementById('tab-' + p);
@@ -32,9 +32,13 @@
     if (id === 'calendar' && global.CPDemos && CPDemos.initCalendarDemo) CPDemos.initCalendarDemo();
     if (id === 'phone') {
       if (global.CPDemos && CPDemos.initPhoneDemo) CPDemos.initPhoneDemo();
-      if (global.CPVapiDemo && CPVapiDemo.initVapiDemo) CPVapiDemo.initVapiDemo();
+      if (global.CPVapiDemo && CPVapiDemo.renderLiveCall) CPVapiDemo.renderLiveCall('phone');
     }
-    if (id === 'chat' && global.CPChatDemo && CPChatDemo.initChatDemo) CPChatDemo.initChatDemo();
+    if (id === 'chat' && global.CPVapiDemo && CPVapiDemo.renderLiveCall) {
+      setTimeout(function () {
+        CPVapiDemo.renderLiveCall('chat');
+      }, 50);
+    }
     if (!opts.skipHash && location.hash !== '#' + id) {
       history.replaceState(null, '', '#' + id);
     }
@@ -70,6 +74,9 @@
     }
 
     applyRoute();
+    if (global.CPVapiDemo && CPVapiDemo.initVapiDemo) {
+      CPVapiDemo.initVapiDemo();
+    }
     global.addEventListener('hashchange', applyRoute);
     global.addEventListener('popstate', applyRoute);
   }

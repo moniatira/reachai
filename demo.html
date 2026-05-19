@@ -15,7 +15,7 @@
   <a href="index.html" class="logo"><span class="logo-mark">BR</span> BookRing</a>
   <nav class="demo-tabs" aria-label="Demos">
     <button type="button" class="demo-tab" data-demo="calendar" id="tab-calendar">Calendar</button>
-    <button type="button" class="demo-tab" data-demo="chat" id="tab-chat">Chat booking</button>
+    <button type="button" class="demo-tab" data-demo="chat" id="tab-chat">AI assistant</button>
     <button type="button" class="demo-tab" data-demo="phone" id="tab-phone">Phone booking</button>
   </nav>
   <a href="provider.html" class="demo-back" style="margin-left:0">Provider portal</a>
@@ -36,7 +36,7 @@
           <button type="button" class="cal-opt" data-provider="calendly"><strong>Calendly</strong><span>Scheduling link</span></button>
         </div>
         <div id="cal-demo-off">
-          <button type="button" class="google-signin-btn" id="cal-demo-google-connect" hidden>
+          <button type="button" class="google-signin-btn" id="cal-demo-google-connect">
             <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C2.38 17.27 0 20.45 0 24s2.38 6.73 6.55 10.78l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
             Sign in with Google Calendar
           </button>
@@ -50,7 +50,7 @@
           <div class="cal-row-actions">
             <button type="button" class="demo-btn demo-btn-primary" id="btn-cal-demo-sync">Sync busy times</button>
             <button type="button" class="demo-btn demo-btn-ghost" id="btn-cal-demo-disconnect">Disconnect</button>
-            <a href="demo.html#chat" class="demo-btn demo-btn-ghost demo-jump-chat">Try chat booking →</a>
+            <a href="demo.html#chat" class="demo-btn demo-btn-ghost demo-jump-chat">Try AI assistant →</a>
           </div>
           <div class="cal-import-list" id="cal-demo-import-list" aria-label="Busy times from calendar"></div>
         </div>
@@ -58,33 +58,20 @@
     </div>
   </section>
 
-  <section class="demo-panel" id="demo-chat" aria-label="Chat booking demo">
-    <div class="demo-panel-inner" style="max-width:960px;padding-bottom:1rem">
-      <h1>Chat booking</h1>
-      <p class="demo-lead">Customers type naturally and pick a service and time—just like texting your front desk.</p>
-      <div id="demo-chat-layout">
-        <div class="chat-main-demo">
-          <div class="chat-hdr-demo">
-            <div style="width:32px;height:32px;border-radius:50%;background:rgba(0,232,155,.15);display:flex;align-items:center;justify-content:center;color:#00e89b">✦</div>
-            <div>
-              <div style="font-size:13px;font-weight:600">BookRing Assistant</div>
-              <div style="font-size:10px;color:#00e89b;font-family:'DM Mono',monospace" id="chat-hdr-sub">Chat scheduling demo</div>
-            </div>
-            <button type="button" id="chat-demo-reset" class="demo-btn demo-btn-ghost" style="margin-left:auto;padding:6px 12px;font-size:11px">Reset</button>
-          </div>
-          <div class="chat-msgs-demo" id="chat-demo-msgs"></div>
-          <div class="chat-inp-demo">
-            <input type="text" id="chat-demo-inp" placeholder="Type your message..." autocomplete="off">
-            <button type="button" id="chat-demo-send" aria-label="Send">➤</button>
+  <section class="demo-panel" id="demo-chat" aria-label="AI booking assistant">
+    <div class="demo-panel-inner" style="max-width:720px;padding-bottom:1rem">
+      <h1>AI booking assistant</h1>
+      <p class="demo-lead">Talk to BookRing—the same voice AI that answers your booking line. Tap <strong>Start call</strong> and allow your microphone.</p>
+      <div class="demo-card chat-vapi-shell">
+        <div class="chat-vapi-hdr">
+          <div class="chat-vapi-avatar" aria-hidden="true">✦</div>
+          <div>
+            <div style="font-size:14px;font-weight:600">BookRing Assistant</div>
+            <div style="font-size:10px;color:#00e89b;font-family:'DM Mono',monospace" id="chat-hdr-sub">Voice booking</div>
           </div>
         </div>
-        <aside class="chat-side-demo">
-          <div style="font-size:10px;color:#7a9488;font-family:'DM Mono',monospace;text-transform:uppercase;margin-bottom:8px">This week</div>
-          <div id="chat-demo-week" class="chat-week-grid"></div>
-          <div style="font-size:10px;color:#7a9488;font-family:'DM Mono',monospace;text-transform:uppercase;margin:12px 0 8px">Times</div>
-          <div id="chat-demo-slots" class="chat-slots-side"></div>
-          <p id="chat-side-note" style="font-size:11px;color:#7a9488;line-height:1.45;margin-top:10px">Pick what you need in the chat first — then choose a date.</p>
-        </aside>
+        <p id="chat-vapi-hint" class="chat-vapi-hint">Loading assistant…</p>
+        <div id="chat-vapi-mount" class="chat-vapi-mount-main"></div>
       </div>
     </div>
   </section>
@@ -110,10 +97,6 @@
         <h2>Live call in browser</h2>
         <p id="vapi-hint" style="font-size:13px;color:#a8c4b6;margin-bottom:10px">Opens your Vapi booking assistant — allow microphone when prompted.</p>
         <div id="vapi-mount" class="vapi-mount"></div>
-        <div id="vapi-key-row" class="demo-config-row" hidden>
-          <input type="text" id="vapi-key-inp" placeholder="Vapi public API key" autocomplete="off">
-          <button type="button" class="demo-btn demo-btn-primary" id="vapi-key-save">Save &amp; open call</button>
-        </div>
       </div>
       <details class="demo-card demo-preview-call">
         <summary>Preview call flow (offline)</summary>
@@ -126,7 +109,12 @@
   </section>
 </div>
 
-<script>window.VAPI_DEMO=window.VAPI_DEMO||{};</script>
+<script>
+window.VAPI_DEMO = {
+  publicKey: 'd2b3ff37-4a1b-45f6-8d37-64fa041a9a5f',
+  assistantId: '62cc8a69-c0d5-4efb-a6b5-584c41b6d190'
+};
+</script>
 <script src="assets/vapi-demo.config.js"></script>
 <script src="assets/cp-config.js"></script>
 <script src="assets/calendar-oauth.js"></script>
@@ -134,7 +122,6 @@
 <script src="assets/integrations-demo.js"></script>
 <script src="assets/demo-vapi.js"></script>
 <script src="assets/demo-phone.js"></script>
-<script src="assets/demo-chat.js"></script>
 <script src="assets/demo-router.js"></script>
 <script>CPDemoRouter.initRouter();</script>
 </body>

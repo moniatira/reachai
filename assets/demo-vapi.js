@@ -1,11 +1,30 @@
 /**
- * Live Vapi voice call in the browser (opens real assistant widget).
+ * Live Vapi voice widget — AI assistant + phone demo.
  */
 (function (global) {
   var widgetLoading = false;
 
+  var PRESETS = {
+    phone: { mountId: 'vapi-mount', hintId: 'vapi-hint', panelId: 'demo-phone' },
+    chat: { mountId: 'chat-vapi-mount', hintId: 'chat-vapi-hint', panelId: 'demo-chat' },
+  };
+
   function cfg() {
     return typeof CPConfig !== 'undefined' ? CPConfig.load() : {};
+  }
+
+  function vapiCreds() {
+    var c = cfg();
+    var fromWindow = global.VAPI_DEMO || {};
+    return {
+      publicKey: String(c.vapiPublicKey || fromWindow.publicKey || '').trim(),
+      assistantId: String(c.vapiAssistantId || fromWindow.assistantId || '62cc8a69-c0d5-4efb-a6b5-584c41b6d190').trim(),
+    };
+  }
+
+  function panelVisible(panelId) {
+    var panel = document.getElementById(panelId);
+    return panel && panel.classList.contains('on');
   }
 
   function ensureWidgetScript(cb) {
@@ -16,7 +35,9 @@
     var existing = document.querySelector('script[data-vapi-official-widget]');
     if (existing) {
       if (global.customElements && global.customElements.whenDefined) {
-        global.customElements.whenDefined('vapi-widget').then(cb).catch(function () {
+        global.customElements.whenDefined('vapi-widget').then(function () {
+          cb();
+        }).catch(function () {
           cb();
         });
       } else {
@@ -38,7 +59,9 @@
     s.onload = function () {
       widgetLoading = false;
       if (global.customElements && global.customElements.whenDefined) {
-        global.customElements.whenDefined('vapi-widget').then(cb).catch(function () {
+        global.customElements.whenDefined('vapi-widget').then(function () {
+          cb();
+        }).catch(function () {
           cb();
         });
       } else {
@@ -52,70 +75,95 @@
     document.head.appendChild(s);
   }
 
-  function renderLiveCall() {
-    var mount = document.getElementById('vapi-mount');
-    var hint = document.getElementById('vapi-hint');
-    var keyRow = document.getElementById('vapi-key-row');
+  function mountWidget(mount, creds, presetKey) {
+    var c = cfg();
+    var widget = document.createElement('vapi-widget');
+    widget.setAttribute('public-key', creds.publicKey);
+    widget.setAttribute('assistant-id', creds.assistantId);
+    widget.setAttribute('mode', 'voice');
+    widget.setAttribute('theme', 'dark');
+    widget.setAttribute('accent-color', '#00e89b');
+    widget.setAttribute('base-color', '#0e1812');
+    widget.setAttribute('main-label', 'Talk to ' + (c.businessName || 'BookRing'));
+    widget.setAttribute('start-button-text', 'Start call');
+    widget.setAttribute('end-button-text', 'End call');
+    widget.setAttribute('empty-voice-message', 'Talk to book an appointment');
+
+    if (presetKey === 'chat') {
+      widget.setAttribute('position', 'inline');
+      widget.setAttribute('size', 'full');
+    } else {
+      widget.setAttribute('position', 'inline');
+      widget.setAttribute('size', 'full');
+    }
+
+    mount.appendChild(widget);
+  }
+
+  function renderLiveCall(presetKey) {
+    var preset = PRESETS[presetKey] || PRESETS.chat;
+    var mount = document.getElementById(preset.mountId);
+    var hint = document.getElementById(preset.hintId);
     if (!mount) return;
 
-    var c = cfg();
-    var publicKey = String(c.vapiPublicKey || '').trim();
-    var assistantId = String(c.vapiAssistantId || '').trim();
+    if (!panelVisible(preset.panelId)) return;
 
-    if (!publicKey) {
+    var creds = vapiCreds();
+
+    if (!creds.publicKey) {
       mount.innerHTML = '';
-      if (hint) {
-        hint.textContent =
-          'Add your Vapi public API key to open a live call (Dashboard → API Keys, or assets/vapi-demo.config.js).';
-      }
-      if (keyRow) keyRow.hidden = false;
+      if (hint) hint.textContent = 'Voice assistant is not available right now.';
       return;
     }
 
-    if (keyRow) keyRow.hidden = true;
-    if (hint) {
-      hint.textContent = 'Click Start call — allow microphone access to talk to your booking assistant.';
+    if (presetKey === 'chat') {
+      var sub = document.getElementById('chat-hdr-sub');
+      if (sub) {
+        var tag = cfg().tagline && String(cfg().tagline).trim();
+        sub.textContent = tag || 'Voice booking';
+      }
+    }
+    if (hint) hint.textContent = 'Tap Start call — allow microphone access to book by voice.';
+
+    function build() {
+      ensureWidgetScript(function (err) {
+        if (!panelVisible(preset.panelId)) return;
+        if (err) {
+          if (hint) hint.textContent = 'Could not load voice assistant. Check your connection and refresh.';
+          return;
+        }
+        mount.innerHTML = '';
+        try {
+          mountWidget(mount, creds, presetKey);
+        } catch (e) {
+          if (hint) hint.textContent = 'Could not start assistant. Refresh and try again.';
+          console.error(e);
+        }
+      });
     }
 
-    ensureWidgetScript(function (err) {
-      if (err) {
-        if (hint) hint.textContent = 'Could not load Vapi. Check your network and try again.';
-        return;
-      }
-      mount.innerHTML = '';
-      var widget = document.createElement('vapi-widget');
-      widget.setAttribute('public-key', publicKey);
-      widget.setAttribute('assistant-id', assistantId);
-      widget.setAttribute('mode', 'voice');
-      widget.setAttribute('theme', 'dark');
-      widget.setAttribute('position', 'inline');
-      widget.setAttribute('size', 'full');
-      widget.setAttribute('accent-color', '#00e89b');
-      widget.setAttribute('base-color', '#0e1812');
-      widget.setAttribute('main-label', 'Talk to ' + (c.businessName || 'BookRing'));
-      widget.setAttribute('start-button-text', 'Start call');
-      widget.setAttribute('end-button-text', 'End call');
-      widget.setAttribute('empty-voice-message', 'Open a live call with your booking assistant');
-      mount.appendChild(widget);
+    requestAnimationFrame(function () {
+      requestAnimationFrame(build);
     });
   }
 
-  function initVapiDemo() {
-    var keyInp = document.getElementById('vapi-key-inp');
-    var keyBtn = document.getElementById('vapi-key-save');
-    if (keyBtn && keyInp) {
-      var c = cfg();
-      if (c.vapiPublicKey && !keyInp.value) keyInp.value = c.vapiPublicKey;
-      keyBtn.onclick = function () {
-        var key = keyInp.value.trim();
-        if (!key) return;
-        CPConfig.save({ vapiPublicKey: key });
-        renderLiveCall();
-      };
-    }
-    renderLiveCall();
-    global.addEventListener('cp-config-change', renderLiveCall);
+  function renderAll() {
+    renderLiveCall('chat');
+    renderLiveCall('phone');
   }
 
-  global.CPVapiDemo = { initVapiDemo: initVapiDemo, renderLiveCall: renderLiveCall };
+  function initVapiDemo(presetKey) {
+    if (presetKey) {
+      renderLiveCall(presetKey);
+      return;
+    }
+    renderAll();
+    global.addEventListener('cp-config-change', renderAll);
+  }
+
+  global.CPVapiDemo = {
+    initVapiDemo: initVapiDemo,
+    renderLiveCall: renderLiveCall,
+    renderAll: renderAll,
+  };
 })(typeof window !== 'undefined' ? window : global);

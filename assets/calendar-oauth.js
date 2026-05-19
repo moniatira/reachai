@@ -99,7 +99,7 @@
     if (err) {
       q.delete('calendar_error');
       history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q.toString() : '') + location.hash);
-      return { error: err };
+      return null;
     }
 
     var ui = uiProvider(connected);
@@ -118,23 +118,15 @@
     return { connected: ui, email: email };
   }
 
-  async function connectAndSync(uiProvider, returnUrl) {
-    if (!(await bridgeReachable())) {
-      return { mode: 'demo', error: 'Calendar bridge not running. Start: cd integrations/calendar && npm start' };
-    }
-    if (!(await isConfigured(uiProvider))) {
-      return {
-        mode: 'demo',
-        error: 'OAuth credentials not set for ' + uiProvider + '. See integrations/calendar/GOOGLE_SETUP.md',
-      };
-    }
-    startSignIn(uiProvider, returnUrl);
+  /** Redirect straight to provider sign-in (Google, Outlook, or Calendly). */
+  function connectAndSync(uiProvider, returnUrl) {
+    startSignIn(uiProvider || 'google', returnUrl);
     return { mode: 'redirect' };
   }
 
-  /** One-click Google Calendar OAuth. */
   function connectGoogle(returnUrl) {
-    return connectAndSync('google', returnUrl);
+    startSignIn('google', returnUrl);
+    return { mode: 'redirect' };
   }
 
   async function refreshFromServer() {

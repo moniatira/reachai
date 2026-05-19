@@ -104,10 +104,7 @@ const server = http.createServer(async (req, res) => {
       const returnUrl = u.searchParams.get('returnUrl') || cfg.frontendUrl + '/provider.html';
       if (!session) return sendJson(res, 400, { error: 'session query required' });
       if (!cfg.configured(provider)) {
-        return sendJson(res, 400, {
-          error: `${provider} OAuth not configured on server`,
-          hint: 'Copy integrations/calendar/.env.example to .env and add client credentials',
-        });
+        return redirect(res, returnUrl);
       }
       const state = encodeState({ session, returnUrl, provider });
       const mod = providers[provider];
@@ -124,24 +121,26 @@ const server = http.createServer(async (req, res) => {
       const returnBase = state?.returnUrl || cfg.frontendUrl + '/provider.html';
 
       if (err) {
-        const back = new URL(returnBase);
-        back.searchParams.set('calendar_error', err);
-        return redirect(res, back.toString());
+        return redirect(res, returnBase);
       }
       if (!code || !state?.session) {
-        return sendJson(res, 400, { error: 'Missing code or state' });
+        return redirect(res, returnBase);
       }
 
-      const mod = providers[provider];
-      const tokenData = await mod.exchangeCode(cfg, code);
-      const profile = await mod.fetchProfile(tokenData.access_token);
-      const sessionData = mod.sessionFromToken(tokenData, profile);
-      setSession(state.session, sessionData);
+      try {
+        const mod = providers[provider];
+        const tokenData = await mod.exchangeCode(cfg, code);
+        const profile = await mod.fetchProfile(tokenData.access_token);
+        const sessionData = mod.sessionFromToken(tokenData, profile);
+        setSession(state.session, sessionData);
 
-      const back = new URL(returnBase);
-      back.searchParams.set('calendar_connected', providerUiKey(provider));
-      back.searchParams.set('calendar_email', sessionData.email || '');
-      return redirect(res, back.toString());
+        const back = new URL(returnBase);
+        back.searchParams.set('calendar_connected', providerUiKey(provider));
+        back.searchParams.set('calendar_email', sessionData.email || '');
+        return redirect(res, back.toString());
+      } catch {
+        return redirect(res, returnBase);
+      }
     }
 
     if (req.method === 'GET' && u.pathname === '/api/calendar/connection') {
