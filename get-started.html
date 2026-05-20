@@ -2,173 +2,248 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get started — set up BookRing for your business</title>
-<meta name="description" content="Self-serve wizard: pick AI scheduling, voice, calendar sync, and a recommended plan for your business. Connect billing when ready.">
-<link rel="canonical" href="https://www.bookring.io/get-started.html">
-<meta property="og:title" content="Get started with BookRing">
-<meta property="og:description" content="Choose services and integration depth in minutes. Illustrative subscription selection—checkout connects when you enable Stripe.">
-<meta property="og:url" content="https://www.bookring.io/get-started.html">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/marketing.css">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Get started · ReachAI</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{background:var(--paper)}
+  .step-content{display:none}
+  .step-content.active{display:block;animation:fadeIn .3s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .pick-card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer;transition:.15s;background:#fff;display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .pick-card:hover{border-color:var(--line-2)}
+  .pick-card.selected{border-color:var(--indigo);background:var(--indigo-50)}
+  .pick-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;flex-shrink:0}
+  .pick-card-text h4{font-size:14px;font-weight:500;margin-bottom:2px}
+  .pick-card-text p{font-size:12px;color:var(--text-muted);margin:0}
+</style>
 </head>
 <body>
-<div class="announce">
-  <div class="wrap">Self-serve setup · <a href="pricing.html">Compare plans</a></div>
-</div>
-<header class="site-header">
-  <div class="wrap">
-    <a href="index.html" class="logo"><span class="logo-mark">BR</span> BookRing</a>
-    <nav class="nav" aria-label="Primary">
-      <a href="integrations.html">Integrations</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="get-started.html" class="cta" aria-current="page">Get started</a>
-    </nav>
+
+<header>
+  <div class="container">
+    <div class="nav">
+      <a href="index.html" class="logo"><span class="logo-mark">R∙</span>ReachAI</a>
+      <nav class="main-nav">
+        <a href="pricing.html">Pricing</a>
+        <a href="demo.html">Demo</a>
+      </nav>
+      <div style="display:flex;gap:8px">
+        <a href="provider.html" class="btn btn-ghost btn-sm">Sign in</a>
+      </div>
+    </div>
   </div>
 </header>
-<main>
-  <section class="hero hero--page">
-    <div class="wrap">
-      <p class="kicker">Get started</p>
-      <h1>Set up BookRing in <span class="grad">minutes</span>.</h1>
-      <p class="hero-lead">Tell us what you need—we'll suggest a plan and integration path. Checkout ships when you wire Stripe; this wizard stores nothing on a server in the static preview.</p>
-    </div>
-  </section>
-  <section class="section">
-    <div class="wrap">
-      <div class="wizard" id="wizard">
-        <div class="wizard-step on" data-step="1">
-          <h2>1 · Your business</h2>
-          <div class="field">
-            <label for="pr-name">Business name</label>
-            <input type="text" id="pr-name" placeholder="e.g. Northside Auto Detail" autocomplete="organization">
-          </div>
-          <div class="field">
-            <label for="pr-size">Team size</label>
-            <select id="pr-size">
-              <option value="1-5">1–5 people</option>
-              <option value="6-15">6–15 people</option>
-              <option value="16+">16+ people</option>
-            </select>
-          </div>
-          <div class="wizard-nav">
-            <button type="button" class="btn btn-primary" onclick="wizNext(2)">Continue</button>
-          </div>
-        </div>
-        <div class="wizard-step" data-step="2">
-          <h2>2 · Services</h2>
-          <p style="font-size:13px;color:var(--mut2);margin-bottom:12px">Select everything you want in scope for launch.</p>
-          <label class="chk"><input type="checkbox" id="svc-chat" checked> AI chat scheduling concierge</label>
-          <label class="chk"><input type="checkbox" id="svc-voice"> Voice booking (metered minutes · similar to programmable voice APIs)</label>
-          <label class="chk"><input type="checkbox" id="svc-fd" checked> Front-desk booking visibility</label>
-          <label class="chk"><input type="checkbox" id="svc-export" checked> Send customers to my calendar after booking</label>
-          <label class="chk"><input type="checkbox" id="svc-dash"> Dashboard &amp; booking analytics</label>
-          <div class="wizard-nav">
-            <button type="button" class="btn btn-ghost" onclick="wizNext(1)">Back</button>
-            <button type="button" class="btn btn-primary" onclick="wizNext(3)">Continue</button>
-          </div>
-        </div>
-        <div class="wizard-step" data-step="3">
-          <h2>3 · Scheduling</h2>
-          <div class="field">
-            <label for="scheduler-pick">Calendar</label>
-            <select id="scheduler-pick"><option value="google">Google Calendar</option><option value="outlook">Microsoft Outlook</option><option value="scheduling">Another scheduling app</option><option value="other">Other / not sure yet</option></select>
-          </div>
-          <label class="chk"><input type="checkbox" id="path-calendar" checked> Sync busy times from my calendar</label>
-          <label class="chk"><input type="checkbox" id="path-api"> Custom API connection (Scale plan)</label>
-          <div class="wizard-nav">
-            <button type="button" class="btn btn-ghost" onclick="wizNext(2)">Back</button>
-            <button type="button" class="btn btn-primary" onclick="wizNext(4)">See recommendation</button>
-          </div>
-        </div>
-        <div class="wizard-step" data-step="4">
-          <h2>4 · Your plan</h2>
-          <div id="wiz-result" class="result-box"></div>
-          <p style="font-size:13px;color:var(--mut2);margin-top:14px"><strong style="color:var(--text)">Subscribe:</strong> connect Stripe Customer Portal or Checkout to these tiers in your deployed app. This static site demonstrates UX only.</p>
-          <div class="wizard-nav">
-            <button type="button" class="btn btn-ghost" onclick="wizNext(3)">Back</button>
-            <a class="btn btn-primary" href="pricing.html">Review pricing table</a>
-            <a class="btn btn-ghost" href="integrations.html">View integrations</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-brand">
-      <a href="index.html" class="logo"><span class="logo-mark">BR</span> BookRing</a>
-      <p>Configure services and pick a plan.</p>
-    </div>
-    <div class="footer-cols">
-      <div class="footer-col">
-        <h4>Product</h4>
-        <a href="demo.html#calendar">Live demos</a>
-        <a href="provider.html">Provider portal</a>
-        <a href="integrations.html">Integrations</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="get-started.html">Get started</a>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <a href="index.html">Home</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© BookRing</span>
-    </div>
+
+<div class="wizard">
+  <div class="wizard-steps">
+    <div class="wizard-step done" data-step="1"><div class="wizard-step-num">1</div><div class="wizard-step-label">Business</div></div>
+    <div class="wizard-step active" data-step="2"><div class="wizard-step-num">2</div><div class="wizard-step-label">Calendar</div></div>
+    <div class="wizard-step" data-step="3"><div class="wizard-step-num">3</div><div class="wizard-step-label">Channels</div></div>
+    <div class="wizard-step" data-step="4"><div class="wizard-step-num">4</div><div class="wizard-step-label">Assistant</div></div>
+    <div class="wizard-step" data-step="5"><div class="wizard-step-num">5</div><div class="wizard-step-label">Launch</div></div>
   </div>
-</footer>
+
+  <div class="wizard-panel">
+
+    <div class="step-content" data-step="1">
+      <h2>Tell us about your business</h2>
+      <p class="wizard-panel-sub">We use this to personalize your assistant and pre-build your booking flow.</p>
+      <div class="form-group">
+        <label>Business name</label>
+        <input type="text" placeholder="Acme Salon" value="Acme Salon">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Industry</label>
+          <select>
+            <option>Salon & spa</option>
+            <option>Auto services</option>
+            <option>Consulting</option>
+            <option>Home services</option>
+            <option>Wellness clinic</option>
+            <option>Law firm</option>
+            <option>Real estate</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Number of staff</label>
+          <select><option>Just me</option><option>2–5</option><option>6–15</option><option>16+</option></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Website (so we can match your branding)</label>
+        <input type="url" placeholder="https://acmesalon.com" value="https://acmesalon.com">
+      </div>
+      <div class="wizard-actions">
+        <span></span>
+        <button class="btn btn-primary" onclick="goStep(2)">Continue →</button>
+      </div>
+    </div>
+
+    <div class="step-content active" data-step="2">
+      <h2>Connect your calendar</h2>
+      <p class="wizard-panel-sub">ReachAI reads your real availability and writes new appointments here.</p>
+      <div class="pick-card selected" onclick="pickCal(this)">
+        <div class="pick-card-icon" style="background:#E8F0FE;color:#1A73E8">G</div>
+        <div class="pick-card-text" style="flex:1">
+          <h4>Google Calendar</h4>
+          <p>OAuth · 2-click setup · Works with personal & Workspace</p>
+        </div>
+        <div style="color:var(--indigo);font-weight:500;font-size:13px">Recommended</div>
+      </div>
+      <div class="pick-card" onclick="pickCal(this)">
+        <div class="pick-card-icon" style="background:#E3F0FD;color:#0078D4">O</div>
+        <div class="pick-card-text" style="flex:1">
+          <h4>Microsoft Outlook</h4>
+          <p>Microsoft 365 · OAuth · Works with personal & business</p>
+        </div>
+      </div>
+      <div class="pick-card" onclick="pickCal(this)">
+        <div class="pick-card-icon" style="background:#1A1F3D;color:#fff">c</div>
+        <div class="pick-card-text" style="flex:1">
+          <h4>Cal.com</h4>
+          <p>Open source · API key from your settings page</p>
+        </div>
+      </div>
+      <div class="pick-card" onclick="pickCal(this)">
+        <div class="pick-card-icon" style="background:#EAEEFF;color:#4F47CC">cL</div>
+        <div class="pick-card-text" style="flex:1">
+          <h4>Calendly</h4>
+          <p>Personal access token · Respects all your rules</p>
+        </div>
+      </div>
+      <div class="wizard-actions">
+        <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(3)">Connect & continue →</button>
+      </div>
+    </div>
+
+    <div class="step-content" data-step="3">
+      <h2>Pick your channels</h2>
+      <p class="wizard-panel-sub">You can change these any time. Every channel uses the same assistant.</p>
+      <div class="channel-toggle on" onclick="toggleChan(this)">
+        <div class="channel-toggle-info">
+          <div class="channel-toggle-icon">📞</div>
+          <div><h4>Voice</h4><p>ReachAI provides a free US number, or forward your existing line</p></div>
+        </div>
+        <div class="toggle-switch"></div>
+      </div>
+      <div class="channel-toggle on" onclick="toggleChan(this)">
+        <div class="channel-toggle-info">
+          <div class="channel-toggle-icon">💬</div>
+          <div><h4>Web chat</h4><p>Embed widget on your website (one line of code)</p></div>
+        </div>
+        <div class="toggle-switch"></div>
+      </div>
+      <div class="channel-toggle" onclick="toggleChan(this)">
+        <div class="channel-toggle-info">
+          <div class="channel-toggle-icon">💬</div>
+          <div><h4>SMS</h4><p>Two-way texting on dedicated number ($4/mo for the number)</p></div>
+        </div>
+        <div class="toggle-switch"></div>
+      </div>
+      <div class="channel-toggle" onclick="toggleChan(this)">
+        <div class="channel-toggle-info">
+          <div class="channel-toggle-icon">✉️</div>
+          <div><h4>Email</h4><p>Auto-reply to booking@yourbiz.com inbox with available slots</p></div>
+        </div>
+        <div class="toggle-switch"></div>
+      </div>
+      <div class="wizard-actions">
+        <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(4)">Continue →</button>
+      </div>
+    </div>
+
+    <div class="step-content" data-step="4">
+      <h2>Personalize your assistant</h2>
+      <p class="wizard-panel-sub">Give it a name and voice — customers will hear and see this.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Assistant name</label>
+          <input type="text" value="Sarah">
+        </div>
+        <div class="form-group">
+          <label>Voice</label>
+          <select>
+            <option>Sarah — warm, US English</option>
+            <option>Daniel — professional, US</option>
+            <option>Maya — energetic, UK</option>
+            <option>Hiroshi — calm, Japanese</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Greeting</label>
+        <textarea>Hi, thanks for calling Acme Salon — this is Sarah. I can help you book an appointment, reschedule, or answer any questions. How can I help today?</textarea>
+        <div class="hint">This is what callers hear when they reach your line.</div>
+      </div>
+      <div class="form-group">
+        <label>Tone</label>
+        <select>
+          <option>Warm & friendly</option>
+          <option>Professional & efficient</option>
+          <option>Casual & playful</option>
+          <option>Formal & precise</option>
+        </select>
+      </div>
+      <div class="wizard-actions">
+        <button class="btn btn-ghost" onclick="goStep(3)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(5)">Continue →</button>
+      </div>
+    </div>
+
+    <div class="step-content" data-step="5">
+      <div style="text-align:center;padding:24px 0">
+        <div style="width:64px;height:64px;border-radius:50%;background:var(--teal-50);color:var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:28px">✓</div>
+        <h2 style="text-align:center;font-size:32px;margin-bottom:10px">You're live.</h2>
+        <p style="color:var(--text-muted);font-size:16px;max-width:480px;margin:0 auto 32px">Acme Salon · Sarah · Google Calendar connected · Voice and web chat active.</p>
+      </div>
+
+      <div class="panel" style="margin-bottom:14px">
+        <h3 style="font-size:15px;margin-bottom:10px">Your ReachAI number</h3>
+        <div style="font-family:'SF Mono',Menlo,monospace;font-size:22px;font-weight:600;color:var(--indigo)">(555) 248-3711</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:6px">Call this number to test your assistant right now.</p>
+      </div>
+
+      <div class="panel" style="margin-bottom:14px">
+        <h3 style="font-size:15px;margin-bottom:10px">Web chat embed code</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Paste this just before <code style="background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:12px">&lt;/body&gt;</code> on your site.</p>
+        <div class="code-box" style="margin:0">
+<button class="code-copy">Copy</button>&lt;script src="https://widget.reachai.com/v1.js" data-workspace="acme-salon-7g2k"&gt;&lt;/script&gt;
+        </div>
+      </div>
+
+      <div class="wizard-actions">
+        <a href="demo.html" class="btn btn-ghost">Try it first</a>
+        <a href="provider.html" class="btn btn-primary">Open dashboard →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script>
-(function(){
-  function qs(name){
-    var m=new RegExp('[?&]'+name+'=([^&]*)').exec(location.search);
-    return m?decodeURIComponent(m[1].replace(/\+/g,' ')):'';
-  }
-  window.wizNext=function(step){
-    document.querySelectorAll('.wizard-step').forEach(function(el){
-      el.classList.toggle('on',+el.getAttribute('data-step')===step);
-    });
-    if(step===4) renderRec();
-  };
-  function esc(s){
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
-  }
-  function renderRec(){
-    var voice=document.getElementById('svc-voice').checked;
-    var dash=document.getElementById('svc-dash').checked;
-    var api=document.getElementById('path-api').checked;
-    var size=document.getElementById('pr-size').value;
-    var urlPlan=(qs('plan')||'').toLowerCase();
-    var tier='Growth';
-    var why='Balanced defaults for growing businesses.';
-    if(api||size==='16+'||urlPlan==='scale'){
-      tier='Scale'; why='API scheduling or larger groups map to Scale for integration support.';
-    }else if(urlPlan==='starter'||(!voice&&!dash&&size==='1-5')){
-      tier='Starter'; why='CSV-first scope without voice fits Starter.';
-    }else if(voice||dash||urlPlan==='growth'){
-      tier='Growth'; why='Voice and dashboard-style features align with Growth.';
-    }
-    var name=document.getElementById('pr-name').value.trim()||'Your business';
-    var sched=document.getElementById('scheduler-pick');
-    var schedLabel=sched.options[sched.selectedIndex].text;
-    document.getElementById('wiz-result').innerHTML=
-      '<strong>Suggested tier:</strong> '+esc(tier)+'<br><br>'+
-      '<strong>Business:</strong> '+esc(name)+'<br>'+
-      '<strong>Calendar:</strong> '+esc(schedLabel)+' · sync '+ (document.getElementById('path-calendar').checked?'on':'off') +
-      '<br><br><strong>Why:</strong> '+esc(why)+
-      '<br><br>Next: wire <strong>Stripe</strong> (or <strong>Paddle</strong>) for subscriptions and metered voice—same pattern as usage-based platforms like Vapi for telephony.';
-  }
-  var p=qs('plan');
-  if(p==='starter'||p==='growth'||p==='scale'){
-    document.getElementById('wiz-result').parentElement.querySelector('h2').textContent='4 · Your plan (from pricing)';
-  }
-})();
+function goStep(n){
+  document.querySelectorAll('.step-content').forEach(s=>s.classList.remove('active'));
+  document.querySelector('.step-content[data-step="'+n+'"]').classList.add('active');
+  document.querySelectorAll('.wizard-step').forEach((s,i)=>{
+    s.classList.remove('active','done');
+    if(i+1<n)s.classList.add('done');
+    else if(i+1===n)s.classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function pickCal(el){
+  document.querySelectorAll('.pick-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function toggleChan(el){
+  el.classList.toggle('on');
+}
 </script>
+
 </body>
 </html>

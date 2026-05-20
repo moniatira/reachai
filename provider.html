@@ -2,127 +2,420 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex,nofollow">
-<title>Provider portal — BookRing</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/demo.css">
-<link rel="stylesheet" href="assets/provider.css">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Provider Dashboard · ReachAI</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{background:var(--paper)}
+  .dash-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto}
+  .dash-tab{padding:10px 16px;font-size:14px;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;font-weight:500;transition:.15s;white-space:nowrap}
+  .dash-tab:hover{color:var(--ink)}
+  .dash-tab.active{color:var(--indigo);border-bottom-color:var(--indigo)}
+  .panel-body{padding:0}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
+  .checklist-item{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:14px}
+  .checklist-item.done{color:var(--text-muted)}
+  .checklist-item.done div:not(.check-bullet){text-decoration:line-through}
+  .check-bullet{width:18px;height:18px;border-radius:50%;border:2px solid var(--line-2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px}
+  .check-bullet.done{background:var(--teal);border-color:var(--teal);color:#fff}
+</style>
 </head>
-<body class="demo-app portal-page">
-<header class="demo-bar">
-  <a href="index.html" class="logo"><span class="logo-mark">BR</span> BookRing</a>
-  <span style="font-size:13px;color:#a8c4b6">Provider portal</span>
-  <a href="demo.html" class="demo-back">← Customer demos</a>
+<body>
+
+<header>
+  <div class="container">
+    <div class="nav">
+      <a href="index.html" class="logo"><span class="logo-mark">R∙</span>ReachAI</a>
+      <nav class="main-nav">
+        <a href="index.html">Product</a>
+        <a href="integrations.html">Integrations</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="provider.html" class="active">Dashboard</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:13px;color:var(--text-muted)">Acme Salon · Pro plan</span>
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--indigo);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600">JD</div>
+      </div>
+    </div>
+  </div>
 </header>
 
-<div id="portal-login" class="portal-wrap">
-  <div class="portal-card">
-    <h1>Provider sign in</h1>
-    <p>Customize what callers see in chat and phone, connect integrations, and view booking statistics.</p>
-    <label class="portal-label" for="portal-login-pw">Password</label>
-    <input type="password" id="portal-login-pw" class="portal-input" placeholder="Default: demo" autocomplete="current-password">
-    <p id="portal-login-err" class="portal-err" hidden>Incorrect password.</p>
-    <button type="button" class="demo-btn demo-btn-primary" id="portal-login-btn">Sign in</button>
-    <p class="portal-hint">Demo password is <strong>demo</strong> until you change it after login.</p>
-  </div>
-</div>
-
-<div id="portal-dash" class="portal-wrap" hidden>
-  <div class="portal-top">
-    <div>
-      <h1>Provider dashboard</h1>
-      <p>Integrations sync to the <a href="demo.html#chat" style="color:#00e89b">chat</a> and <a href="demo.html#phone" style="color:#00e89b">phone</a> demos automatically.</p>
+<div class="dashboard">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <h4>Workspace</h4>
+      <a href="#" onclick="showTab('overview');return false" class="active">🏠 Overview</a>
+      <a href="#" onclick="showTab('overview');return false">📅 Appointments</a>
+      <a href="#" onclick="showTab('overview');return false">💬 Conversations</a>
     </div>
-    <button type="button" class="demo-btn demo-btn-ghost" id="portal-logout">Sign out</button>
-  </div>
-
-  <section class="portal-stats" id="portal-stats" aria-label="Booking statistics"></section>
-
-  <section class="portal-card">
-    <h2>Caller &amp; chat options</h2>
-    <p class="portal-lead">What customers see and hear in the <a href="demo.html#chat" style="color:#00e89b">chat</a> and <a href="demo.html#phone" style="color:#00e89b">phone</a> demos.</p>
-    <label class="portal-label" for="portal-tagline">Tagline</label>
-    <input type="text" id="portal-tagline" class="portal-input" maxlength="120" placeholder="Book online in seconds">
-    <label class="portal-label" for="portal-services">Services (one per line)</label>
-    <textarea id="portal-services" class="portal-input portal-textarea" rows="5" placeholder="Standard appointment&#10;Extended session&#10;Consultation"></textarea>
-    <label class="portal-label" for="portal-chat-welcome">Chat welcome message</label>
-    <textarea id="portal-chat-welcome" class="portal-input portal-textarea" rows="3" placeholder="Leave blank to use default: Hi! I am the [business] assistant…"></textarea>
-    <label class="portal-label" for="portal-phone-greeting">Phone greeting (simulated call)</label>
-    <textarea id="portal-phone-greeting" class="portal-input portal-textarea" rows="2" placeholder="Thank you for calling…"></textarea>
-    <button type="button" class="demo-btn demo-btn-primary" id="portal-save-caller">Save caller options</button>
-    <p class="portal-hint">Changes apply immediately when you open the demos.</p>
-  </section>
-
-  <section class="portal-card">
-    <h2>Account</h2>
-    <label class="portal-label" for="portal-biz-name">Business name</label>
-    <input type="text" id="portal-biz-name" class="portal-input" maxlength="80">
-    <label class="portal-label" for="portal-pw">Portal password</label>
-    <input type="text" id="portal-pw" class="portal-input" autocomplete="new-password">
-    <button type="button" class="demo-btn demo-btn-primary" id="portal-save-biz">Save profile</button>
-    <p id="portal-save-msg" class="portal-hint"></p>
-  </section>
-
-  <section class="portal-card">
-    <h2>Integrations</h2>
-    <span class="demo-status off" id="portal-cal-status">Not connected</span>
-    <p class="portal-lead">Connect your calendar so chat and phone demos block real busy times.</p>
-    <button type="button" class="google-signin-btn" id="portal-google-connect">
-      <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C2.38 17.27 0 20.45 0 24s2.38 6.73 6.55 10.78l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-      Sign in with Google Calendar
-    </button>
-    <div class="cal-picker" id="portal-cal-picker">
-      <button type="button" class="cal-opt" data-provider="google"><strong>Google Calendar</strong><span>Gmail &amp; Workspace</span></button>
-      <button type="button" class="cal-opt" data-provider="outlook"><strong>Microsoft Outlook</strong><span>Office 365</span></button>
-      <button type="button" class="cal-opt" data-provider="calendly"><strong>Calendly</strong><span>Scheduling link</span></button>
+    <div class="sidebar-section">
+      <h4>Configure</h4>
+      <a href="#" onclick="showTab('assistant');return false">🤖 Assistant</a>
+      <a href="#" onclick="showTab('channels');return false">📡 Channels</a>
+      <a href="#" onclick="showTab('calendar');return false">📅 Calendar</a>
+      <a href="#" onclick="showTab('services');return false">✂️ Services</a>
+      <a href="#" onclick="showTab('embed');return false">{ } Embed code</a>
     </div>
-    <div id="portal-cal-off">
-      <button type="button" class="demo-btn demo-btn-primary" id="portal-cal-connect">Connect calendar</button>
+    <div class="sidebar-section">
+      <h4>Account</h4>
+      <a href="pricing.html">💳 Billing</a>
+      <a href="#">⚙️ Settings</a>
+      <a href="index.html">↗ Sign out</a>
     </div>
-    <div id="portal-cal-on" hidden>
-      <p class="portal-lead">Signed in as <strong id="portal-cal-email"></strong></p>
-      <div class="cal-row-actions">
-        <button type="button" class="demo-btn demo-btn-primary" id="portal-cal-sync">Sync busy times</button>
-        <button type="button" class="demo-btn demo-btn-ghost" id="portal-cal-disconnect">Disconnect</button>
+    <div class="sidebar-tier">
+      <div class="tier-label">Pro plan</div>
+      <div class="tier-usage">142 of 500 bookings used</div>
+      <div style="width:100%;height:4px;background:var(--line);border-radius:2px;margin-top:8px;overflow:hidden">
+        <div style="width:28%;height:100%;background:var(--indigo)"></div>
       </div>
-      <div class="cal-import-list" id="portal-cal-busy"></div>
     </div>
-    <hr class="portal-divider">
-    <label class="portal-label" for="portal-phone">Inbound booking line</label>
-    <div class="demo-config-row">
-      <input type="tel" id="portal-phone" class="portal-input" placeholder="+1 415 555 0100">
-      <button type="button" class="demo-btn demo-btn-primary" id="portal-save-phone">Save number</button>
-    </div>
-  </section>
+  </aside>
 
-  <section class="portal-card">
-    <h2>Booking log</h2>
-    <p class="portal-lead">Every completed booking from the phone or chat demos. Summary stats are at the top of the dashboard.</p>
-    <p id="portal-calls-empty" class="portal-hint">No bookings yet — try the phone or chat demo.</p>
-    <div class="portal-table-wrap">
-      <table class="portal-table">
-        <thead>
-          <tr>
-            <th>When</th>
-            <th>Channel</th>
-            <th>Customer</th>
-            <th>Service</th>
-            <th>Time</th>
-            <th>Calendar</th>
-          </tr>
-        </thead>
-        <tbody id="portal-calls-body"></tbody>
-      </table>
+  <main class="dashboard-content">
+    <div class="dash-header">
+      <div>
+        <h2>Welcome back, Jordan</h2>
+        <p>Here's what your assistant has been up to today.</p>
+      </div>
+      <a href="demo.html" class="btn btn-primary">+ Test your assistant</a>
     </div>
-  </section>
+
+    <div class="dash-tabs">
+      <div class="dash-tab active" onclick="showTab('overview', event)">Overview</div>
+      <div class="dash-tab" onclick="showTab('assistant', event)">Assistant</div>
+      <div class="dash-tab" onclick="showTab('channels', event)">Channels</div>
+      <div class="dash-tab" onclick="showTab('calendar', event)">Calendar</div>
+      <div class="dash-tab" onclick="showTab('services', event)">Services</div>
+      <div class="dash-tab" onclick="showTab('embed', event)">Embed</div>
+    </div>
+
+    <div id="overview" class="tab-panel active">
+      <div class="metric-grid">
+        <div class="metric">
+          <div class="metric-label">Bookings today</div>
+          <div class="metric-value">23</div>
+          <div class="metric-change">+18% vs yesterday</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Conversations</div>
+          <div class="metric-value">47</div>
+          <div class="metric-change">49% booked</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">After-hours bookings</div>
+          <div class="metric-value">9</div>
+          <div class="metric-change">Recovered $1,420</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Avg time to book</div>
+          <div class="metric-value">31s</div>
+          <div class="metric-change">↓ 4s this week</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Recent appointments</h3>
+          <a href="#" style="font-size:13px;color:var(--indigo)">View all →</a>
+        </div>
+        <div class="appt-row">
+          <div class="appt-channel">📞</div>
+          <div class="appt-info">
+            <h4>Sarah Mitchell · Hair cut & color</h4>
+            <p>Booked via voice call · 2 minutes ago</p>
+          </div>
+          <div class="appt-time">Tue, Apr 30 · 2:00pm</div>
+          <span class="appt-status">Confirmed</span>
+        </div>
+        <div class="appt-row">
+          <div class="appt-channel">💬</div>
+          <div class="appt-info">
+            <h4>Marcus Lee · Beard trim</h4>
+            <p>Booked via web chat · 8 minutes ago</p>
+          </div>
+          <div class="appt-time">Tomorrow · 10:30am</div>
+          <span class="appt-status">Confirmed</span>
+        </div>
+        <div class="appt-row">
+          <div class="appt-channel">💬</div>
+          <div class="appt-info">
+            <h4>Priya Patel · Manicure</h4>
+            <p>Booked via SMS · 14 minutes ago</p>
+          </div>
+          <div class="appt-time">Thu, May 2 · 1:00pm</div>
+          <span class="appt-status">Confirmed</span>
+        </div>
+        <div class="appt-row">
+          <div class="appt-channel">✉️</div>
+          <div class="appt-info">
+            <h4>James Carter · Full grooming</h4>
+            <p>Booked via email · 22 minutes ago</p>
+          </div>
+          <div class="appt-time">Fri, May 3 · 11:00am</div>
+          <span class="appt-status">Confirmed</span>
+        </div>
+        <div class="appt-row">
+          <div class="appt-channel">📞</div>
+          <div class="appt-info">
+            <h4>Anna Rossi · Color consultation</h4>
+            <p>Booked via voice call · 38 minutes ago</p>
+          </div>
+          <div class="appt-time">Mon, May 6 · 3:30pm</div>
+          <span class="appt-status">Confirmed</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><h3>Setup checklist</h3></div>
+        <div class="checklist-item done">
+          <div class="check-bullet done">✓</div>
+          <div>Business profile complete</div>
+        </div>
+        <div class="checklist-item done">
+          <div class="check-bullet done">✓</div>
+          <div>Calendar connected (Google)</div>
+        </div>
+        <div class="checklist-item done">
+          <div class="check-bullet done">✓</div>
+          <div>Voice channel active</div>
+        </div>
+        <div class="checklist-item done">
+          <div class="check-bullet done">✓</div>
+          <div>Web chat embedded</div>
+        </div>
+        <div class="checklist-item">
+          <div class="check-bullet"></div>
+          <div style="flex:1">Connect SMS number <a href="#" onclick="showTab('channels');return false" style="color:var(--indigo);font-size:12px;margin-left:8px">Set up →</a></div>
+        </div>
+        <div class="checklist-item">
+          <div class="check-bullet"></div>
+          <div style="flex:1">Enable email channel <a href="#" onclick="showTab('channels');return false" style="color:var(--indigo);font-size:12px;margin-left:8px">Set up →</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="assistant" class="tab-panel">
+      <div class="panel">
+        <div class="panel-header"><h3>Assistant personality</h3></div>
+        <div class="form-group">
+          <label>Assistant name</label>
+          <input type="text" value="Sarah">
+          <div class="hint">What callers and chatters hear or see when greeting starts.</div>
+        </div>
+        <div class="form-group">
+          <label>Greeting</label>
+          <textarea>Hi, thanks for calling Acme Salon — this is Sarah. I can help you book an appointment, reschedule, or answer any questions about our services. How can I help today?</textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tone</label>
+            <select><option>Warm & friendly</option><option>Professional & efficient</option><option>Casual & playful</option></select>
+          </div>
+          <div class="form-group">
+            <label>Voice</label>
+            <select><option>Sarah (warm, US)</option><option>Daniel (professional, US)</option><option>Maya (energetic, UK)</option><option>Hiroshi (calm, JP)</option></select>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><h3>Business hours</h3></div>
+        <div class="form-row">
+          <div class="form-group"><label>Weekdays</label><input value="9:00am – 7:00pm"></div>
+          <div class="form-group"><label>Weekends</label><input value="10:00am – 5:00pm"></div>
+        </div>
+        <div class="form-group">
+          <label>After-hours behavior</label>
+          <select>
+            <option>Continue booking 24/7 (uses next-day availability)</option>
+            <option>Take messages and book at open</option>
+            <option>Stop answering after hours</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><h3>Knowledge base</h3></div>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Documents your assistant uses to answer questions (pricing, policies, parking, etc.).</p>
+        <div style="border:2px dashed var(--line-2);border-radius:10px;padding:24px;text-align:center;color:var(--text-muted);font-size:14px">
+          📎 Drop PDFs, links, or paste FAQs here
+        </div>
+      </div>
+    </div>
+
+    <div id="channels" class="tab-panel">
+      <h3 style="margin-bottom:18px">Pick where customers can reach you</h3>
+
+      <div class="channel-toggle on" onclick="this.classList.toggle('on')">
+        <div class="channel-toggle-info">
+          <div class="channel-toggle-icon">📞</div>
+          <div>
+            <h4>Voice — (555) 248-3711</h4>
+            <p>ReachAI-provided number · Active · 87 calls this month</p>
+          </div>
+        </div>
+        <div class="toggle-switch"></div>
+      </div>
+
+      <div class="channel-toggle on" onclick="this.classList.toggle('on')">
+        <div class="channel-toggle-info">
+          <div class="channel-toggle-icon">💬</div>
+          <div>
+            <h4>Web chat — embedded</h4>
+            <p>Widget live on acmesalon.com · 312 conversations this month</p>
+          </div>
+        </div>
+        <div class="toggle-switch"></div>
+      </div>
+
+      <div class="channel-toggle" onclick="this.classList.toggle('on')">
+        <div class="channel-toggle-info">
+          <div class="channel-toggle-icon">💬</div>
+          <div>
+            <h4>SMS — not yet configured</h4>
+            <p>Two-way texting on a dedicated US number ($4/mo for the number)</p>
+          </div>
+        </div>
+        <div class="toggle-switch"></div>
+      </div>
+
+      <div class="channel-toggle" onclick="this.classList.toggle('on')">
+        <div class="channel-toggle-info">
+          <div class="channel-toggle-icon">✉️</div>
+          <div>
+            <h4>Email — not yet configured</h4>
+            <p>Inbound parsing on booking@acmesalon.com · auto-replies with available slots</p>
+          </div>
+        </div>
+        <div class="toggle-switch"></div>
+      </div>
+    </div>
+
+    <div id="calendar" class="tab-panel">
+      <div class="panel">
+        <div class="panel-header"><h3>Connected calendar</h3></div>
+        <div style="display:flex;align-items:center;gap:16px;padding:14px;background:var(--paper);border-radius:10px;margin-bottom:14px">
+          <div class="integration-logo gcal" style="margin:0;flex-shrink:0;width:44px;height:44px;font-size:18px">G</div>
+          <div style="flex:1">
+            <h4 style="font-size:15px">Google Calendar</h4>
+            <p style="font-size:13px;color:var(--text-muted)">Connected · jordan@acmesalon.com · 3 staff calendars synced</p>
+          </div>
+          <span class="connected-pill">Active</span>
+          <a href="#" class="btn btn-ghost btn-sm">Manage</a>
+        </div>
+        <p style="font-size:13px;color:var(--text-muted)">Switch to a different calendar system by disconnecting above. Your existing bookings won't be touched.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><h3>Other available calendars</h3></div>
+        <div class="integrations-grid">
+          <div class="integration-card">
+            <div class="integration-logo outlook">O</div>
+            <div class="integration-name">Microsoft Outlook</div>
+            <div class="integration-type">Microsoft 365</div>
+            <a href="#" class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;justify-content:center">Connect</a>
+          </div>
+          <div class="integration-card">
+            <div class="integration-logo calcom">c</div>
+            <div class="integration-name">Cal.com</div>
+            <div class="integration-type">API key</div>
+            <a href="#" class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;justify-content:center">Connect</a>
+          </div>
+          <div class="integration-card">
+            <div class="integration-logo calendly">cL</div>
+            <div class="integration-name">Calendly</div>
+            <div class="integration-type">Access token</div>
+            <a href="#" class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;justify-content:center">Connect</a>
+          </div>
+          <div class="integration-card" style="opacity:.5">
+            <div class="integration-logo" style="background:var(--paper-2);color:var(--text-muted)">+</div>
+            <div class="integration-name">Coming soon</div>
+            <div class="integration-type">Acuity, Square, Vagaro</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="services" class="tab-panel">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Services & duration</h3>
+          <a href="#" class="btn btn-ghost btn-sm">+ Add service</a>
+        </div>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:18px">What your assistant offers to book. Pulled from your Google Calendar event types — edit anytime.</p>
+
+        <div class="appt-row">
+          <div class="appt-channel">✂️</div>
+          <div class="appt-info"><h4>Haircut & styling</h4><p>45 min · 2 staff available</p></div>
+          <div class="appt-time">$65</div>
+          <a href="#" style="font-size:13px;color:var(--indigo)">Edit</a>
+        </div>
+        <div class="appt-row">
+          <div class="appt-channel">🎨</div>
+          <div class="appt-info"><h4>Full color & highlights</h4><p>2h 30min · 1 staff available</p></div>
+          <div class="appt-time">$180</div>
+          <a href="#" style="font-size:13px;color:var(--indigo)">Edit</a>
+        </div>
+        <div class="appt-row">
+          <div class="appt-channel">💅</div>
+          <div class="appt-info"><h4>Manicure (gel)</h4><p>60 min · 1 staff available</p></div>
+          <div class="appt-time">$45</div>
+          <a href="#" style="font-size:13px;color:var(--indigo)">Edit</a>
+        </div>
+        <div class="appt-row">
+          <div class="appt-channel">🪒</div>
+          <div class="appt-info"><h4>Beard trim & shave</h4><p>30 min · 2 staff available</p></div>
+          <div class="appt-time">$35</div>
+          <a href="#" style="font-size:13px;color:var(--indigo)">Edit</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="embed" class="tab-panel">
+      <div class="panel">
+        <div class="panel-header"><h3>Web chat embed code</h3></div>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Paste this line into your website just before <code style="background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:12px">&lt;/body&gt;</code>. The chat widget appears in the bottom-right corner.</p>
+        <div class="code-box">
+<button class="code-copy">Copy</button>&lt;script src="https://widget.reachai.com/v1.js" data-workspace="acme-salon-7g2k"&gt;&lt;/script&gt;
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><h3>Phone forwarding</h3></div>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Forward your business line to your ReachAI number. We'll answer with your greeting and book to your calendar.</p>
+        <div style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--paper);border-radius:10px">
+          <div style="font-family:'SF Mono',Menlo,monospace;font-size:18px;font-weight:600;color:var(--indigo)">(555) 248-3711</div>
+          <a href="#" class="btn btn-ghost btn-sm" style="margin-left:auto">Forwarding instructions →</a>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><h3>"Book now" link</h3></div>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Paste this in your Instagram bio, Google Business Profile, or email signature.</p>
+        <div class="code-box">
+<button class="code-copy">Copy</button>https://book.reachai.com/acme-salon
+        </div>
+      </div>
+    </div>
+  </main>
 </div>
 
-<script src="assets/cp-config.js"></script>
-<script src="assets/calendar-oauth.js"></script>
-<script src="assets/integrations-demo.js"></script>
-<script src="assets/provider-dashboard.js"></script>
-<script>CPProviderPortal.initPortal();</script>
+<script>
+function showTab(tabId, evt){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.dash-tab').forEach(t=>t.classList.remove('active'));
+  const panel=document.getElementById(tabId);
+  if(panel)panel.classList.add('active');
+  if(evt&&evt.target)evt.target.classList.add('active');
+  else{
+    document.querySelectorAll('.dash-tab').forEach(t=>{
+      if(t.textContent.trim().toLowerCase()===tabId)t.classList.add('active');
+    });
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+
 </body>
 </html>

@@ -2,129 +2,212 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scheduling integrations — BookRing</title>
-<meta name="description" content="BookRing works with the calendar you already use—Google, Outlook, and more. Phone and chat booking included.">
-<link rel="canonical" href="https://www.bookring.io/integrations.html">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/marketing.css">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Integrations · ReachAI</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="announce">
-  <div class="wrap">Works with your calendar · <a href="get-started.html">Start your setup →</a></div>
+
+<div class="banner">
+  Early access — <strong>ReachAI is live for SMBs</strong> · <a href="get-started.html">Start free trial →</a>
 </div>
-<header class="site-header">
-  <div class="wrap">
-    <a href="index.html" class="logo"><span class="logo-mark">BR</span> BookRing</a>
-    <nav class="nav" aria-label="Primary">
-      <a href="integrations.html" aria-current="page">Integrations</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="get-started.html" class="cta">Get started</a>
-    </nav>
+
+<header>
+  <div class="container">
+    <div class="nav">
+      <a href="index.html" class="logo"><span class="logo-mark">R∙</span>ReachAI</a>
+      <nav class="main-nav">
+        <a href="index.html">Product</a>
+        <a href="integrations.html" class="active">Integrations</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="provider.html">Dashboard</a>
+        <a href="demo.html">Demo</a>
+      </nav>
+      <div style="display:flex;gap:8px">
+        <a href="provider.html" class="btn btn-ghost btn-sm">Sign in</a>
+        <a href="get-started.html" class="btn btn-primary btn-sm">Start free →</a>
+      </div>
+    </div>
   </div>
 </header>
-<main>
-  <section class="hero hero--page">
-    <div class="wrap">
-      <p class="kicker">Integrations</p>
-      <h1>Connect the calendar you <span class="grad">already use</span>.</h1>
-      <p class="hero-lead">BookRing collects intent by phone and chat—then books on your calendar so customers only see real open times.</p>
-      <div class="hero-actions">
-        <a href="demo.html#calendar" class="btn btn-primary">Open demos</a>
-        <a href="get-started.html" class="btn btn-ghost">Get started</a>
+
+<section class="section" style="padding-top:60px">
+  <div class="container">
+    <div class="section-center" style="max-width:680px;margin:0 auto 48px">
+      <div class="section-eyebrow">Integrations</div>
+      <h2>Plug ReachAI into the tools you already run on.</h2>
+      <p class="section-intro" style="margin:0 auto">Four calendar systems. Two-click OAuth or API key. Real-time availability. We never duplicate your bookings or fight your existing workflow.</p>
+    </div>
+
+    <div class="section-eyebrow" style="margin-bottom:16px">Calendar & scheduling</div>
+    <div class="integrations-grid" style="margin-bottom:48px">
+      <div class="integration-card">
+        <div class="integration-logo gcal">G</div>
+        <div class="integration-name">Google Calendar</div>
+        <div class="integration-type">Read + write · OAuth 2.0</div>
+        <span class="connected-pill">2-click setup</span>
+      </div>
+      <div class="integration-card">
+        <div class="integration-logo outlook">O</div>
+        <div class="integration-name">Microsoft Outlook</div>
+        <div class="integration-type">Microsoft 365 · OAuth 2.0</div>
+        <span class="connected-pill">2-click setup</span>
+      </div>
+      <div class="integration-card">
+        <div class="integration-logo calcom">c</div>
+        <div class="integration-name">Cal.com</div>
+        <div class="integration-type">Open source · API key</div>
+        <span class="connected-pill">Self-hosted ok</span>
+      </div>
+      <div class="integration-card">
+        <div class="integration-logo calendly">cL</div>
+        <div class="integration-name">Calendly</div>
+        <div class="integration-type">Personal access token</div>
+        <span class="connected-pill">Reads event types</span>
       </div>
     </div>
-  </section>
-  <section class="section">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="section-eyebrow">Today</p>
-        <h2>Your calendar + phone line</h2>
-        <p class="section-lead">Sign in once to connect any supported calendar. Add your inbound phone number so callers can book without waiting on hold.</p>
-      </header>
-      <div class="grid3">
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">📅</div>
-          <h3>Any calendar</h3>
-          <p>Link Google Calendar, Outlook, or your scheduling app—we pull in busy times so open slots stay accurate.</p>
-          <a href="demo.html#calendar" class="card-demo-link">Try calendar demo →</a>
-        </article>
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">💬</div>
-          <h3>Chat booking</h3>
-          <p>Customers type naturally on your site while availability stays in sync with your calendar.</p>
-          <a href="demo.html#chat" class="card-demo-link">Try chat demo →</a>
-        </article>
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">📞</div>
-          <h3>Phone booking</h3>
-          <p>Inbound calls reach your AI assistant—name, service, time, then a confirmed slot on your calendar.</p>
-          <a href="demo.html#phone" class="card-demo-link">Try phone demo →</a>
-        </article>
-      </div>
-    </div>
-  </section>
-  <section class="section">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="section-eyebrow">Roadmap</p>
-        <h2>More ways to connect</h2>
-      </header>
-      <div class="grid3">
-        <article class="card">
-          <h3>More calendar apps</h3>
-          <p>Additional scheduling tools and deeper two-way sync for growing teams.</p>
-        </article>
-        <article class="card">
-          <h3>Notifications</h3>
-          <p>Email or text updates when a booking confirms—for you and your customer.</p>
-        </article>
-        <article class="card">
-          <h3>Custom connections</h3>
-          <p>Webhooks and APIs for Scale customers with existing tools.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-  <section class="cta-band">
-    <div class="wrap">
-      <div class="cta-inner">
-        <h2>Ready to connect your calendar?</h2>
-        <p>Tell us which calendar and channels you use—we'll recommend a plan.</p>
-        <div class="hero-actions">
-          <a href="get-started.html" class="btn btn-primary">Get started</a>
-          <a href="pricing.html" class="btn btn-ghost">View pricing</a>
+
+    <h3 style="font-size:22px;margin-bottom:24px">How each integration works</h3>
+
+    <div class="panel">
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div class="integration-logo gcal" style="margin:0;flex-shrink:0">G</div>
+        <div style="flex:1">
+          <h3 style="font-size:18px">Google Calendar</h3>
+          <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px;line-height:1.6">Connect any Google Workspace or personal Google account. ReachAI reads free/busy times for each staff member you select, and creates events on the right calendar when bookings come in.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:13px">
+            <div><strong style="color:var(--ink)">Setup time:</strong> <span style="color:var(--text-muted)">30 seconds</span></div>
+            <div><strong style="color:var(--ink)">Scopes:</strong> <span style="color:var(--text-muted)">calendar.read, calendar.events</span></div>
+            <div><strong style="color:var(--ink)">Sync latency:</strong> <span style="color:var(--text-muted)">&lt;500ms via push channels</span></div>
+            <div><strong style="color:var(--ink)">Best for:</strong> <span style="color:var(--text-muted)">Teams already on Google Workspace</span></div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
-</main>
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-brand">
-      <a href="index.html" class="logo"><span class="logo-mark">BR</span> BookRing</a>
-      <p>AI front desk for appointment businesses.</p>
+
+    <div class="panel">
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div class="integration-logo outlook" style="margin:0;flex-shrink:0">O</div>
+        <div style="flex:1">
+          <h3 style="font-size:18px">Microsoft Outlook</h3>
+          <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px;line-height:1.6">Works with Microsoft 365 personal and business accounts. Reads availability across multiple staff calendars and writes new appointments with full attendee details.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:13px">
+            <div><strong style="color:var(--ink)">Setup time:</strong> <span style="color:var(--text-muted)">45 seconds</span></div>
+            <div><strong style="color:var(--ink)">Auth:</strong> <span style="color:var(--text-muted)">Microsoft Graph OAuth</span></div>
+            <div><strong style="color:var(--ink)">Sync latency:</strong> <span style="color:var(--text-muted)">Webhook + delta queries</span></div>
+            <div><strong style="color:var(--ink)">Best for:</strong> <span style="color:var(--text-muted)">M365 shops & enterprise</span></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="footer-cols">
+
+    <div class="panel">
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div class="integration-logo calcom" style="margin:0;flex-shrink:0">c</div>
+        <div style="flex:1">
+          <h3 style="font-size:18px">Cal.com</h3>
+          <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px;line-height:1.6">For teams running the open-source scheduler. Paste a single API key — ReachAI reads your event types, durations, and team availability and books real Cal.com appointments.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:13px">
+            <div><strong style="color:var(--ink)">Setup time:</strong> <span style="color:var(--text-muted)">60 seconds</span></div>
+            <div><strong style="color:var(--ink)">Auth:</strong> <span style="color:var(--text-muted)">API key from settings</span></div>
+            <div><strong style="color:var(--ink)">Supports:</strong> <span style="color:var(--text-muted)">Self-hosted & cloud</span></div>
+            <div><strong style="color:var(--ink)">Best for:</strong> <span style="color:var(--text-muted)">Devs & technical teams</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div class="integration-logo calendly" style="margin:0;flex-shrink:0">cL</div>
+        <div style="flex:1">
+          <h3 style="font-size:18px">Calendly</h3>
+          <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px;line-height:1.6">Paste your Calendly personal access token. ReachAI reads your event types and routing logic, then creates real Calendly bookings with all your existing rules respected.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:13px">
+            <div><strong style="color:var(--ink)">Setup time:</strong> <span style="color:var(--text-muted)">60 seconds</span></div>
+            <div><strong style="color:var(--ink)">Auth:</strong> <span style="color:var(--text-muted)">Personal access token</span></div>
+            <div><strong style="color:var(--ink)">Respects:</strong> <span style="color:var(--text-muted)">Buffers, limits, round-robin</span></div>
+            <div><strong style="color:var(--ink)">Best for:</strong> <span style="color:var(--text-muted)">Service businesses & consultants</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--paper);padding-top:64px;padding-bottom:64px">
+  <div class="container">
+    <div class="section-eyebrow" style="margin-bottom:16px">Channels</div>
+    <h2 style="margin-bottom:32px">Where customers reach you.</h2>
+    <div class="channels">
+      <div class="channel">
+        <div class="channel-icon">📞</div>
+        <h3>Voice (Twilio + Vapi)</h3>
+        <p>We provision a phone number or forward your existing line. Sub-500ms response, natural conversation, books in real time.</p>
+      </div>
+      <div class="channel">
+        <div class="channel-icon">💬</div>
+        <h3>Web chat widget</h3>
+        <p>One <code style="background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:12px">&lt;script&gt;</code> tag on your site. Branded to match. Mobile-first.</p>
+      </div>
+      <div class="channel">
+        <div class="channel-icon">💬</div>
+        <h3>SMS (Twilio)</h3>
+        <p>Two-way texting on a dedicated US number. Inbound bookings, confirmations, and reschedule replies — all automated.</p>
+      </div>
+      <div class="channel">
+        <div class="channel-icon">✉️</div>
+        <h3>Email (Postmark)</h3>
+        <p>Inbound parsing on a booking@yourbiz.com address. Outbound confirmations with .ics attachments. SPF/DKIM signed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Connect in 60 seconds.</h2>
+    <p>Pick your calendar, choose your channels, paste the embed code. That's it.</p>
+    <div class="cta-row">
+      <a href="get-started.html" class="btn btn-primary btn-lg">Start free trial →</a>
+      <a href="provider.html" class="btn btn-ghost btn-lg">See dashboard</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span class="logo-mark">R∙</span>ReachAI</a>
+        <p>The self-serve AI front desk for SMBs. Voice, chat, SMS, and email — one assistant, one calendar.</p>
+      </div>
       <div class="footer-col">
         <h4>Product</h4>
-        <a href="demo.html#calendar">Demos</a>
+        <a href="demo.html">Live demos</a>
         <a href="provider.html">Provider portal</a>
         <a href="integrations.html">Integrations</a>
         <a href="pricing.html">Pricing</a>
-        <a href="get-started.html">Get started</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
+        <a href="get-started.html">Get started</a>
         <a href="index.html">Home</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Security</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© BookRing</span>
+      <span>© ReachAI 2026</span>
+      <span>SOC 2 Type II · GDPR compliant · End-to-end encrypted</span>
     </div>
   </div>
 </footer>
+
 </body>
 </html>

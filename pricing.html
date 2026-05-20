@@ -2,146 +2,207 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pricing — BookRing plans &amp; usage-based add-ons</title>
-<meta name="description" content="BookRing pricing for small businesses: Starter, Growth, and Scale plans with optional AI and voice usage bundles.">
-<link rel="canonical" href="https://www.bookring.io/pricing.html">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/marketing.css">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pricing · ReachAI</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="announce">
-  <div class="wrap">Transparent plans · <a href="get-started.html">Get started</a> when you're ready</div>
+
+<div class="banner">
+  Early access — <strong>14-day free trial</strong> on all plans · <a href="get-started.html">Start now →</a>
 </div>
-<header class="site-header">
-  <div class="wrap">
-    <a href="index.html" class="logo"><span class="logo-mark">BR</span> BookRing</a>
-    <nav class="nav" aria-label="Primary">
-      <a href="integrations.html">Integrations</a>
-      <a href="pricing.html" aria-current="page">Pricing</a>
-      <a href="get-started.html" class="cta">Get started</a>
-    </nav>
+
+<header>
+  <div class="container">
+    <div class="nav">
+      <a href="index.html" class="logo"><span class="logo-mark">R∙</span>ReachAI</a>
+      <nav class="main-nav">
+        <a href="index.html">Product</a>
+        <a href="integrations.html">Integrations</a>
+        <a href="pricing.html" class="active">Pricing</a>
+        <a href="provider.html">Dashboard</a>
+        <a href="demo.html">Demo</a>
+      </nav>
+      <div style="display:flex;gap:8px">
+        <a href="provider.html" class="btn btn-ghost btn-sm">Sign in</a>
+        <a href="get-started.html" class="btn btn-primary btn-sm">Start free →</a>
+      </div>
+    </div>
   </div>
 </header>
-<main>
-  <section class="hero hero--page">
-    <div class="wrap">
-      <p class="kicker">Pricing</p>
-      <h1>Plans that <span class="grad">scale</span> with your business.</h1>
-      <p class="hero-lead">Foundation tiers by location or seats, plus optional AI conversation packs and voice minutes—predictable minimums, clear overage rates.</p>
+
+<section class="section">
+  <div class="container">
+    <div class="section-center" style="max-width:680px;margin:0 auto">
+      <div class="section-eyebrow">Pricing</div>
+      <h2>Simple pricing.<br>Pays for itself in one missed call.</h2>
+      <p class="section-intro" style="margin:0 auto">Every plan includes voice, chat, SMS, and email channels. Choose by booking volume, not by feature.</p>
     </div>
-  </section>
-  <section class="section">
-    <div class="wrap">
-      <div class="pricing-grid">
-        <div class="price-card">
-          <h3>Starter</h3>
-          <p style="font-size:13px;color:var(--mut2)">Single location pilot</p>
-          <div class="price-tag">$149<span>/mo</span></div>
-          <ul>
-            <li>AI chat scheduling concierge</li>
-            <li>CSV schedule import &amp; calendar view</li>
-            <li>Calendar sync &amp; booking links</li>
-            <li>Team booking feed</li>
-            <li>Email support</li>
-          </ul>
-          <a class="btn btn-ghost" href="get-started.html?plan=starter" style="width:100%">Select Starter</a>
-        </div>
-        <div class="price-card featured">
-          <h3>Growth</h3>
-          <p style="font-size:13px;color:var(--mut2)">Growing teams</p>
-          <div class="price-tag">$349<span>/mo</span></div>
-          <ul>
-            <li>Everything in Starter</li>
-            <li>Voice booking (metered minutes)</li>
-            <li>Higher AI conversation caps</li>
-            <li>Business portal &amp; analytics basics</li>
-            <li>Priority chat support</li>
-          </ul>
-          <a class="btn btn-primary" href="get-started.html?plan=growth" style="width:100%">Select Growth</a>
-        </div>
-        <div class="price-card">
-          <h3>Scale</h3>
-          <p style="font-size:13px;color:var(--mut2)">Multi-location groups</p>
-          <div class="price-tag">Custom</div>
-          <ul>
-            <li>Volume discounts &amp; SSO roadmap</li>
-            <li>Dedicated integration planning</li>
-            <li>Custom API &amp; webhook integrations</li>
-            <li>Enterprise security review</li>
-            <li>Customer success manager</li>
-          </ul>
-          <a class="btn btn-ghost" href="get-started.html?plan=scale" style="width:100%">Talk to us</a>
-        </div>
+
+    <div class="pricing-grid">
+      <div class="plan">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price"><span class="num">$49</span><span class="period">/mo</span></div>
+        <div class="plan-desc">For solo operators and small teams testing the waters.</div>
+        <ul class="plan-features">
+          <li>Up to 100 bookings/month</li>
+          <li>Voice + web chat channels</li>
+          <li>1 calendar integration</li>
+          <li>Business hours only</li>
+          <li>ReachAI-branded greetings</li>
+          <li>Email support</li>
+        </ul>
+        <a href="get-started.html?plan=starter" class="btn btn-ghost">Start free trial</a>
       </div>
-      <p class="note" style="margin-top:1.25rem">Prices are illustrative for positioning; wire Stripe Checkout when you connect billing.</p>
-    </div>
-  </section>
-  <section class="section">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="section-eyebrow">Usage-based</p>
-        <h2>Voice &amp; AI add-ons</h2>
-        <p class="section-lead">Align optional voice booking with how programmable voice platforms meter usage.</p>
-      </header>
-      <div class="grid3">
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">🎙</div>
-          <h3>Voice minutes</h3>
-          <p>Prepaid bundles with declining per-minute rate as volume grows.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">✨</div>
-          <h3>AI conversations</h3>
-          <p>Counted assistant sessions with soft caps and alerts before hard stops.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">📱</div>
-          <h3>SMS reminders</h3>
-          <p>Carrier pass-through plus platform fee—disclosed separately (roadmap).</p>
-        </article>
+
+      <div class="plan featured">
+        <div class="plan-badge">Most popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><span class="num">$129</span><span class="period">/mo</span></div>
+        <div class="plan-desc">For appointment-based SMBs running their business on ReachAI.</div>
+        <ul class="plan-features">
+          <li>Up to 500 bookings/month</li>
+          <li>All 4 channels: voice, chat, SMS, email</li>
+          <li>All 4 calendar integrations</li>
+          <li>24/7 coverage</li>
+          <li>Custom voice & branding</li>
+          <li>Knowledge base & FAQs</li>
+          <li>Up to 5 staff calendars</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="get-started.html?plan=pro" class="btn btn-primary">Start free trial</a>
+      </div>
+
+      <div class="plan">
+        <div class="plan-name">Scale</div>
+        <div class="plan-price"><span class="num">$349</span><span class="period">/mo</span></div>
+        <div class="plan-desc">For multi-location teams and agencies running ReachAI for clients.</div>
+        <ul class="plan-features">
+          <li>Up to 2,500 bookings/month</li>
+          <li>Everything in Pro</li>
+          <li>Unlimited staff calendars</li>
+          <li>Multi-location routing</li>
+          <li>Custom AI training</li>
+          <li>API access & webhooks</li>
+          <li>Dedicated success manager</li>
+          <li>SLA & uptime guarantee</li>
+        </ul>
+        <a href="get-started.html?plan=scale" class="btn btn-ghost">Start free trial</a>
       </div>
     </div>
-  </section>
-  <section class="cta-band">
-    <div class="wrap">
-      <div class="cta-inner">
-        <h2>Questions about fit?</h2>
-        <p>Use the setup wizard to see which tier fits your team, then connect billing when you're ready.</p>
-        <div class="hero-actions">
-          <a href="get-started.html" class="btn btn-primary">Get started</a>
-          <a href="integrations.html" class="btn btn-ghost">Integrations</a>
-        </div>
+
+    <div style="margin-top:48px;padding:24px;background:var(--paper);border-radius:14px;text-align:center;max-width:760px;margin-left:auto;margin-right:auto">
+      <h3 style="font-size:18px;margin-bottom:6px">Need more than 2,500 bookings/month?</h3>
+      <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Enterprise pricing for multi-location chains, franchises, and platforms.</p>
+      <a href="#" class="btn btn-primary btn-sm">Talk to sales →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--paper);padding-top:48px;padding-bottom:64px">
+  <div class="container">
+    <h2 style="margin-bottom:32px;text-align:center;font-size:30px">What's included in every plan</h2>
+    <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px 24px">
+      <div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px">
+        <span>Calendar systems supported</span>
+        <span style="font-weight:500">Google, Outlook, Cal.com, Calendly</span>
+      </div>
+      <div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px">
+        <span>Channels</span>
+        <span style="font-weight:500">Voice + Chat + SMS + Email</span>
+      </div>
+      <div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px">
+        <span>Setup time</span>
+        <span style="font-weight:500">5 minutes (self-serve wizard)</span>
+      </div>
+      <div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px">
+        <span>Free trial</span>
+        <span style="font-weight:500">14 days, no credit card</span>
+      </div>
+      <div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px">
+        <span>Security</span>
+        <span style="font-weight:500">SOC 2 Type II · End-to-end encrypted</span>
+      </div>
+      <div style="padding:14px 0;display:flex;justify-content:space-between;font-size:14px">
+        <span>Cancellation</span>
+        <span style="font-weight:500">Anytime · prorated refund</span>
       </div>
     </div>
-  </section>
-</main>
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-brand">
-      <a href="index.html" class="logo"><span class="logo-mark">BR</span> BookRing</a>
-      <p>AI front desk for appointment businesses.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:760px">
+    <h2 style="margin-bottom:32px;text-align:center;font-size:30px">FAQ</h2>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="panel">
+        <h3 style="font-size:16px;margin-bottom:8px">What counts as a "booking"?</h3>
+        <p style="color:var(--text-muted);font-size:14px">A booking is any confirmed appointment created on your calendar. Reschedules and cancellations don't count against your quota. Conversations that don't result in a booking are unlimited.</p>
+      </div>
+      <div class="panel">
+        <h3 style="font-size:16px;margin-bottom:8px">Do I get a phone number?</h3>
+        <p style="color:var(--text-muted);font-size:14px">Yes. Every plan includes a US phone number at no extra cost. You can also forward your existing business line to it.</p>
+      </div>
+      <div class="panel">
+        <h3 style="font-size:16px;margin-bottom:8px">How does the 14-day trial work?</h3>
+        <p style="color:var(--text-muted);font-size:14px">No credit card required. Use the full Pro plan for 14 days. After day 14 you choose a paid plan or your account pauses — no surprise charges.</p>
+      </div>
+      <div class="panel">
+        <h3 style="font-size:16px;margin-bottom:8px">What if I go over my booking limit?</h3>
+        <p style="color:var(--text-muted);font-size:14px">We never block bookings. We email you to upgrade and bill $0.50 per booking over your limit until you do.</p>
+      </div>
+      <div class="panel">
+        <h3 style="font-size:16px;margin-bottom:8px">Can I bring my own AI / voice provider?</h3>
+        <p style="color:var(--text-muted);font-size:14px">On the Scale plan you can plug in your own OpenAI, Anthropic, or ElevenLabs keys. Useful for compliance-sensitive industries.</p>
+      </div>
     </div>
-    <div class="footer-cols">
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Try ReachAI free for 14 days.</h2>
+    <p>No credit card. Full Pro plan. Cancel any time.</p>
+    <div class="cta-row">
+      <a href="get-started.html" class="btn btn-primary btn-lg">Start free trial →</a>
+      <a href="demo.html" class="btn btn-ghost btn-lg">See live demo</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span class="logo-mark">R∙</span>ReachAI</a>
+        <p>The self-serve AI front desk for SMBs. Voice, chat, SMS, and email — one assistant, one calendar.</p>
+      </div>
       <div class="footer-col">
         <h4>Product</h4>
-        <a href="demo.html#calendar">Live demos</a>
+        <a href="demo.html">Live demos</a>
         <a href="provider.html">Provider portal</a>
         <a href="integrations.html">Integrations</a>
         <a href="pricing.html">Pricing</a>
-        <a href="get-started.html">Get started</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
+        <a href="get-started.html">Get started</a>
         <a href="index.html">Home</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Security</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© BookRing</span>
+      <span>© ReachAI 2026</span>
+      <span>SOC 2 Type II · GDPR compliant · End-to-end encrypted</span>
     </div>
   </div>
 </footer>
+
 </body>
 </html>
