@@ -2,248 +2,333 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Get started · ReachAI</title>
+<meta name="description" content="Set up ReachAI for your business in 5 minutes. No sales call, no credit card.">
 <link rel="stylesheet" href="styles.css">
-<style>
-  body{background:var(--paper)}
-  .step-content{display:none}
-  .step-content.active{display:block;animation:fadeIn .3s ease}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-  .pick-card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer;transition:.15s;background:#fff;display:flex;align-items:center;gap:12px;margin-bottom:8px}
-  .pick-card:hover{border-color:var(--line-2)}
-  .pick-card.selected{border-color:var(--indigo);background:var(--indigo-50)}
-  .pick-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;flex-shrink:0}
-  .pick-card-text h4{font-size:14px;font-weight:500;margin-bottom:2px}
-  .pick-card-text p{font-size:12px;color:var(--text-muted);margin:0}
-</style>
+<link rel="stylesheet" href="wizard.css">
 </head>
-<body>
+<body class="wizard-body">
 
-<header>
-  <div class="container">
-    <div class="nav">
-      <a href="index.html" class="logo"><span class="logo-mark">R∙</span>ReachAI</a>
-      <nav class="main-nav">
-        <a href="pricing.html">Pricing</a>
-        <a href="demo.html">Demo</a>
-      </nav>
-      <div style="display:flex;gap:8px">
-        <a href="provider.html" class="btn btn-ghost btn-sm">Sign in</a>
-      </div>
-    </div>
-  </div>
+<!-- Top bar -->
+<header class="wizard-top">
+  <a href="index.html" class="brand">
+    <span class="brand-mark">R</span>
+    <span>ReachAI</span>
+  </a>
+  <a href="index.html" class="wizard-exit">← Back to homepage</a>
 </header>
 
-<div class="wizard">
-  <div class="wizard-steps">
-    <div class="wizard-step done" data-step="1"><div class="wizard-step-num">1</div><div class="wizard-step-label">Business</div></div>
-    <div class="wizard-step active" data-step="2"><div class="wizard-step-num">2</div><div class="wizard-step-label">Calendar</div></div>
-    <div class="wizard-step" data-step="3"><div class="wizard-step-num">3</div><div class="wizard-step-label">Channels</div></div>
-    <div class="wizard-step" data-step="4"><div class="wizard-step-num">4</div><div class="wizard-step-label">Assistant</div></div>
-    <div class="wizard-step" data-step="5"><div class="wizard-step-num">5</div><div class="wizard-step-label">Launch</div></div>
-  </div>
+<!-- Step indicator -->
+<nav class="step-rail" aria-label="Setup progress">
+  <ol class="steps" id="step-rail">
+    <li class="step" data-step="1"><span class="step-num">1</span><span class="step-label">Email</span></li>
+    <li class="step" data-step="2"><span class="step-num">2</span><span class="step-label">Business</span></li>
+    <li class="step" data-step="3"><span class="step-num">3</span><span class="step-label">Calendar</span></li>
+    <li class="step" data-step="4"><span class="step-num">4</span><span class="step-label">Assistant</span></li>
+    <li class="step" data-step="5"><span class="step-num">5</span><span class="step-label">Install</span></li>
+  </ol>
+</nav>
 
-  <div class="wizard-panel">
+<main class="wizard-main">
 
-    <div class="step-content" data-step="1">
-      <h2>Tell us about your business</h2>
-      <p class="wizard-panel-sub">We use this to personalize your assistant and pre-build your booking flow.</p>
-      <div class="form-group">
-        <label>Business name</label>
-        <input type="text" placeholder="Acme Salon" value="Acme Salon">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Industry</label>
-          <select>
-            <option>Salon & spa</option>
-            <option>Auto services</option>
-            <option>Consulting</option>
-            <option>Home services</option>
-            <option>Wellness clinic</option>
-            <option>Law firm</option>
-            <option>Real estate</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Number of staff</label>
-          <select><option>Just me</option><option>2–5</option><option>6–15</option><option>16+</option></select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Website (so we can match your branding)</label>
-        <input type="url" placeholder="https://acmesalon.com" value="https://acmesalon.com">
-      </div>
-      <div class="wizard-actions">
-        <span></span>
-        <button class="btn btn-primary" onclick="goStep(2)">Continue →</button>
-      </div>
+  <!-- ──────────────────────────────────────────────────────────────────
+       STEP 1 — Email
+       ────────────────────────────────────────────────────────────── -->
+  <section class="step-panel" data-step="1" hidden>
+    <div class="panel-head">
+      <h1>Let's get your AI front desk live.</h1>
+      <p class="muted">Takes about 5 minutes. No credit card. No sales call.</p>
     </div>
 
-    <div class="step-content active" data-step="2">
-      <h2>Connect your calendar</h2>
-      <p class="wizard-panel-sub">ReachAI reads your real availability and writes new appointments here.</p>
-      <div class="pick-card selected" onclick="pickCal(this)">
-        <div class="pick-card-icon" style="background:#E8F0FE;color:#1A73E8">G</div>
-        <div class="pick-card-text" style="flex:1">
-          <h4>Google Calendar</h4>
-          <p>OAuth · 2-click setup · Works with personal & Workspace</p>
-        </div>
-        <div style="color:var(--indigo);font-weight:500;font-size:13px">Recommended</div>
+    <div class="panel-body">
+      <label class="field">
+        <span class="field-label">Your email</span>
+        <input type="email" id="step1-email" class="input" placeholder="you@example.com" autocomplete="email" required>
+        <span class="field-hint">We'll send you a sign-in link. No password needed.</span>
+      </label>
+
+      <div class="panel-actions">
+        <button class="btn btn-primary" id="step1-submit">Send sign-in link →</button>
       </div>
-      <div class="pick-card" onclick="pickCal(this)">
-        <div class="pick-card-icon" style="background:#E3F0FD;color:#0078D4">O</div>
-        <div class="pick-card-text" style="flex:1">
-          <h4>Microsoft Outlook</h4>
-          <p>Microsoft 365 · OAuth · Works with personal & business</p>
-        </div>
-      </div>
-      <div class="pick-card" onclick="pickCal(this)">
-        <div class="pick-card-icon" style="background:#1A1F3D;color:#fff">c</div>
-        <div class="pick-card-text" style="flex:1">
-          <h4>Cal.com</h4>
-          <p>Open source · API key from your settings page</p>
+
+      <div class="email-sent" id="step1-sent" hidden>
+        <div class="email-sent-card">
+          <div class="email-sent-icon">✉</div>
+          <h3>Check your email</h3>
+          <p>We sent a sign-in link to <strong id="step1-sent-email">your email</strong>.</p>
+          <p class="muted small">Click the link in the email to continue. It expires in 15 minutes.</p>
+          <p class="muted small">Didn't get it? Check spam, or <a href="#" id="step1-resend">resend</a>.</p>
         </div>
       </div>
-      <div class="pick-card" onclick="pickCal(this)">
-        <div class="pick-card-icon" style="background:#EAEEFF;color:#4F47CC">cL</div>
-        <div class="pick-card-text" style="flex:1">
-          <h4>Calendly</h4>
-          <p>Personal access token · Respects all your rules</p>
-        </div>
-      </div>
-      <div class="wizard-actions">
-        <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
-        <button class="btn btn-primary" onclick="goStep(3)">Connect & continue →</button>
+
+      <div class="muted small panel-footnote">
+        Already started? <a href="#" id="step1-have-session">I have a session token →</a>
       </div>
     </div>
+  </section>
 
-    <div class="step-content" data-step="3">
-      <h2>Pick your channels</h2>
-      <p class="wizard-panel-sub">You can change these any time. Every channel uses the same assistant.</p>
-      <div class="channel-toggle on" onclick="toggleChan(this)">
-        <div class="channel-toggle-info">
-          <div class="channel-toggle-icon">📞</div>
-          <div><h4>Voice</h4><p>ReachAI provides a free US number, or forward your existing line</p></div>
-        </div>
-        <div class="toggle-switch"></div>
-      </div>
-      <div class="channel-toggle on" onclick="toggleChan(this)">
-        <div class="channel-toggle-info">
-          <div class="channel-toggle-icon">💬</div>
-          <div><h4>Web chat</h4><p>Embed widget on your website (one line of code)</p></div>
-        </div>
-        <div class="toggle-switch"></div>
-      </div>
-      <div class="channel-toggle" onclick="toggleChan(this)">
-        <div class="channel-toggle-info">
-          <div class="channel-toggle-icon">💬</div>
-          <div><h4>SMS</h4><p>Two-way texting on dedicated number ($4/mo for the number)</p></div>
-        </div>
-        <div class="toggle-switch"></div>
-      </div>
-      <div class="channel-toggle" onclick="toggleChan(this)">
-        <div class="channel-toggle-info">
-          <div class="channel-toggle-icon">✉️</div>
-          <div><h4>Email</h4><p>Auto-reply to booking@yourbiz.com inbox with available slots</p></div>
-        </div>
-        <div class="toggle-switch"></div>
-      </div>
-      <div class="wizard-actions">
-        <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
-        <button class="btn btn-primary" onclick="goStep(4)">Continue →</button>
-      </div>
+  <!-- ──────────────────────────────────────────────────────────────────
+       STEP 2 — Business
+       ────────────────────────────────────────────────────────────── -->
+  <section class="step-panel" data-step="2" hidden>
+    <div class="panel-head">
+      <h1>Tell us about your business.</h1>
+      <p class="muted">Your AI will learn from your website automatically — no questionnaires.</p>
     </div>
 
-    <div class="step-content" data-step="4">
-      <h2>Personalize your assistant</h2>
-      <p class="wizard-panel-sub">Give it a name and voice — customers will hear and see this.</p>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Assistant name</label>
-          <input type="text" value="Sarah">
-        </div>
-        <div class="form-group">
-          <label>Voice</label>
-          <select>
-            <option>Sarah — warm, US English</option>
-            <option>Daniel — professional, US</option>
-            <option>Maya — energetic, UK</option>
-            <option>Hiroshi — calm, Japanese</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Greeting</label>
-        <textarea>Hi, thanks for calling Acme Salon — this is Sarah. I can help you book an appointment, reschedule, or answer any questions. How can I help today?</textarea>
-        <div class="hint">This is what callers hear when they reach your line.</div>
-      </div>
-      <div class="form-group">
-        <label>Tone</label>
-        <select>
-          <option>Warm & friendly</option>
-          <option>Professional & efficient</option>
-          <option>Casual & playful</option>
-          <option>Formal & precise</option>
+    <div class="panel-body">
+      <label class="field">
+        <span class="field-label">Business name</span>
+        <input type="text" id="step2-name" class="input" placeholder="e.g. Sambaluk Consulting" required>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Industry</span>
+        <select id="step2-industry" class="input">
+          <option value="">Pick the closest match…</option>
+          <option value="Salon / Spa">Salon / Spa</option>
+          <option value="Fitness / Coaching">Fitness / Coaching</option>
+          <option value="Consulting">Consulting</option>
+          <option value="Therapy / Counseling">Therapy / Counseling</option>
+          <option value="Legal">Legal</option>
+          <option value="Healthcare">Healthcare</option>
+          <option value="Tutoring / Education">Tutoring / Education</option>
+          <option value="Home services">Home services</option>
+          <option value="Other">Other</option>
         </select>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Your website</span>
+        <input type="url" id="step2-website" class="input" placeholder="https://yourbusiness.com" autocomplete="url">
+        <span class="field-hint">We'll read your services and FAQ so your AI knows your business out of the box.</span>
+      </label>
+
+      <div class="extract-status" id="extract-status" hidden>
+        <div class="extract-spinner" id="extract-spinner">
+          <div class="spinner"></div>
+          <div>
+            <strong>Reading your website…</strong>
+            <p class="muted small mt-1">This takes 15-30 seconds. We'll show you what your AI learned.</p>
+          </div>
+        </div>
+        <div class="extract-result" id="extract-result" hidden></div>
       </div>
-      <div class="wizard-actions">
-        <button class="btn btn-ghost" onclick="goStep(3)">← Back</button>
-        <button class="btn btn-primary" onclick="goStep(5)">Continue →</button>
+
+      <div class="panel-actions">
+        <button class="btn btn-ghost" id="step2-back">← Back</button>
+        <button class="btn btn-primary" id="step2-submit">Continue →</button>
       </div>
     </div>
+  </section>
 
-    <div class="step-content" data-step="5">
-      <div style="text-align:center;padding:24px 0">
-        <div style="width:64px;height:64px;border-radius:50%;background:var(--teal-50);color:var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:28px">✓</div>
-        <h2 style="text-align:center;font-size:32px;margin-bottom:10px">You're live.</h2>
-        <p style="color:var(--text-muted);font-size:16px;max-width:480px;margin:0 auto 32px">Acme Salon · Sarah · Google Calendar connected · Voice and web chat active.</p>
+  <!-- ──────────────────────────────────────────────────────────────────
+       STEP 3 — Calendar
+       ────────────────────────────────────────────────────────────── -->
+  <section class="step-panel" data-step="3" hidden>
+    <div class="panel-head">
+      <h1>Connect your calendar.</h1>
+      <p class="muted">Your AI will book appointments straight into the calendar you already use.</p>
+    </div>
+
+    <div class="panel-body">
+      <div class="cal-grid">
+        <button class="cal-card" data-provider="calendly" id="cal-calendly">
+          <div class="cal-logo cal-logo-calendly">📅</div>
+          <div class="cal-name">Calendly</div>
+          <div class="cal-desc">If you already have a Calendly account with event types set up.</div>
+        </button>
+
+        <button class="cal-card" data-provider="google" id="cal-google">
+          <div class="cal-logo cal-logo-google">G</div>
+          <div class="cal-name">Google Calendar</div>
+          <div class="cal-desc">Bookings appear directly in Google Calendar with auto-Meet links.</div>
+        </button>
+
+        <button class="cal-card cal-card-soon" disabled>
+          <div class="cal-logo cal-logo-outlook">O</div>
+          <div class="cal-name">Outlook <span class="badge">Coming soon</span></div>
+          <div class="cal-desc">Microsoft 365 / Outlook with auto-Teams links. Available in 2 weeks.</div>
+        </button>
       </div>
 
-      <div class="panel" style="margin-bottom:14px">
-        <h3 style="font-size:15px;margin-bottom:10px">Your ReachAI number</h3>
-        <div style="font-family:'SF Mono',Menlo,monospace;font-size:22px;font-weight:600;color:var(--indigo)">(555) 248-3711</div>
-        <p style="font-size:13px;color:var(--text-muted);margin-top:6px">Call this number to test your assistant right now.</p>
-      </div>
-
-      <div class="panel" style="margin-bottom:14px">
-        <h3 style="font-size:15px;margin-bottom:10px">Web chat embed code</h3>
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Paste this just before <code style="background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:12px">&lt;/body&gt;</code> on your site.</p>
-        <div class="code-box" style="margin:0">
-<button class="code-copy">Copy</button>&lt;script src="https://widget.reachai.com/v1.js" data-workspace="acme-salon-7g2k"&gt;&lt;/script&gt;
+      <div class="cal-status" id="cal-status" hidden>
+        <div class="extract-spinner">
+          <div class="spinner"></div>
+          <span id="cal-status-text">Connecting calendar…</span>
         </div>
       </div>
 
-      <div class="wizard-actions">
-        <a href="demo.html" class="btn btn-ghost">Try it first</a>
-        <a href="provider.html" class="btn btn-primary">Open dashboard →</a>
+      <div class="cal-connected" id="cal-connected" hidden>
+        <div class="connected-check">✓</div>
+        <div>
+          <strong id="cal-connected-name">Calendar connected</strong>
+          <p class="muted small mt-1" id="cal-connected-detail"></p>
+        </div>
+      </div>
+
+      <div class="panel-actions">
+        <button class="btn btn-ghost" id="step3-back">← Back</button>
+        <button class="btn btn-primary" id="step3-continue" disabled>Continue →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────────────────────────────
+       STEP 4 — Assistant
+       ────────────────────────────────────────────────────────────── -->
+  <section class="step-panel" data-step="4" hidden>
+    <div class="panel-head">
+      <h1>Customize your assistant.</h1>
+      <p class="muted">Your AI's personality and look. You can change all of this later.</p>
+    </div>
+
+    <div class="panel-body assistant-grid">
+      <div>
+        <label class="field">
+          <span class="field-label">Assistant name</span>
+          <input type="text" id="step4-name" class="input" value="Sarah" maxlength="40">
+          <span class="field-hint">What customers will see your AI is called.</span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Tone</span>
+          <select id="step4-tone" class="input">
+            <option value="warm">Warm & friendly</option>
+            <option value="professional">Professional & polished</option>
+            <option value="playful">Playful & casual</option>
+            <option value="concise">Brief & efficient</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Greeting message</span>
+          <textarea id="step4-greeting" class="input" rows="3" maxlength="200">Hi! I'm Sarah. How can I help you today?</textarea>
+          <span class="field-hint">The first thing visitors see when they open the chat.</span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Brand color</span>
+          <div class="color-row">
+            <input type="color" id="step4-color" class="color-input" value="#534AB7">
+            <input type="text" id="step4-color-text" class="input color-text" value="#534AB7" maxlength="7">
+          </div>
+        </label>
+      </div>
+
+      <div class="preview-pane">
+        <div class="preview-label">Live preview</div>
+        <div class="chat-mock" id="chat-mock">
+          <div class="chat-mock-head" id="preview-head">
+            <span class="chat-mock-dot"></span>
+            <span id="preview-assistant-name">Sarah</span>
+          </div>
+          <div class="chat-mock-body">
+            <div class="chat-mock-msg chat-mock-bot" id="preview-greeting">Hi! I'm Sarah. How can I help you today?</div>
+            <div class="chat-mock-msg chat-mock-user">I'd like to book an appointment</div>
+            <div class="chat-mock-msg chat-mock-bot">Of course! What day works for you?</div>
+          </div>
+        </div>
       </div>
     </div>
 
+    <div class="panel-actions panel-actions-full">
+      <button class="btn btn-ghost" id="step4-back">← Back</button>
+      <button class="btn btn-primary" id="step4-submit">Continue →</button>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────────────────────────────
+       STEP 5 — Install
+       ────────────────────────────────────────────────────────────── -->
+  <section class="step-panel" data-step="5" hidden>
+    <div class="panel-head">
+      <h1>🎉 You're all set.</h1>
+      <p class="muted">Add this one line to your website and ReachAI is live.</p>
+    </div>
+
+    <div class="panel-body">
+      <div class="embed-card">
+        <div class="embed-label">Your install code</div>
+        <pre class="embed-code"><code id="embed-code">&lt;script src="https://reachai-api.onrender.com/v1/widget/your-slug.js" async&gt;&lt;/script&gt;</code></pre>
+        <button class="btn btn-secondary embed-copy" id="embed-copy">Copy code</button>
+      </div>
+
+      <details class="install-guide">
+        <summary>How to add it to your site</summary>
+        <div class="install-grid">
+          <div class="install-platform">
+            <div class="install-platform-name">Squarespace</div>
+            <ol class="install-steps">
+              <li>Settings → Advanced → Code Injection</li>
+              <li>Paste the code into the <strong>Footer</strong> field</li>
+              <li>Save — it's live in 60 seconds</li>
+            </ol>
+          </div>
+          <div class="install-platform">
+            <div class="install-platform-name">Wix</div>
+            <ol class="install-steps">
+              <li>Settings → Custom Code → + Add Custom Code</li>
+              <li>Paste the code, set "Add code to" → <strong>All pages</strong></li>
+              <li>Set "Place code in" → <strong>Body - end</strong></li>
+            </ol>
+          </div>
+          <div class="install-platform">
+            <div class="install-platform-name">WordPress</div>
+            <ol class="install-steps">
+              <li>Install "Insert Headers and Footers" plugin</li>
+              <li>Settings → Insert Headers and Footers</li>
+              <li>Paste in <strong>Scripts in Footer</strong>, save</li>
+            </ol>
+          </div>
+          <div class="install-platform">
+            <div class="install-platform-name">Shopify</div>
+            <ol class="install-steps">
+              <li>Online Store → Themes → Edit code</li>
+              <li>Open <strong>theme.liquid</strong></li>
+              <li>Paste before <code>&lt;/body&gt;</code></li>
+            </ol>
+          </div>
+          <div class="install-platform">
+            <div class="install-platform-name">Other / Custom HTML</div>
+            <ol class="install-steps">
+              <li>Open your site's main HTML file</li>
+              <li>Paste the code just before the closing <code>&lt;/body&gt;</code> tag</li>
+              <li>Save and deploy</li>
+            </ol>
+          </div>
+        </div>
+      </details>
+
+      <div class="trial-info">
+        <strong>Your 14-day free trial has started.</strong>
+        <p class="muted small mt-1">No charge for 14 days. We'll send a reminder 3 days before it ends. Cancel anytime from your dashboard.</p>
+      </div>
+
+      <div class="panel-actions">
+        <a class="btn btn-primary" id="step5-dashboard" href="provider.html">Open your dashboard →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────────────────────────────
+       ERROR overlay (shown for API failures)
+       ────────────────────────────────────────────────────────────── -->
+  <div class="error-banner" id="error-banner" hidden>
+    <div class="error-content">
+      <strong>Something went wrong:</strong>
+      <span id="error-message"></span>
+      <button class="error-close" id="error-close">×</button>
+    </div>
   </div>
-</div>
 
-<script>
-function goStep(n){
-  document.querySelectorAll('.step-content').forEach(s=>s.classList.remove('active'));
-  document.querySelector('.step-content[data-step="'+n+'"]').classList.add('active');
-  document.querySelectorAll('.wizard-step').forEach((s,i)=>{
-    s.classList.remove('active','done');
-    if(i+1<n)s.classList.add('done');
-    else if(i+1===n)s.classList.add('active');
-  });
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function pickCal(el){
-  document.querySelectorAll('.pick-card').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
-}
-function toggleChan(el){
-  el.classList.toggle('on');
-}
-</script>
+</main>
 
+<footer class="wizard-foot">
+  <p class="muted small">Need help? Email <a href="mailto:hello@reachai.com">hello@reachai.com</a></p>
+</footer>
+
+<script src="wizard.js"></script>
 </body>
 </html>
