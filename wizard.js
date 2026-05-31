@@ -345,12 +345,37 @@ document.getElementById('cal-calendly').addEventListener('click', () => connectC
 document.getElementById('cal-google').addEventListener('click', () => connectCalendar('google'));
 document.getElementById('cal-outlook').addEventListener('click', () => connectCalendar('outlook'));
 
+async function disconnectCalendar() {
+  if (!state.calendar_provider || !state.slug) return;
+  const btn = document.getElementById('cal-change');
+  if (btn) { btn.disabled = true; btn.textContent = 'Disconnecting…'; }
+  try {
+    await api('DELETE', `/v1/calendar/${state.slug}/${state.calendar_provider}`);
+  } catch (e) {
+    console.warn('Disconnect failed (proceeding anyway):', e);
+  }
+  state.calendar_provider = '';
+  state.calendar_email = '';
+  saveState();
+  document.getElementById('cal-connected').hidden = true;
+  document.getElementById('step3-continue').disabled = true;
+  document.querySelectorAll('.cal-card').forEach(c => c.classList.remove('cal-card-picked'));
+}
+
+document.getElementById('cal-change').addEventListener('click', disconnectCalendar);
+
 async function connectCalendar(provider) {
+  // Disconnect the existing provider first if switching
+  if (state.calendar_provider && state.calendar_provider !== provider) {
+    await disconnectCalendar();
+  }
+
   state.calendar_provider = provider;
   saveState();
 
   document.getElementById('cal-status').hidden = false;
-  document.getElementById('cal-status-text').textContent = `Opening ${provider === 'google' ? 'Google' : 'Calendly'} authorization…`;
+  const providerLabel = { google: 'Google', calendly: 'Calendly', outlook: 'Outlook' }[provider] || provider;
+  document.getElementById('cal-status-text').textContent = `Opening ${providerLabel} authorization…`;
 
   // Save state so we can resume after OAuth callback
   // The OAuth callback redirects to the API's success page, NOT back here.
@@ -416,7 +441,7 @@ function markCalendarConnected(conn) {
 
   document.getElementById('cal-status').hidden = true;
   document.getElementById('cal-connected').hidden = false;
-  const providerName = state.calendar_provider === 'google' ? 'Google Calendar' : 'Calendly';
+  const providerName = { google: 'Google Calendar', calendly: 'Calendly', outlook: 'Outlook' }[state.calendar_provider] || state.calendar_provider;
   document.getElementById('cal-connected-name').textContent = `${providerName} connected`;
   document.getElementById('cal-connected-detail').textContent = conn.account_email
     ? `as ${conn.account_email}`
