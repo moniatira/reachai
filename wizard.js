@@ -343,6 +343,7 @@ document.getElementById('step3-back').addEventListener('click', () => showStep(2
 
 document.getElementById('cal-calendly').addEventListener('click', () => connectCalendar('calendly'));
 document.getElementById('cal-google').addEventListener('click', () => connectCalendar('google'));
+document.getElementById('cal-outlook').addEventListener('click', () => connectCalendar('outlook'));
 
 async function connectCalendar(provider) {
   state.calendar_provider = provider;
