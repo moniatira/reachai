@@ -46,8 +46,8 @@
     <div class="sidebar-section">
       <h4>Workspace</h4>
       <a href="#" onclick="showTab('overview');return false" class="active">🏠 Overview</a>
-      <a href="#" onclick="return false" style="display:flex;justify-content:space-between;align-items:center;opacity:.6;cursor:default">📅 Appointments <span style="font-size:10px;background:var(--indigo-50);color:var(--indigo);padding:1px 6px;border-radius:99px;font-weight:600">Soon</span></a>
-      <a href="#" onclick="return false" style="display:flex;justify-content:space-between;align-items:center;opacity:.6;cursor:default">💬 Conversations <span style="font-size:10px;background:var(--indigo-50);color:var(--indigo);padding:1px 6px;border-radius:99px;font-weight:600">Soon</span></a>
+      <a href="#" onclick="showTab('appointments',event);return false">📅 Appointments</a>
+      <a href="#" onclick="showTab('conversations',event);return false">💬 Conversations</a>
     </div>
     <div class="sidebar-section">
       <h4>Configure</h4>
@@ -58,9 +58,12 @@
       <a href="#" onclick="showTab('embed');return false">{ } Embed code</a>
     </div>
     <div class="sidebar-section">
+      <h4>Reports</h4>
+      <a href="#" onclick="showTab('reports',event);return false">📊 Reports & exports</a>
+    </div>
+    <div class="sidebar-section">
       <h4>Account</h4>
       <a href="pricing.html">💳 Billing</a>
-      <a href="#" onclick="return false" style="display:flex;justify-content:space-between;align-items:center;opacity:.6;cursor:default">⚙️ Settings <span style="font-size:10px;background:var(--indigo-50);color:var(--indigo);padding:1px 6px;border-radius:99px;font-weight:600">Soon</span></a>
       <a href="index.html">↗ Sign out</a>
     </div>
     <div class="sidebar-tier">
@@ -88,6 +91,9 @@
       <div class="dash-tab" onclick="showTab('calendar', event)">Calendar</div>
       <div class="dash-tab" onclick="showTab('services', event)">Services</div>
       <div class="dash-tab" onclick="showTab('embed', event)">Embed</div>
+      <div class="dash-tab" onclick="showTab('conversations', event)">Conversations</div>
+      <div class="dash-tab" onclick="showTab('appointments', event)">Appointments</div>
+      <div class="dash-tab" onclick="showTab('reports', event)">Reports</div>
     </div>
 
     <div id="overview" class="tab-panel active">
@@ -141,29 +147,34 @@
     </div>
 
     <div id="assistant" class="tab-panel">
-      <div style="background:var(--indigo-50);border:1px solid #C8C5F5;border-radius:10px;padding:12px 16px;font-size:13px;color:var(--indigo);margin-bottom:20px;display:flex;align-items:center;gap:10px">
-        <strong>Coming soon</strong> — editing assistant settings from the dashboard is in progress. To change these, re-run the setup wizard.
-      </div>
       <div class="panel">
         <div class="panel-header"><h3>Assistant personality</h3></div>
         <div class="form-group">
           <label>Assistant name</label>
-          <input type="text" value="Sarah">
+          <input type="text" id="asst-name" placeholder="Sarah">
           <div class="hint">What callers and chatters hear or see when greeting starts.</div>
         </div>
         <div class="form-group">
           <label>Greeting</label>
-          <textarea>Hi, thanks for calling Acme Salon — this is Sarah. I can help you book an appointment, reschedule, or answer any questions about our services. How can I help today?</textarea>
+          <textarea id="asst-greeting" rows="3"></textarea>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label>Tone</label>
-            <select><option>Warm & friendly</option><option>Professional & efficient</option><option>Casual & playful</option></select>
+            <select id="asst-tone">
+              <option value="warm">Warm & friendly</option>
+              <option value="professional">Professional & efficient</option>
+              <option value="casual">Casual & playful</option>
+            </select>
           </div>
           <div class="form-group">
-            <label>Voice</label>
-            <select><option>Sarah (warm, US)</option><option>Daniel (professional, US)</option><option>Maya (energetic, UK)</option><option>Hiroshi (calm, JP)</option></select>
+            <label>Brand color</label>
+            <input type="text" id="asst-brand-primary" placeholder="#534AB7">
           </div>
+        </div>
+        <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
+          <button class="btn btn-primary" id="asst-save-btn" onclick="saveAssistantSettings()">Save changes</button>
+          <span id="asst-save-msg" style="font-size:13px"></span>
         </div>
       </div>
 
@@ -184,10 +195,24 @@
       </div>
 
       <div class="panel">
-        <div class="panel-header"><h3>Knowledge base <span style="font-size:11px;background:var(--indigo-50);color:var(--indigo);padding:2px 8px;border-radius:99px;font-weight:600;vertical-align:middle">Coming soon</span></h3></div>
-        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Upload PDFs, links, or FAQs that your assistant will use to answer customer questions.</p>
-        <div style="border:2px dashed var(--line-2);border-radius:10px;padding:24px;text-align:center;color:var(--text-muted);font-size:14px;opacity:.5;pointer-events:none">
-          📎 Drop PDFs, links, or paste FAQs here
+        <div class="panel-header"><h3>Knowledge base</h3></div>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:16px">Upload PDFs, link web pages, or add text that your assistant will use to answer customer questions.</p>
+
+        <div style="display:flex;gap:8px;margin-bottom:14px">
+          <input type="url" id="kb-url-input" class="input" placeholder="https://example.com/about" style="flex:1;font-size:14px">
+          <button class="btn btn-ghost" id="kb-url-btn" onclick="addKnowledgeUrl()">Add URL</button>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">
+          <label class="btn btn-ghost" style="cursor:pointer;margin:0">
+            📎 Upload file (PDF or text)
+            <input type="file" id="kb-file-input" accept=".pdf,.txt,.md" style="display:none" onchange="uploadKnowledgeFile(this)">
+          </label>
+          <span id="kb-upload-msg" style="font-size:13px;color:var(--text-muted)"></span>
+        </div>
+
+        <div id="kb-docs-list">
+          <div style="color:var(--text-muted);font-size:14px;text-align:center;padding:12px">Loading documents…</div>
         </div>
       </div>
     </div>
@@ -299,12 +324,49 @@
         </div>
       </div>
     </div>
+
+    <div id="conversations" class="tab-panel">
+      <div class="panel">
+        <div class="panel-header"><h3>Conversations</h3></div>
+        <div id="conv-list" style="padding:24px;text-align:center;color:var(--text-muted);font-size:14px">Loading…</div>
+      </div>
+    </div>
+
+    <div id="appointments" class="tab-panel">
+      <div class="panel">
+        <div class="panel-header"><h3>All appointments</h3></div>
+        <div id="appt-full-list" style="padding:24px;text-align:center;color:var(--text-muted);font-size:14px">Loading…</div>
+      </div>
+    </div>
+
+    <div id="reports" class="tab-panel">
+      <h3 style="margin-bottom:20px">Download reports</h3>
+      <div class="panel" style="margin-bottom:16px">
+        <div class="panel-header"><h3>Appointments report</h3></div>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">All bookings with customer details and service info.</p>
+        <button class="btn btn-primary" onclick="downloadReport('appointments')">Download CSV</button>
+      </div>
+      <div class="panel" style="margin-bottom:16px">
+        <div class="panel-header"><h3>Conversations report</h3></div>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">All chat sessions with booking outcome.</p>
+        <button class="btn btn-primary" onclick="downloadReport('conversations')">Download CSV</button>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><h3>Booking summary</h3></div>
+        <div id="reports-summary" style="padding:8px 0">
+          <div style="color:var(--text-muted);font-size:14px">Loading…</div>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
 <script>
 const API_BASE = 'https://reachai-api.onrender.com';
 const WIZARD_KEY = 'reachai_wizard_state';
+
+let _currentSlug = null;
 
 function showTab(tabId, evt) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -318,6 +380,13 @@ function showTab(tabId, evt) {
     });
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Lazy-load tab data
+  const slug = _currentSlug;
+  if (!slug) return;
+  if (tabId === 'conversations') loadConversations(slug);
+  else if (tabId === 'appointments') loadAppointmentsFull(slug);
+  else if (tabId === 'reports') loadReports(slug);
+  else if (tabId === 'assistant') loadKnowledgeDocs(slug);
 }
 
 function getSession() {
@@ -538,6 +607,262 @@ document.getElementById('embed-copy-btn').addEventListener('click', () => {
   }).catch(() => {});
 });
 
+async function dashApiPost(path, body) {
+  const sess = getSession();
+  const headers = { 'Content-Type': 'application/json' };
+  if (sess.session_token) headers['Authorization'] = `Bearer ${sess.session_token}`;
+  const r = await fetch(API_BASE + path, { method: 'POST', headers, body: JSON.stringify(body) });
+  if (r.status === 401 || r.status === 403) throw new AuthError(`HTTP ${r.status}`);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
+}
+
+async function dashApiPatch(path, body) {
+  const sess = getSession();
+  const headers = { 'Content-Type': 'application/json' };
+  if (sess.session_token) headers['Authorization'] = `Bearer ${sess.session_token}`;
+  const r = await fetch(API_BASE + path, { method: 'PATCH', headers, body: JSON.stringify(body) });
+  if (r.status === 401 || r.status === 403) throw new AuthError(`HTTP ${r.status}`);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
+}
+
+async function dashApiDelete(path) {
+  const sess = getSession();
+  const headers = {};
+  if (sess.session_token) headers['Authorization'] = `Bearer ${sess.session_token}`;
+  const r = await fetch(API_BASE + path, { method: 'DELETE', headers });
+  if (r.status === 401 || r.status === 403) throw new AuthError(`HTTP ${r.status}`);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
+}
+
+// ── Conversations ────────────────────────────────────────────────────────────
+
+const CONV_CHANNEL_ICON = { voice: '📞', chat: '💬', sms: '📱', email: '✉️' };
+
+async function loadConversations(slug) {
+  const el = document.getElementById('conv-list');
+  if (!el) return;
+  el.innerHTML = '<div style="text-align:center;color:var(--text-muted);font-size:14px">Loading…</div>';
+  try {
+    const convs = await dashApi(`/v1/workspaces/${slug}/conversations?limit=30`);
+    if (!convs || convs.length === 0) {
+      el.innerHTML = '<div style="text-align:center;color:var(--text-muted);font-size:14px;padding:16px">No conversations yet. Your assistant will log them here.</div>';
+      return;
+    }
+    el.innerHTML = convs.map(c => {
+      const d = new Date(c.created_at);
+      const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      const bookedBadge = c.booked
+        ? '<span style="font-size:11px;background:#D1FAE5;color:#065F46;padding:1px 8px;border-radius:99px;font-weight:600;margin-left:6px">Booked</span>'
+        : '';
+      return `<div class="appt-row">
+        <div class="appt-channel">${CONV_CHANNEL_ICON[c.channel] || '💬'}</div>
+        <div class="appt-info">
+          <h4>${c.customer_name || 'Anonymous'}${bookedBadge}</h4>
+          <p>${c.message_count} messages · ${c.customer_email || ''}</p>
+        </div>
+        <div class="appt-time">${dateStr} · ${timeStr}</div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    el.innerHTML = `<div style="color:var(--text-muted);font-size:14px">Could not load conversations. <button class="btn btn-ghost btn-sm" onclick="loadConversations('${slug}')">Retry</button></div>`;
+  }
+}
+
+// ── Appointments (full list) ─────────────────────────────────────────────────
+
+async function loadAppointmentsFull(slug) {
+  const el = document.getElementById('appt-full-list');
+  if (!el) return;
+  el.innerHTML = '<div style="text-align:center;color:var(--text-muted);font-size:14px">Loading…</div>';
+  try {
+    const appts = await dashApi(`/v1/workspaces/${slug}/appointments?limit=50`);
+    if (!appts || appts.length === 0) {
+      el.innerHTML = '<div style="text-align:center;color:var(--text-muted);font-size:14px;padding:16px">No appointments yet. Your assistant will book them here.</div>';
+      return;
+    }
+    const CHANNEL_ICON = { voice: '📞', chat: '💬', sms: '📱', email: '✉️' };
+    el.innerHTML = appts.map(b => {
+      const d = new Date(b.scheduled_for);
+      const dateStr = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      return `<div class="appt-row">
+        <div class="appt-channel">${CHANNEL_ICON[b.channel] || '📅'}</div>
+        <div class="appt-info">
+          <h4>${b.customer_name}</h4>
+          <p>${b.service_name} · ${b.duration_minutes} min · ${b.customer_email}</p>
+        </div>
+        <div class="appt-time">${dateStr} · ${timeStr}</div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    el.innerHTML = `<div style="color:var(--text-muted);font-size:14px">Could not load appointments. <button class="btn btn-ghost btn-sm" onclick="loadAppointmentsFull('${slug}')">Retry</button></div>`;
+  }
+}
+
+// ── Reports ──────────────────────────────────────────────────────────────────
+
+function downloadReport(type) {
+  const slug = _currentSlug;
+  if (!slug) return;
+  const sess = getSession();
+  const token = sess.session_token || '';
+  const url = `${API_BASE}/v1/workspaces/${slug}/reports/${type}?token=${encodeURIComponent(token)}`;
+  window.open(url, '_blank');
+}
+
+async function loadReports(slug) {
+  const el = document.getElementById('reports-summary');
+  if (!el) return;
+  try {
+    const a = await dashApi(`/v1/workspaces/${slug}/analytics`);
+    const pct = a.conversations_total > 0
+      ? Math.round((a.conversations_with_booking / a.conversations_total) * 100)
+      : 0;
+    el.innerHTML = `
+      <div style="display:flex;gap:32px;flex-wrap:wrap;padding:8px 0">
+        <div>
+          <div style="font-size:28px;font-weight:700;color:var(--ink)">${a.bookings_this_month}</div>
+          <div style="font-size:13px;color:var(--text-muted)">Bookings this month</div>
+        </div>
+        <div>
+          <div style="font-size:28px;font-weight:700;color:var(--ink)">${pct}%</div>
+          <div style="font-size:13px;color:var(--text-muted)">Conversion rate</div>
+        </div>
+        <div>
+          <div style="font-size:28px;font-weight:700;color:var(--ink)">${a.conversations_total}</div>
+          <div style="font-size:13px;color:var(--text-muted)">Total conversations</div>
+        </div>
+      </div>`;
+  } catch (e) {
+    el.innerHTML = '<div style="color:var(--text-muted);font-size:14px">Could not load summary.</div>';
+  }
+}
+
+// ── Assistant settings ───────────────────────────────────────────────────────
+
+async function saveAssistantSettings() {
+  const slug = _currentSlug;
+  if (!slug) return;
+  const btn = document.getElementById('asst-save-btn');
+  const msg = document.getElementById('asst-save-msg');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  msg.textContent = '';
+  const body = {};
+  const name = document.getElementById('asst-name').value.trim();
+  const greeting = document.getElementById('asst-greeting').value.trim();
+  const tone = document.getElementById('asst-tone').value;
+  const brand = document.getElementById('asst-brand-primary').value.trim();
+  if (name) body.assistant_name = name;
+  if (greeting) body.greeting = greeting;
+  if (tone) body.tone = tone;
+  if (brand) body.brand_primary = brand;
+  try {
+    await dashApiPatch(`/v1/workspaces/${slug}/settings`, body);
+    msg.style.color = 'var(--teal)';
+    msg.textContent = '✓ Saved';
+  } catch (e) {
+    msg.style.color = '#A32D2D';
+    msg.textContent = 'Save failed — ' + e.message;
+  }
+  btn.disabled = false;
+  btn.textContent = 'Save changes';
+}
+
+// ── Knowledge base ───────────────────────────────────────────────────────────
+
+async function loadKnowledgeDocs(slug) {
+  const el = document.getElementById('kb-docs-list');
+  if (!el) return;
+  el.innerHTML = '<div style="color:var(--text-muted);font-size:14px;padding:8px 0">Loading…</div>';
+  try {
+    const docs = await dashApi(`/v1/workspaces/${slug}/knowledge`);
+    renderKnowledgeDocs(docs, slug);
+  } catch (e) {
+    el.innerHTML = `<div style="color:var(--text-muted);font-size:14px">Could not load documents.</div>`;
+  }
+}
+
+function renderKnowledgeDocs(docs, slug) {
+  const el = document.getElementById('kb-docs-list');
+  if (!el) return;
+  if (!docs || docs.length === 0) {
+    el.innerHTML = '<div style="color:var(--text-muted);font-size:14px;border:2px dashed var(--line-2);border-radius:10px;padding:20px;text-align:center">No documents yet — add a URL or upload a file above.</div>';
+    return;
+  }
+  const TYPE_ICON = { pdf: '📄', url: '🔗', text: '📝' };
+  el.innerHTML = docs.map(d => `
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)" data-doc-id="${d.id}">
+      <span style="font-size:20px">${TYPE_ICON[d.source_type] || '📄'}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.source_name}</div>
+        <div style="font-size:12px;color:var(--text-muted)">${d.char_count.toLocaleString()} chars · ${d.source_type}</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" style="color:#A32D2D;flex-shrink:0" onclick="deleteKnowledgeDoc('${d.id}', '${slug}')">Delete</button>
+    </div>`).join('');
+}
+
+async function addKnowledgeUrl() {
+  const slug = _currentSlug;
+  if (!slug) return;
+  const input = document.getElementById('kb-url-input');
+  const btn = document.getElementById('kb-url-btn');
+  const url = input.value.trim();
+  if (!url) return;
+  btn.disabled = true;
+  btn.textContent = 'Adding…';
+  try {
+    await dashApiPost(`/v1/workspaces/${slug}/knowledge/url`, { url });
+    input.value = '';
+    await loadKnowledgeDocs(slug);
+  } catch (e) {
+    alert('Failed to add URL: ' + e.message);
+  }
+  btn.disabled = false;
+  btn.textContent = 'Add URL';
+}
+
+async function uploadKnowledgeFile(inputEl) {
+  const slug = _currentSlug;
+  if (!slug || !inputEl.files || !inputEl.files[0]) return;
+  const file = inputEl.files[0];
+  const msg = document.getElementById('kb-upload-msg');
+  msg.textContent = 'Uploading…';
+  const sess = getSession();
+  const headers = {};
+  if (sess.session_token) headers['Authorization'] = `Bearer ${sess.session_token}`;
+  const formData = new FormData();
+  formData.append('file', file);
+  try {
+    const r = await fetch(`${API_BASE}/v1/workspaces/${slug}/knowledge/upload`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    msg.textContent = '✓ Uploaded';
+    inputEl.value = '';
+    await loadKnowledgeDocs(slug);
+    setTimeout(() => { msg.textContent = ''; }, 3000);
+  } catch (e) {
+    msg.textContent = 'Upload failed: ' + e.message;
+  }
+}
+
+async function deleteKnowledgeDoc(docId, slug) {
+  if (!confirm('Delete this document?')) return;
+  try {
+    await dashApiDelete(`/v1/workspaces/${slug}/knowledge/${docId}`);
+    await loadKnowledgeDocs(slug);
+  } catch (e) {
+    alert('Delete failed: ' + e.message);
+  }
+}
+
 async function loadDashboard() {
   const urlSlug = new URLSearchParams(window.location.search).get('slug');
   const sess = getSession();
@@ -548,6 +873,8 @@ async function loadDashboard() {
     showSignInPrompt(slug);
     return;
   }
+
+  _currentSlug = slug;
 
   if (!slug) {
     document.getElementById('dash-welcome').textContent = 'Dashboard';
@@ -580,6 +907,12 @@ async function loadDashboard() {
       trialEl.textContent = ws.trial_status === 'active' ? 'Trial active' : ws.trial_status || '—';
       if (trialSub) trialSub.textContent = ws.onboarding_step === 'complete' ? 'Setup complete' : 'Setup in progress';
     }
+
+    // Populate assistant form fields
+    if (ws.assistant_name) { const el = document.getElementById('asst-name'); if (el) el.value = ws.assistant_name; }
+    if (ws.greeting) { const el = document.getElementById('asst-greeting'); if (el) el.value = ws.greeting; }
+    if (ws.tone) { const el = document.getElementById('asst-tone'); if (el) el.value = ws.tone; }
+    if (ws.brand_primary) { const el = document.getElementById('asst-brand-primary'); if (el) el.value = ws.brand_primary; }
 
     markCheck('check-business', true);
     markCheck('check-embed', false);
