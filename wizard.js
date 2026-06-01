@@ -456,6 +456,7 @@ function markCalendarConnected(conn) {
 }
 
 document.getElementById('step3-continue').addEventListener('click', () => showStep(4));
+document.getElementById('step5-new-workspace').addEventListener('click', () => { resetState(); showStep(1); });
 
 // On step 3 load, check if calendar is already connected (returning from OAuth)
 async function hydrateStep3() {
@@ -590,14 +591,12 @@ document.getElementById('embed-copy').addEventListener('click', async () => {
  * ============================================================ */
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // 1. Check if returning from magic link
+  // 1. Check if returning from magic link — only resume mid-wizard via magic link
   if (window.location.hash.includes('session=')) {
     await handleMagicLinkReturn();
-  } else if (state.session_token && state.step > 1) {
-    // Already have a session, restore wizard position
-    showStep(state.step);
   } else {
-    // Fresh visit
+    // Fresh visit always starts at step 1 so returning users aren't stuck on step 5
+    resetState();
     showStep(1);
   }
 
