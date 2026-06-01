@@ -4,7 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Pricing · ReachAI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="styles.css">
+<style>
+  /* ── pricing page refinements ── */
+  .plan-features li::before{content:'';display:none}
+  .plan-features li{gap:10px}
+  .plan-features li .fi{flex-shrink:0;color:var(--teal)}
+  .plan-price .num{font-size:44px;font-weight:700;letter-spacing:-.03em}
+  .roi-table{background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px 24px}
+  .roi-row{padding:15px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px;align-items:center}
+  .roi-row:last-child{border-bottom:none}
+  .roi-row.highlight{color:var(--teal);font-weight:600}
+  .faq-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;cursor:pointer;transition:border-color .2s}
+  .faq-item:hover{border-color:var(--indigo)}
+  .faq-item h3{font-size:15px;margin-bottom:0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .faq-item h3::after{content:'+';font-size:20px;font-weight:400;color:var(--text-faint);flex-shrink:0;transition:transform .2s}
+  .faq-item p{color:var(--text-muted);font-size:14px;margin-top:12px;line-height:1.65;display:none}
+  .faq-item.open h3::after{content:'−'}
+  .faq-item.open p{display:block}
+</style>
 </head>
 <body>
 
@@ -91,7 +111,7 @@
       </div>
     </div>
 
-    <div style="margin-top:48px;padding:24px;background:var(--paper);border-radius:14px;text-align:center;max-width:760px;margin-left:auto;margin-right:auto">
+    <div style="margin-top:48px;padding:28px;background:linear-gradient(135deg,var(--indigo-50) 0%,#EFF9F5 100%);border:1px solid var(--line);border-radius:16px;text-align:center;max-width:760px;margin-left:auto;margin-right:auto">
       <h3 style="font-size:18px;margin-bottom:6px">Need more than 2,500 bookings/month?</h3>
       <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Enterprise pricing for multi-location chains, franchises, and platforms.</p>
       <a href="#" class="btn btn-primary btn-sm">Talk to sales →</a>
@@ -105,27 +125,12 @@
       <h2 style="font-size:30px;margin-bottom:12px">The math: it pays for itself</h2>
       <p style="color:var(--text-muted);font-size:15px">Most ReachAI customers earn back their plan in the first week.</p>
     </div>
-    <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px 24px">
-      <div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px">
-        <span>Avg. SMB service price</span>
-        <span style="font-weight:500">$85</span>
-      </div>
-      <div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px">
-        <span>ReachAI Pro plan</span>
-        <span style="font-weight:500">$249/mo</span>
-      </div>
-      <div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px">
-        <span>Bookings needed to break even</span>
-        <span style="font-weight:500">~3 per month</span>
-      </div>
-      <div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px">
-        <span>Avg. after-hours calls SMBs miss</span>
-        <span style="font-weight:500">12–25 / month</span>
-      </div>
-      <div style="padding:14px 0;display:flex;justify-content:space-between;font-size:14px">
-        <span style="color:var(--indigo);font-weight:600">Typical recovered revenue</span>
-        <span style="font-weight:600;color:var(--indigo)">$1,000–$2,100 / month</span>
-      </div>
+    <div class="roi-table">
+      <div class="roi-row"><span>Avg. SMB service price</span><span>$85</span></div>
+      <div class="roi-row"><span>ReachAI Pro plan</span><span>$249/mo</span></div>
+      <div class="roi-row"><span>Bookings needed to break even</span><span>~3 per month</span></div>
+      <div class="roi-row"><span>Avg. after-hours calls SMBs miss</span><span>12–25 / month</span></div>
+      <div class="roi-row highlight"><span>Typical recovered revenue</span><span>$1,000–$2,100 / month</span></div>
     </div>
   </div>
 </section>
@@ -169,30 +174,30 @@
 <section class="section" style="background:var(--paper)">
   <div class="container" style="max-width:760px">
     <h2 style="margin-bottom:32px;text-align:center;font-size:30px">FAQ</h2>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="panel">
-        <h3 style="font-size:16px;margin-bottom:8px">What counts as a "booking"?</h3>
-        <p style="color:var(--text-muted);font-size:14px">A booking is any confirmed appointment created on your calendar. Reschedules and cancellations don't count against your quota. Conversations that don't result in a booking are unlimited.</p>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <h3>What counts as a "booking"?</h3>
+        <p>A booking is any confirmed appointment created on your calendar. Reschedules and cancellations don't count against your quota. Conversations that don't result in a booking are unlimited.</p>
       </div>
-      <div class="panel">
-        <h3 style="font-size:16px;margin-bottom:8px">Why is the chat widget custom?</h3>
-        <p style="color:var(--text-muted);font-size:14px">Your customers see your brand, not ours. The widget pulls your colors and logo from your website automatically, and you can customize the greeting, the AI personality, even the chat bubble icon. It looks like part of your site — not a generic third-party chatbot.</p>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <h3>Why is the chat widget custom-branded?</h3>
+        <p>Your customers see your brand, not ours. The widget pulls your colors and logo from your website automatically, and you can customize the greeting, the AI personality, even the chat bubble icon. It looks like part of your site — not a generic third-party chatbot.</p>
       </div>
-      <div class="panel">
-        <h3 style="font-size:16px;margin-bottom:8px">Do I get a phone number?</h3>
-        <p style="color:var(--text-muted);font-size:14px">Yes. Every plan includes a US phone number at no extra cost. You can also forward your existing business line to it.</p>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <h3>Do I get a phone number?</h3>
+        <p>Yes. Every plan includes a US phone number at no extra cost. You can also forward your existing business line to it.</p>
       </div>
-      <div class="panel">
-        <h3 style="font-size:16px;margin-bottom:8px">How does the 14-day trial work?</h3>
-        <p style="color:var(--text-muted);font-size:14px">No credit card required. Use the full Pro plan for 14 days. After day 14 you choose a paid plan or your account pauses — no surprise charges.</p>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <h3>How does the 14-day trial work?</h3>
+        <p>No credit card required. Use the full Pro plan for 14 days. After day 14 you choose a paid plan or your account pauses — no surprise charges.</p>
       </div>
-      <div class="panel">
-        <h3 style="font-size:16px;margin-bottom:8px">What if I go over my booking limit?</h3>
-        <p style="color:var(--text-muted);font-size:14px">We never block bookings. We email you to upgrade and bill $1 per booking over your limit until you do.</p>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <h3>What if I go over my booking limit?</h3>
+        <p>We never block bookings. We email you to upgrade and bill $1 per booking over your limit until you do.</p>
       </div>
-      <div class="panel">
-        <h3 style="font-size:16px;margin-bottom:8px">Can I bring my own AI / voice provider?</h3>
-        <p style="color:var(--text-muted);font-size:14px">On the Scale plan you can plug in your own OpenAI, Anthropic, or ElevenLabs keys. Useful for compliance-sensitive industries.</p>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <h3>Can I bring my own AI / voice provider?</h3>
+        <p>On the Scale plan you can plug in your own OpenAI, Anthropic, or ElevenLabs keys. Useful for compliance-sensitive industries.</p>
       </div>
     </div>
   </div>
