@@ -316,13 +316,54 @@ function getSession() {
   try { return JSON.parse(localStorage.getItem(WIZARD_KEY) || '{}'); } catch (e) { return {}; }
 }
 
+class AuthError extends Error {}
+
 async function dashApi(path) {
   const sess = getSession();
   const headers = {};
   if (sess.session_token) headers['Authorization'] = `Bearer ${sess.session_token}`;
   const r = await fetch(API_BASE + path, { headers });
+  if (r.status === 401 || r.status === 403) throw new AuthError(`HTTP ${r.status}`);
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   return r.json();
+}
+
+function showSignInPrompt(slug) {
+  const main = document.querySelector('.dashboard-content') || document.querySelector('main');
+  if (!main) return;
+  main.innerHTML = `
+    <div style="max-width:480px;margin:80px auto;text-align:center">
+      <div style="font-size:48px;margin-bottom:16px">🔒</div>
+      <h2 style="margin-bottom:8px">Sign in to view your dashboard</h2>
+      <p style="color:var(--text-muted);font-size:15px;margin-bottom:32px">
+        Your session has expired or you're not signed in.<br>
+        Enter your email to get a new sign-in link.
+      </p>
+      <div style="display:flex;gap:8px;max-width:360px;margin:0 auto">
+        <input type="email" id="signin-email" class="input" placeholder="you@example.com"
+          style="flex:1" value="${getSession().email || ''}">
+        <button class="btn btn-primary" id="signin-btn">Send link →</button>
+      </div>
+      <p class="muted small" style="margin-top:16px" id="signin-msg"></p>
+    </div>`;
+
+  document.getElementById('signin-btn').addEventListener('click', async () => {
+    const email = document.getElementById('signin-email').value.trim();
+    if (!email) return;
+    const btn = document.getElementById('signin-btn');
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      await fetch(API_BASE + '/v1/auth/request-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, redirect_to: window.location.href }),
+      });
+      document.getElementById('signin-msg').textContent = `✓ Check ${email} for your sign-in link.`;
+    } catch (e) {
+      document.getElementById('signin-msg').textContent = 'Could not send link — try again.';
+      btn.disabled = false; btn.textContent = 'Send link →';
+    }
+  });
 }
 
 function markCheck(id, done) {
@@ -426,6 +467,12 @@ async function loadDashboard() {
   const sess = getSession();
   const slug = urlSlug || sess.slug;
 
+  // No session token at all — show sign-in immediately
+  if (!sess.session_token) {
+    showSignInPrompt(slug);
+    return;
+  }
+
   if (!slug) {
     document.getElementById('dash-welcome').textContent = 'Dashboard';
     document.getElementById('dash-workspace-label').textContent = 'No workspace';
@@ -435,12 +482,14 @@ async function loadDashboard() {
     return;
   }
 
-  // Load user email
+  // Load user email — 401 here means token is expired
   try {
     const me = await dashApi('/v1/auth/me');
     const initials = (me.email || '').slice(0, 2).toUpperCase();
     document.getElementById('dash-user-initials').textContent = initials || '?';
-  } catch (e) {}
+  } catch (e) {
+    if (e instanceof AuthError) { showSignInPrompt(slug); return; }
+  }
 
   // Load workspace
   try {
@@ -459,6 +508,7 @@ async function loadDashboard() {
     markCheck('check-business', true);
     markCheck('check-embed', false);
   } catch (e) {
+    if (e instanceof AuthError) { showSignInPrompt(slug); return; }
     document.getElementById('dash-workspace-label').textContent = slug;
     document.getElementById('dash-welcome').textContent = 'Your dashboard';
     document.getElementById('dash-embed-code').textContent = `<script src="${API_BASE}/v1/widget/${slug}.js" async><\/script>`;
@@ -469,6 +519,7 @@ async function loadDashboard() {
     const status = await dashApi(`/v1/calendar/status/${slug}`);
     renderCalendarTab(status, slug);
   } catch (e) {
+    if (e instanceof AuthError) { showSignInPrompt(slug); return; }
     document.getElementById('dash-cal-panel').innerHTML =
       '<p style="color:var(--text-muted);font-size:14px">Could not load calendar status.</p>';
     document.getElementById('dash-cal-metric').textContent = '—';
