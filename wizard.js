@@ -619,18 +619,50 @@ document.getElementById('embed-copy').addEventListener('click', async () => {
  * ============================================================ */
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // 1. Check if returning from magic link — only resume mid-wizard via magic link
+  // 1. Returning from magic link email
   if (window.location.hash.includes('session=')) {
     await handleMagicLinkReturn();
-  } else {
-    // Fresh visit always starts at step 1 so returning users aren't stuck on step 5
-    resetState();
-    showStep(1);
+    hydrateStep2();
+    hydrateStep4();
+    if (state.step === 3) hydrateStep3();
+    if (state.step === 5) hydrateStep5();
+    return;
   }
 
-  // 2. Hydrate forms with saved values
+  // 2. Direct navigation — check for an existing valid session before wiping state
+  const savedToken = state.session_token;
+  if (savedToken) {
+    try {
+      const workspaces = await api('GET', '/v1/workspaces/me');
+      if (Array.isArray(workspaces) && workspaces.length > 0) {
+        const completed = workspaces.find(w => w.onboarding_step === 'complete');
+        if (completed) {
+          // Setup already done — send straight to dashboard
+          window.location.href = `provider.html?slug=${encodeURIComponent(completed.slug)}`;
+          return;
+        }
+        // Mid-wizard — restore and resume at calendar step
+        const inProgress = workspaces[0];
+        resetState();
+        state.session_token = savedToken;
+        state.workspace_id = inProgress.id;
+        state.slug = inProgress.slug;
+        state.business_name = inProgress.name || '';
+        saveState();
+        hydrateStep2();
+        hydrateStep4();
+        showStep(3);
+        hydrateStep3();
+        return;
+      }
+    } catch (e) {
+      // Token expired or API error — fall through to fresh start
+    }
+  }
+
+  // 3. No valid session — fresh start
+  resetState();
+  showStep(1);
   hydrateStep2();
   hydrateStep4();
-  if (state.step === 3) hydrateStep3();
-  if (state.step === 5) hydrateStep5();
 });
