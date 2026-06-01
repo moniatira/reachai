@@ -6,12 +6,15 @@
 <title>Live demos · ReachAI</title>
 <link rel="stylesheet" href="styles.css">
 <style>
+  /* ── demo tabs ── */
   .demo-tabs{display:flex;gap:6px;justify-content:center;margin-bottom:32px;flex-wrap:wrap}
   .demo-tab{padding:10px 20px;font-size:14px;border:1px solid var(--line);border-radius:30px;cursor:pointer;background:#fff;transition:.15s;display:inline-flex;align-items:center;gap:8px;font-weight:500;color:var(--text-muted)}
   .demo-tab:hover{border-color:var(--indigo);color:var(--ink)}
   .demo-tab.active{background:var(--indigo);color:#fff;border-color:var(--indigo)}
   .demo-pane{display:none;max-width:760px;margin:0 auto}
   .demo-pane.active{display:block}
+
+  /* ── channel demos ── */
   .phone-frame{background:var(--ink);border-radius:20px;padding:24px;color:#fff;max-width:380px;margin:0 auto}
   .phone-header{text-align:center;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:18px}
   .phone-status{font-size:11px;color:#9FE1CB;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
@@ -40,6 +43,64 @@
   .email-header h4{font-size:15px;margin-bottom:4px}
   .email-meta{font-size:12px;color:var(--text-muted)}
   .email-body{padding:22px;font-size:14px;line-height:1.7;color:var(--text)}
+
+  /* ── mock setup wizard ── */
+  .mock-wizard{max-width:600px;margin:0 auto}
+  .mock-badge{display:inline-flex;align-items:center;gap:6px;background:#EEF2FF;color:var(--indigo);font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;margin-bottom:20px;letter-spacing:.02em}
+  .mock-rail{margin-bottom:28px}
+  .mock-rail ol{display:flex;gap:0;list-style:none;padding:0;margin:0;justify-content:center}
+  .mock-rail li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);font-weight:500}
+  .mock-rail li:not(:last-child)::after{content:'';display:block;width:28px;height:1px;background:var(--line);margin:0 6px}
+  .mock-rail li .mstep-num{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:#fff}
+  .mock-rail li.active .mstep-num{background:var(--indigo);color:#fff;border-color:var(--indigo)}
+  .mock-rail li.done .mstep-num{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .mock-rail li.active{color:var(--ink)}
+  .mock-panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px 32px}
+  .mock-panel h2{font-size:22px;margin-bottom:6px}
+  .mock-panel .muted{color:var(--text-muted);font-size:14px;margin-bottom:24px}
+  .mfield{margin-bottom:18px}
+  .mfield label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+  .mfield .minput{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit;background:var(--paper);box-sizing:border-box}
+  .mfield .mhint{font-size:12px;color:var(--text-muted);margin-top:4px}
+  .mock-actions{display:flex;gap:10px;margin-top:22px;align-items:center}
+  .mbtn-primary{padding:10px 22px;background:var(--indigo);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
+  .mbtn-primary:hover{opacity:.9}
+  .mbtn-primary:disabled{opacity:.5;cursor:not-allowed}
+  .mbtn-ghost{padding:10px 18px;background:transparent;border:1px solid var(--line);border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;color:var(--text-muted)}
+  .mbtn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+  .mock-sent-card{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:20px;text-align:center;margin-top:16px}
+  .mock-sent-icon{font-size:32px;margin-bottom:8px}
+  .mock-sent-card h3{font-size:16px;margin-bottom:6px}
+  .mock-sent-card p{font-size:13px;color:var(--text-muted);margin:0}
+  .mock-spinner{display:flex;align-items:center;gap:10px;padding:14px;background:var(--paper);border-radius:8px;font-size:13px;color:var(--text-muted)}
+  .mock-extract-card{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:16px;font-size:13px;line-height:1.6}
+  .mock-extract-card strong{display:block;margin-bottom:8px;color:var(--ink)}
+  .mock-cal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+  .mock-cal-card{border:1.5px solid var(--line);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:.15s;background:#fff}
+  .mock-cal-card:hover{border-color:var(--indigo)}
+  .mock-cal-card.picked{border-color:var(--indigo);background:#EEF2FF}
+  .mock-cal-logo{font-size:22px;margin-bottom:6px}
+  .mock-cal-name{font-size:13px;font-weight:600}
+  .mock-cal-desc{font-size:11px;color:var(--text-muted);margin-top:4px;line-height:1.4}
+  .mock-connected{display:flex;align-items:flex-start;gap:12px;padding:14px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px}
+  .mock-check{width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+  .mock-assistant-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:560px){.mock-assistant-grid{grid-template-columns:1fr}.mock-cal-grid{grid-template-columns:1fr}}
+  .mock-preview-pane .preview-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px}
+  .mock-chat-widget{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+  .mock-chat-head{padding:12px 16px;display:flex;align-items:center;gap:8px;color:#fff;font-size:13px;font-weight:600}
+  .mock-chat-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5)}
+  .mock-chat-body{background:var(--paper);padding:14px}
+  .mock-chat-msg{padding:8px 12px;border-radius:10px;font-size:13px;margin-bottom:8px;max-width:85%;line-height:1.4}
+  .mock-chat-bot{background:#fff;border:1px solid var(--line)}
+  .mock-chat-user{background:var(--indigo);color:#fff;margin-left:auto}
+  .mock-embed-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:16px}
+  .mock-embed-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:10px}
+  pre.mock-code{background:#1E1E2E;color:#CDD6F4;padding:14px 16px;border-radius:8px;font-size:12px;overflow-x:auto;margin:0}
+  .mock-trial{background:#EEF2FF;border-radius:10px;padding:16px;font-size:13px;margin-top:16px}
+  .mock-confetti{text-align:center;font-size:36px;margin-bottom:8px}
+  .spinner{width:20px;height:20px;border:2px solid var(--line);border-top-color:var(--indigo);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+  @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -66,18 +127,224 @@
   <div class="container">
     <div class="section-center" style="max-width:640px;margin:0 auto 32px">
       <div class="section-eyebrow">Live demos</div>
-      <h2>See ReachAI book a real appointment.</h2>
-      <p class="section-intro" style="margin:0 auto">Same assistant, four different channels. Click through to watch each one work.</p>
+      <h2>See exactly how ReachAI works.</h2>
+      <p class="section-intro" style="margin:0 auto">Try the 5-minute setup, then watch your AI handle bookings across every channel.</p>
     </div>
 
     <div class="demo-tabs">
-      <div class="demo-tab active" onclick="showDemo('voice', event)">📞 Voice call</div>
+      <div class="demo-tab active" onclick="showDemo('setup', event)">🚀 Setup walkthrough</div>
+      <div class="demo-tab" onclick="showDemo('voice', event)">📞 Voice call</div>
       <div class="demo-tab" onclick="showDemo('chat', event)">💬 Web chat</div>
       <div class="demo-tab" onclick="showDemo('sms', event)">📱 SMS</div>
       <div class="demo-tab" onclick="showDemo('email', event)">✉️ Email</div>
     </div>
 
-    <div class="demo-pane active" id="demo-voice">
+    <!-- ── SETUP WALKTHROUGH ── -->
+    <div class="demo-pane active" id="demo-setup">
+      <div class="mock-wizard">
+        <div style="text-align:center;margin-bottom:20px">
+          <span class="mock-badge">✦ Demo mode — no account or credit card needed</span>
+        </div>
+
+        <nav class="mock-rail">
+          <ol id="mock-rail">
+            <li class="active" data-step="1"><span class="mstep-num">1</span><span class="mstep-label">Email</span></li>
+            <li data-step="2"><span class="mstep-num">2</span><span class="mstep-label">Business</span></li>
+            <li data-step="3"><span class="mstep-num">3</span><span class="mstep-label">Calendar</span></li>
+            <li data-step="4"><span class="mstep-num">4</span><span class="mstep-label">Assistant</span></li>
+            <li data-step="5"><span class="mstep-num">5</span><span class="mstep-label">Install</span></li>
+          </ol>
+        </nav>
+
+        <!-- STEP 1 -->
+        <div class="mock-panel" id="mstep-1">
+          <h2>Let's get your AI front desk live.</h2>
+          <p class="muted">Takes about 5 minutes. No credit card. No sales call.</p>
+          <div class="mfield">
+            <label>Your email</label>
+            <input class="minput" id="demo-email" type="email" value="owner@acmesalon.com" placeholder="you@example.com">
+            <div class="mhint">We'll send you a sign-in link. No password needed.</div>
+          </div>
+          <div id="demo-s1-actions" class="mock-actions">
+            <button class="mbtn-primary" onclick="mockStep1()">Send sign-in link →</button>
+          </div>
+          <div id="demo-s1-sent" hidden>
+            <div class="mock-sent-card">
+              <div class="mock-sent-icon">✉</div>
+              <h3>Check your email</h3>
+              <p>We sent a sign-in link to <strong id="demo-sent-email">owner@acmesalon.com</strong>.</p>
+              <p style="margin-top:8px">Click the link to continue — or in this demo, we'll jump ahead automatically.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="mock-panel" id="mstep-2" hidden>
+          <h2>Tell us about your business.</h2>
+          <p class="muted">Your AI will learn from your website automatically — no questionnaires.</p>
+          <div class="mfield">
+            <label>Business name</label>
+            <input class="minput" id="demo-biz-name" value="Acme Salon">
+          </div>
+          <div class="mfield">
+            <label>Industry</label>
+            <select class="minput" id="demo-industry">
+              <option value="Salon / Spa" selected>Salon / Spa</option>
+              <option>Fitness / Coaching</option>
+              <option>Consulting</option>
+              <option>Therapy / Counseling</option>
+              <option>Legal</option>
+              <option>Healthcare</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="mfield">
+            <label>Your website</label>
+            <input class="minput" value="https://acmesalon.com">
+            <div class="mhint">We'll read your services and FAQ so your AI knows your business out of the box.</div>
+          </div>
+          <div id="demo-extract-area" hidden>
+            <div id="demo-extract-spinner" class="mock-spinner">
+              <div class="spinner"></div>
+              <div><strong>Reading your website…</strong><br><span style="font-size:12px">This takes 15-30 seconds.</span></div>
+            </div>
+            <div id="demo-extract-result" hidden class="mock-extract-card">
+              <strong>✓ Your AI now knows your business</strong>
+              <div><span style="color:var(--text-muted);font-weight:600">Summary:</span> Full-service salon offering haircuts, coloring, manicures, and waxing. Located in Austin, TX.</div>
+              <div style="margin-top:8px"><span style="color:var(--text-muted);font-weight:600">Found 6 services:</span>
+                <ul style="margin:6px 0 0;padding-left:16px">
+                  <li><strong>Women's Haircut</strong> — Cut, wash & blow-dry, from $55</li>
+                  <li><strong>Men's Haircut</strong> — Classic cut with consultation, $35</li>
+                  <li><strong>Gel Manicure</strong> — Long-lasting gel colour, $45</li>
+                  <li><strong>Balayage</strong> — Hand-painted highlights, from $120</li>
+                  <li><strong>Eyebrow Wax</strong> — Shape & define, $20</li>
+                  <li><strong>Beard Trim</strong> — Sculpt & define, $25</li>
+                </ul>
+              </div>
+              <div style="margin-top:8px"><span style="color:var(--text-muted);font-weight:600">Contact:</span> hello@acmesalon.com · (512) 555-0199</div>
+            </div>
+          </div>
+          <div class="mock-actions">
+            <button class="mbtn-ghost" onclick="mockGoTo(1)">← Back</button>
+            <button class="mbtn-primary" id="demo-s2-btn" onclick="mockStep2()">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="mock-panel" id="mstep-3" hidden>
+          <h2>Connect your calendar.</h2>
+          <p class="muted">Your AI will book appointments straight into the calendar you already use.</p>
+          <div class="mock-cal-grid">
+            <div class="mock-cal-card" id="demo-cal-calendly" onclick="mockConnectCal('calendly')">
+              <div class="mock-cal-logo">📅</div>
+              <div class="mock-cal-name">Calendly</div>
+              <div class="mock-cal-desc">Already have Calendly event types set up.</div>
+            </div>
+            <div class="mock-cal-card" id="demo-cal-google" onclick="mockConnectCal('google')">
+              <div class="mock-cal-logo" style="font-weight:700;font-size:20px;color:#4285F4">G</div>
+              <div class="mock-cal-name">Google Calendar</div>
+              <div class="mock-cal-desc">Bookings appear in Google Calendar with Meet links.</div>
+            </div>
+            <div class="mock-cal-card" id="demo-cal-outlook" onclick="mockConnectCal('outlook')">
+              <div class="mock-cal-logo" style="font-weight:700;font-size:20px;color:#0078D4">O</div>
+              <div class="mock-cal-name">Outlook</div>
+              <div class="mock-cal-desc">Microsoft 365 / Outlook with auto-Teams links.</div>
+            </div>
+          </div>
+          <div id="demo-cal-spinner" class="mock-spinner" hidden>
+            <div class="spinner"></div>
+            <span id="demo-cal-spinner-text">Connecting calendar…</span>
+          </div>
+          <div id="demo-cal-connected" hidden class="mock-connected">
+            <div class="mock-check">✓</div>
+            <div>
+              <strong id="demo-cal-name">Calendar connected</strong>
+              <p style="font-size:13px;color:var(--text-muted);margin:2px 0 6px" id="demo-cal-detail">authorized successfully</p>
+              <button style="font-size:12px;background:none;border:none;color:var(--indigo);cursor:pointer;padding:0" onclick="mockChangeCal()">Use a different calendar →</button>
+            </div>
+          </div>
+          <div class="mock-actions" style="margin-top:18px">
+            <button class="mbtn-ghost" onclick="mockGoTo(2)">← Back</button>
+            <button class="mbtn-primary" id="demo-s3-btn" onclick="mockGoTo(4)" disabled>Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="mock-panel" id="mstep-4" hidden>
+          <h2>Customize your assistant.</h2>
+          <p class="muted">Your AI's personality and look. You can change all of this later.</p>
+          <div class="mock-assistant-grid">
+            <div>
+              <div class="mfield">
+                <label>Assistant name</label>
+                <input class="minput" id="demo-asst-name" value="Sarah" oninput="mockUpdatePreview()">
+              </div>
+              <div class="mfield">
+                <label>Tone</label>
+                <select class="minput" id="demo-tone" onchange="mockUpdatePreview()">
+                  <option value="warm" selected>Warm &amp; friendly</option>
+                  <option value="professional">Professional &amp; polished</option>
+                  <option value="playful">Playful &amp; casual</option>
+                  <option value="concise">Brief &amp; efficient</option>
+                </select>
+              </div>
+              <div class="mfield">
+                <label>Greeting message</label>
+                <textarea class="minput" id="demo-greeting" rows="3" oninput="mockUpdatePreview()">Hi! I'm Sarah. How can I help you today?</textarea>
+              </div>
+              <div class="mfield">
+                <label>Brand color</label>
+                <div style="display:flex;gap:8px">
+                  <input type="color" id="demo-color" value="#534AB7" style="width:44px;height:40px;border-radius:6px;border:1px solid var(--line);padding:2px;cursor:pointer" oninput="document.getElementById('demo-color-text').value=this.value;mockUpdatePreview()">
+                  <input class="minput" id="demo-color-text" value="#534AB7" style="width:100px" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){document.getElementById('demo-color').value=this.value;mockUpdatePreview()}">
+                </div>
+              </div>
+            </div>
+            <div class="mock-preview-pane">
+              <div class="preview-label">Live preview</div>
+              <div class="mock-chat-widget">
+                <div class="mock-chat-head" id="demo-preview-head" style="background:#534AB7">
+                  <span class="mock-chat-dot"></span>
+                  <span id="demo-preview-name">Sarah</span>
+                </div>
+                <div class="mock-chat-body">
+                  <div class="mock-chat-msg mock-chat-bot" id="demo-preview-greeting">Hi! I'm Sarah. How can I help you today?</div>
+                  <div class="mock-chat-msg mock-chat-user" style="background:#534AB7" id="demo-preview-user-msg">I'd like to book an appointment</div>
+                  <div class="mock-chat-msg mock-chat-bot">Of course! What day works for you?</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mock-actions" style="margin-top:22px">
+            <button class="mbtn-ghost" onclick="mockGoTo(3)">← Back</button>
+            <button class="mbtn-primary" onclick="mockGoTo(5)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="mock-panel" id="mstep-5" hidden>
+          <div class="mock-confetti">🎉</div>
+          <h2 style="text-align:center">You're all set.</h2>
+          <p class="muted" style="text-align:center">Add this one line to your website and ReachAI is live.</p>
+          <div class="mock-embed-card">
+            <div class="mock-embed-label">Your install code</div>
+            <pre class="mock-code"><code>&lt;script src="https://reachai-api.onrender.com/v1/widget/acme-salon.js" async&gt;&lt;/script&gt;</code></pre>
+          </div>
+          <div class="mock-trial">
+            <strong>Your 14-day free trial starts now.</strong>
+            <p style="color:var(--text-muted);font-size:13px;margin:4px 0 0">No charge for 14 days. We'll send a reminder 3 days before it ends. Cancel anytime.</p>
+          </div>
+          <div class="mock-actions" style="margin-top:22px;justify-content:center">
+            <a href="get-started.html" class="mbtn-primary" style="text-decoration:none">Start your real setup →</a>
+            <button class="mbtn-ghost" onclick="mockReset()">Restart demo</button>
+          </div>
+        </div>
+
+      </div><!-- /.mock-wizard -->
+    </div><!-- /#demo-setup -->
+
+    <!-- ── VOICE CALL ── -->
+    <div class="demo-pane" id="demo-voice">
       <div class="phone-frame">
         <div class="phone-header">
           <div class="phone-status">● Call in progress · 00:42</div>
@@ -96,6 +363,7 @@
       </div>
     </div>
 
+    <!-- ── WEB CHAT ── -->
     <div class="demo-pane" id="demo-chat">
       <div class="chat-frame">
         <div class="chat-header">
@@ -118,6 +386,7 @@
       </div>
     </div>
 
+    <!-- ── SMS ── -->
     <div class="demo-pane" id="demo-sms">
       <div class="sms-frame">
         <div class="sms-header">+1 (555) 248-3711 · iMessage</div>
@@ -130,6 +399,7 @@
       </div>
     </div>
 
+    <!-- ── EMAIL ── -->
     <div class="demo-pane" id="demo-email">
       <div class="email-frame">
         <div class="email-header">
@@ -195,11 +465,113 @@
 </footer>
 
 <script>
-function showDemo(id, evt){
-  document.querySelectorAll('.demo-pane').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.demo-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('demo-'+id).classList.add('active');
-  if(evt&&evt.target)evt.target.classList.add('active');
+/* ── Tab switcher ── */
+function showDemo(id, evt) {
+  document.querySelectorAll('.demo-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('demo-' + id).classList.add('active');
+  if (evt && evt.target) evt.target.classList.add('active');
+}
+
+/* ── Mock wizard state ── */
+let mockCurrentStep = 1;
+let mockCalPicked = null;
+
+function mockGoTo(step) {
+  mockCurrentStep = step;
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('mstep-' + i).hidden = (i !== step);
+  }
+  document.querySelectorAll('#mock-rail li').forEach(li => {
+    const s = parseInt(li.dataset.step);
+    li.classList.remove('active', 'done');
+    if (s < step) li.classList.add('done');
+    if (s === step) li.classList.add('active');
+  });
+  document.querySelector('.mock-wizard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function mockReset() {
+  mockCalPicked = null;
+  document.getElementById('demo-s1-actions').hidden = false;
+  document.getElementById('demo-s1-sent').hidden = true;
+  document.getElementById('demo-extract-area').hidden = true;
+  document.getElementById('demo-extract-result').hidden = true;
+  document.getElementById('demo-extract-spinner').hidden = false;
+  document.getElementById('demo-cal-connected').hidden = true;
+  document.getElementById('demo-cal-spinner').hidden = true;
+  document.getElementById('demo-s3-btn').disabled = true;
+  document.querySelectorAll('.mock-cal-card').forEach(c => c.classList.remove('picked'));
+  document.getElementById('demo-asst-name').value = 'Sarah';
+  document.getElementById('demo-greeting').value = "Hi! I'm Sarah. How can I help you today?";
+  document.getElementById('demo-color').value = '#534AB7';
+  document.getElementById('demo-color-text').value = '#534AB7';
+  mockUpdatePreview();
+  mockGoTo(1);
+}
+
+/* ── Step 1: send link ── */
+function mockStep1() {
+  const email = document.getElementById('demo-email').value || 'owner@acmesalon.com';
+  document.getElementById('demo-sent-email').textContent = email;
+  document.getElementById('demo-s1-actions').hidden = true;
+  document.getElementById('demo-s1-sent').hidden = false;
+  setTimeout(() => mockGoTo(2), 1800);
+}
+
+/* ── Step 2: website extraction ── */
+function mockStep2() {
+  const btn = document.getElementById('demo-s2-btn');
+  btn.disabled = true;
+  btn.textContent = 'Reading website…';
+  document.getElementById('demo-extract-area').hidden = false;
+  document.getElementById('demo-extract-spinner').hidden = false;
+  document.getElementById('demo-extract-result').hidden = true;
+  setTimeout(() => {
+    document.getElementById('demo-extract-spinner').hidden = true;
+    document.getElementById('demo-extract-result').hidden = false;
+    btn.disabled = false;
+    btn.textContent = 'Looks good — continue →';
+    btn.onclick = () => mockGoTo(3);
+  }, 2000);
+}
+
+/* ── Step 3: calendar ── */
+function mockConnectCal(provider) {
+  if (mockCalPicked === provider) return;
+  mockCalPicked = provider;
+  document.querySelectorAll('.mock-cal-card').forEach(c => c.classList.remove('picked'));
+  document.getElementById('demo-cal-' + provider).classList.add('picked');
+  document.getElementById('demo-cal-connected').hidden = true;
+  document.getElementById('demo-cal-spinner').hidden = false;
+  const names = { calendly: 'Calendly', google: 'Google Calendar', outlook: 'Microsoft Outlook' };
+  const emails = { calendly: 'owner@acmesalon.com', google: 'acmesalon@gmail.com', outlook: 'owner@acmesalon.com' };
+  document.getElementById('demo-cal-spinner-text').textContent = `Opening ${names[provider]} authorization…`;
+  setTimeout(() => {
+    document.getElementById('demo-cal-spinner').hidden = true;
+    document.getElementById('demo-cal-connected').hidden = false;
+    document.getElementById('demo-cal-name').textContent = `${names[provider]} connected`;
+    document.getElementById('demo-cal-detail').textContent = `as ${emails[provider]}`;
+    document.getElementById('demo-s3-btn').disabled = false;
+  }, 1800);
+}
+
+function mockChangeCal() {
+  mockCalPicked = null;
+  document.getElementById('demo-cal-connected').hidden = true;
+  document.getElementById('demo-s3-btn').disabled = true;
+  document.querySelectorAll('.mock-cal-card').forEach(c => c.classList.remove('picked'));
+}
+
+/* ── Step 4: live preview ── */
+function mockUpdatePreview() {
+  const name = document.getElementById('demo-asst-name').value || 'Sarah';
+  const greeting = document.getElementById('demo-greeting').value || `Hi! I'm ${name}. How can I help you today?`;
+  const color = document.getElementById('demo-color').value || '#534AB7';
+  document.getElementById('demo-preview-name').textContent = name;
+  document.getElementById('demo-preview-greeting').textContent = greeting;
+  document.getElementById('demo-preview-head').style.background = color;
+  document.getElementById('demo-preview-user-msg').style.background = color;
 }
 </script>
 

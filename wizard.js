@@ -151,12 +151,35 @@ async function handleMagicLinkReturn() {
     // Clear the hash so refreshing doesn't try to re-use the token
     window.history.replaceState({}, '', window.location.pathname);
 
-    // If user is mid-wizard, drop them back where they were
-    if (state.workspace_id && state.step > 2) {
-      showStep(state.step);
-    } else {
-      showStep(2);
+    // Check for existing workspaces — returning users go straight to dashboard
+    try {
+      const workspaces = await api('GET', '/v1/workspaces/me');
+      if (Array.isArray(workspaces) && workspaces.length > 0) {
+        const completed = workspaces.find(w => w.onboarding_step === 'complete');
+        if (completed) {
+          state.workspace_id = completed.id;
+          state.slug = completed.slug;
+          state.business_name = completed.name || '';
+          saveState();
+          window.location.href = `provider.html?slug=${encodeURIComponent(completed.slug)}`;
+          return;
+        }
+        // In-progress workspace — restore and continue from calendar step
+        const inProgress = workspaces[0];
+        state.workspace_id = inProgress.id;
+        state.slug = inProgress.slug;
+        state.business_name = inProgress.name || '';
+        saveState();
+        showStep(3);
+        hydrateStep3();
+        return;
+      }
+    } catch (e) {
+      console.warn('Could not load workspaces:', e);
     }
+
+    // New user — start from business step
+    showStep(2);
   }
 }
 
@@ -365,6 +388,11 @@ async function disconnectCalendar() {
 document.getElementById('cal-change').addEventListener('click', disconnectCalendar);
 
 async function connectCalendar(provider) {
+  if (!state.slug) {
+    showError('Please complete step 2 (business details) before connecting a calendar.');
+    return;
+  }
+
   // Disconnect the existing provider first if switching
   if (state.calendar_provider && state.calendar_provider !== provider) {
     await disconnectCalendar();

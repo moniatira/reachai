@@ -405,7 +405,7 @@ function renderCalendarTab(status, slug) {
         <p style="font-size:13px;color:var(--text-muted)">${primary.account_email || 'Connected'} · ${primary.is_primary ? 'Primary' : 'Secondary'}</p>
       </div>
       ${healthBadge}
-      <a href="${primary.connect_url}" class="btn btn-ghost btn-sm" target="_blank">Reconnect</a>
+      <button class="btn btn-ghost btn-sm" onclick="connectCalendarFromDashboard('${primary.provider}', '${slug}')">Reconnect</button>
       <a href="#" class="btn btn-ghost btn-sm" style="color:#A32D2D" onclick="disconnectCalendar('${primary.disconnect_url}', '${slug}');return false">Disconnect</a>
     </div>
     <p style="font-size:13px;color:var(--text-muted)">Switch providers by disconnecting, then reconnecting with a different calendar.</p>`;
@@ -418,11 +418,10 @@ function renderCalendarTab(status, slug) {
       html += `<div class="panel-header" style="margin-top:20px"><h3>Add another calendar</h3></div><div class="integrations-grid" style="margin-top:12px">`;
       unconnected.forEach(p => {
         const connectConn = status.connections.find(c => c.provider === p);
-        const url = connectConn ? connectConn.connect_url : `${API_BASE}/v1/${p}/connect/${slug}`;
         html += `<div class="integration-card">
           <div class="integration-logo ${PROVIDER_CLASSES[p] || ''}">${PROVIDER_LOGOS[p] || '?'}</div>
           <div class="integration-name">${PROVIDER_NAMES[p] || p}</div>
-          <a href="${url}" target="_blank" class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;justify-content:center">Connect</a>
+          <button class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;justify-content:center" onclick="connectCalendarFromDashboard('${p}', '${slug}')">Connect</button>
         </div>`;
       });
       html += `</div>`;
@@ -450,6 +449,49 @@ async function disconnectCalendar(disconnectUrl, slug) {
   } catch (e) {
     alert('Disconnect failed: ' + e.message);
   }
+}
+
+async function connectCalendarFromDashboard(provider, slug) {
+  const connectUrl = `${API_BASE}/v1/${provider}/connect/${slug}`;
+  const popup = window.open(connectUrl, 'reachai_oauth', 'width=600,height=720');
+  if (!popup) {
+    alert('Please allow popups for this page, then try connecting again.');
+    return;
+  }
+
+  const panel = document.getElementById('dash-cal-panel');
+  const statusDiv = document.createElement('div');
+  statusDiv.style.cssText = 'padding:12px 0;color:var(--text-muted);font-size:14px;display:flex;align-items:center;gap:10px';
+  statusDiv.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;flex-shrink:0"></div>Waiting for authorization…';
+  panel.appendChild(statusDiv);
+
+  let attempts = 0;
+  const pollInterval = setInterval(async () => {
+    attempts++;
+    if (attempts > 150) {
+      clearInterval(pollInterval);
+      statusDiv.remove();
+      return;
+    }
+    if (popup.closed) {
+      clearInterval(pollInterval);
+      statusDiv.remove();
+      try {
+        const status = await dashApi(`/v1/calendar/status/${slug}`);
+        renderCalendarTab(status, slug);
+      } catch (e) {}
+      return;
+    }
+    try {
+      const status = await dashApi(`/v1/calendar/status/${slug}`);
+      const conn = (status.connections || []).find(c => c.provider === provider);
+      if (conn) {
+        clearInterval(pollInterval);
+        try { popup.close(); } catch (e) {}
+        renderCalendarTab(status, slug);
+      }
+    } catch (e) {}
+  }, 2000);
 }
 
 document.getElementById('embed-copy-btn').addEventListener('click', () => {
