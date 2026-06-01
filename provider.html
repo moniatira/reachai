@@ -34,8 +34,8 @@
         <a href="provider.html" class="active">Dashboard</a>
       </nav>
       <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:13px;color:var(--text-muted)">Acme Salon · Pro plan</span>
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--indigo);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600">JD</div>
+        <span style="font-size:13px;color:var(--text-muted)" id="dash-workspace-label">Loading…</span>
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--indigo);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600" id="dash-user-initials">?</div>
       </div>
     </div>
   </div>
@@ -75,8 +75,8 @@
   <main class="dashboard-content">
     <div class="dash-header">
       <div>
-        <h2>Welcome back, Jordan</h2>
-        <p>Here's what your assistant has been up to today.</p>
+        <h2 id="dash-welcome">Welcome back</h2>
+        <p>Here's your workspace at a glance.</p>
       </div>
       <a href="demo.html" class="btn btn-primary">+ Test your assistant</a>
     </div>
@@ -94,103 +94,48 @@
       <div class="metric-grid">
         <div class="metric">
           <div class="metric-label">Bookings today</div>
-          <div class="metric-value">23</div>
-          <div class="metric-change">+18% vs yesterday</div>
+          <div class="metric-value" style="font-size:22px;color:var(--text-muted)">—</div>
+          <div class="metric-change">Analytics coming soon</div>
         </div>
         <div class="metric">
           <div class="metric-label">Conversations</div>
-          <div class="metric-value">47</div>
-          <div class="metric-change">49% booked</div>
+          <div class="metric-value" style="font-size:22px;color:var(--text-muted)">—</div>
+          <div class="metric-change">Analytics coming soon</div>
         </div>
         <div class="metric">
-          <div class="metric-label">After-hours bookings</div>
-          <div class="metric-value">9</div>
-          <div class="metric-change">Recovered $1,420</div>
+          <div class="metric-label">Calendar</div>
+          <div class="metric-value" style="font-size:16px" id="dash-cal-metric">Checking…</div>
+          <div class="metric-change" id="dash-cal-metric-sub"></div>
         </div>
         <div class="metric">
-          <div class="metric-label">Avg time to book</div>
-          <div class="metric-value">31s</div>
-          <div class="metric-change">↓ 4s this week</div>
+          <div class="metric-label">Trial status</div>
+          <div class="metric-value" style="font-size:16px" id="dash-trial-metric">—</div>
+          <div class="metric-change" id="dash-trial-sub"></div>
         </div>
       </div>
 
       <div class="panel">
-        <div class="panel-header">
-          <h3>Recent appointments</h3>
-          <a href="#" style="font-size:13px;color:var(--indigo)">View all →</a>
-        </div>
-        <div class="appt-row">
-          <div class="appt-channel">📞</div>
-          <div class="appt-info">
-            <h4>Sarah Mitchell · Hair cut & color</h4>
-            <p>Booked via voice call · 2 minutes ago</p>
-          </div>
-          <div class="appt-time">Tue, Apr 30 · 2:00pm</div>
-          <span class="appt-status">Confirmed</span>
-        </div>
-        <div class="appt-row">
-          <div class="appt-channel">💬</div>
-          <div class="appt-info">
-            <h4>Marcus Lee · Beard trim</h4>
-            <p>Booked via web chat · 8 minutes ago</p>
-          </div>
-          <div class="appt-time">Tomorrow · 10:30am</div>
-          <span class="appt-status">Confirmed</span>
-        </div>
-        <div class="appt-row">
-          <div class="appt-channel">💬</div>
-          <div class="appt-info">
-            <h4>Priya Patel · Manicure</h4>
-            <p>Booked via SMS · 14 minutes ago</p>
-          </div>
-          <div class="appt-time">Thu, May 2 · 1:00pm</div>
-          <span class="appt-status">Confirmed</span>
-        </div>
-        <div class="appt-row">
-          <div class="appt-channel">✉️</div>
-          <div class="appt-info">
-            <h4>James Carter · Full grooming</h4>
-            <p>Booked via email · 22 minutes ago</p>
-          </div>
-          <div class="appt-time">Fri, May 3 · 11:00am</div>
-          <span class="appt-status">Confirmed</span>
-        </div>
-        <div class="appt-row">
-          <div class="appt-channel">📞</div>
-          <div class="appt-info">
-            <h4>Anna Rossi · Color consultation</h4>
-            <p>Booked via voice call · 38 minutes ago</p>
-          </div>
-          <div class="appt-time">Mon, May 6 · 3:30pm</div>
-          <span class="appt-status">Confirmed</span>
+        <div class="panel-header"><h3>Recent appointments</h3></div>
+        <div id="dash-appts" style="padding:24px;text-align:center;color:var(--text-muted);font-size:14px">
+          Appointment history will appear here once your assistant starts booking.
         </div>
       </div>
 
       <div class="panel">
         <div class="panel-header"><h3>Setup checklist</h3></div>
-        <div class="checklist-item done">
-          <div class="check-bullet done">✓</div>
-          <div>Business profile complete</div>
-        </div>
-        <div class="checklist-item done">
-          <div class="check-bullet done">✓</div>
-          <div>Calendar connected (Google)</div>
-        </div>
-        <div class="checklist-item done">
-          <div class="check-bullet done">✓</div>
-          <div>Voice channel active</div>
-        </div>
-        <div class="checklist-item done">
-          <div class="check-bullet done">✓</div>
-          <div>Web chat embedded</div>
-        </div>
-        <div class="checklist-item">
-          <div class="check-bullet"></div>
-          <div style="flex:1">Connect SMS number <a href="#" onclick="showTab('channels');return false" style="color:var(--indigo);font-size:12px;margin-left:8px">Set up →</a></div>
-        </div>
-        <div class="checklist-item">
-          <div class="check-bullet"></div>
-          <div style="flex:1">Enable email channel <a href="#" onclick="showTab('channels');return false" style="color:var(--indigo);font-size:12px;margin-left:8px">Set up →</a></div>
+        <div id="dash-checklist">
+          <div class="checklist-item">
+            <div class="check-bullet" id="check-business"></div>
+            <div>Business profile complete</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-bullet" id="check-calendar"></div>
+            <div id="check-calendar-label">Calendar connected</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-bullet" id="check-embed"></div>
+            <div>Widget embed code copied</div>
+          </div>
         </div>
       </div>
     </div>
@@ -295,44 +240,8 @@
     <div id="calendar" class="tab-panel">
       <div class="panel">
         <div class="panel-header"><h3>Connected calendar</h3></div>
-        <div style="display:flex;align-items:center;gap:16px;padding:14px;background:var(--paper);border-radius:10px;margin-bottom:14px">
-          <div class="integration-logo gcal" style="margin:0;flex-shrink:0;width:44px;height:44px;font-size:18px">G</div>
-          <div style="flex:1">
-            <h4 style="font-size:15px">Google Calendar</h4>
-            <p style="font-size:13px;color:var(--text-muted)">Connected · jordan@acmesalon.com · 3 staff calendars synced</p>
-          </div>
-          <span class="connected-pill">Active</span>
-          <a href="#" class="btn btn-ghost btn-sm">Manage</a>
-        </div>
-        <p style="font-size:13px;color:var(--text-muted)">Switch to a different calendar system by disconnecting above. Your existing bookings won't be touched.</p>
-      </div>
-
-      <div class="panel">
-        <div class="panel-header"><h3>Other available calendars</h3></div>
-        <div class="integrations-grid">
-          <div class="integration-card">
-            <div class="integration-logo outlook">O</div>
-            <div class="integration-name">Microsoft Outlook</div>
-            <div class="integration-type">Microsoft 365</div>
-            <a href="#" class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;justify-content:center">Connect</a>
-          </div>
-          <div class="integration-card">
-            <div class="integration-logo calcom">c</div>
-            <div class="integration-name">Cal.com</div>
-            <div class="integration-type">API key</div>
-            <a href="#" class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;justify-content:center">Connect</a>
-          </div>
-          <div class="integration-card">
-            <div class="integration-logo calendly">cL</div>
-            <div class="integration-name">Calendly</div>
-            <div class="integration-type">Access token</div>
-            <a href="#" class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;justify-content:center">Connect</a>
-          </div>
-          <div class="integration-card" style="opacity:.5">
-            <div class="integration-logo" style="background:var(--paper-2);color:var(--text-muted)">+</div>
-            <div class="integration-name">Coming soon</div>
-            <div class="integration-type">Acuity, Square, Vagaro</div>
-          </div>
+        <div id="dash-cal-panel">
+          <div style="padding:24px;text-align:center;color:var(--text-muted);font-size:14px">Loading calendar status…</div>
         </div>
       </div>
     </div>
@@ -377,24 +286,8 @@
         <div class="panel-header"><h3>Web chat embed code</h3></div>
         <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Paste this line into your website just before <code style="background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:12px">&lt;/body&gt;</code>. The chat widget appears in the bottom-right corner.</p>
         <div class="code-box">
-<button class="code-copy">Copy</button>&lt;script src="https://widget.reachai.com/v1.js" data-workspace="acme-salon-7g2k"&gt;&lt;/script&gt;
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-header"><h3>Phone forwarding</h3></div>
-        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Forward your business line to your ReachAI number. We'll answer with your greeting and book to your calendar.</p>
-        <div style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--paper);border-radius:10px">
-          <div style="font-family:'SF Mono',Menlo,monospace;font-size:18px;font-weight:600;color:var(--indigo)">(555) 248-3711</div>
-          <a href="#" class="btn btn-ghost btn-sm" style="margin-left:auto">Forwarding instructions →</a>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-header"><h3>"Book now" link</h3></div>
-        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Paste this in your Instagram bio, Google Business Profile, or email signature.</p>
-        <div class="code-box">
-<button class="code-copy">Copy</button>https://book.reachai.com/acme-salon
+          <button class="code-copy" id="embed-copy-btn">Copy</button>
+          <code id="dash-embed-code">Loading…</code>
         </div>
       </div>
     </div>
@@ -402,19 +295,187 @@
 </div>
 
 <script>
-function showTab(tabId, evt){
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.dash-tab').forEach(t=>t.classList.remove('active'));
-  const panel=document.getElementById(tabId);
-  if(panel)panel.classList.add('active');
-  if(evt&&evt.target)evt.target.classList.add('active');
-  else{
-    document.querySelectorAll('.dash-tab').forEach(t=>{
-      if(t.textContent.trim().toLowerCase()===tabId)t.classList.add('active');
+const API_BASE = 'https://reachai-api.onrender.com';
+const WIZARD_KEY = 'reachai_wizard_state';
+
+function showTab(tabId, evt) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+  const panel = document.getElementById(tabId);
+  if (panel) panel.classList.add('active');
+  if (evt && evt.target) evt.target.classList.add('active');
+  else {
+    document.querySelectorAll('.dash-tab').forEach(t => {
+      if (t.textContent.trim().toLowerCase() === tabId) t.classList.add('active');
     });
   }
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+function getSession() {
+  try { return JSON.parse(localStorage.getItem(WIZARD_KEY) || '{}'); } catch (e) { return {}; }
+}
+
+async function dashApi(path) {
+  const sess = getSession();
+  const headers = {};
+  if (sess.session_token) headers['Authorization'] = `Bearer ${sess.session_token}`;
+  const r = await fetch(API_BASE + path, { headers });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
+}
+
+function markCheck(id, done) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = done ? 'check-bullet done' : 'check-bullet';
+  el.textContent = done ? '✓' : '';
+  el.closest('.checklist-item').classList.toggle('done', done);
+}
+
+const PROVIDER_LOGOS = { google: 'G', calendly: 'cL', outlook: 'O' };
+const PROVIDER_CLASSES = { google: 'gcal', calendly: 'calendly', outlook: 'outlook' };
+const PROVIDER_NAMES = { google: 'Google Calendar', calendly: 'Calendly', outlook: 'Microsoft Outlook' };
+
+function renderCalendarTab(status, slug) {
+  const panel = document.getElementById('dash-cal-panel');
+  if (!status.connections || status.connections.length === 0) {
+    panel.innerHTML = `
+      <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">No calendar connected yet.</p>
+      <a href="get-started.html" class="btn btn-primary btn-sm">Connect a calendar →</a>`;
+    document.getElementById('dash-cal-metric').textContent = 'None';
+    markCheck('check-calendar', false);
+    return;
+  }
+
+  const primary = status.connections.find(c => c.is_primary) || status.connections[0];
+  const logoClass = PROVIDER_CLASSES[primary.provider] || '';
+  const logoChar = PROVIDER_LOGOS[primary.provider] || '?';
+  const providerName = PROVIDER_NAMES[primary.provider] || primary.provider;
+  const healthBadge = primary.healthy
+    ? '<span class="connected-pill">Active</span>'
+    : '<span class="connected-pill" style="background:#FEF2F2;color:#A32D2D">Token expired — reconnect</span>';
+
+  let html = `
+    <div style="display:flex;align-items:center;gap:16px;padding:14px;background:var(--paper);border-radius:10px;margin-bottom:14px">
+      <div class="integration-logo ${logoClass}" style="margin:0;flex-shrink:0;width:44px;height:44px;font-size:18px">${logoChar}</div>
+      <div style="flex:1">
+        <h4 style="font-size:15px">${providerName}</h4>
+        <p style="font-size:13px;color:var(--text-muted)">${primary.account_email || 'Connected'} · ${primary.is_primary ? 'Primary' : 'Secondary'}</p>
+      </div>
+      ${healthBadge}
+      <a href="${primary.connect_url}" class="btn btn-ghost btn-sm" target="_blank">Reconnect</a>
+      <a href="#" class="btn btn-ghost btn-sm" style="color:#A32D2D" onclick="disconnectCalendar('${primary.disconnect_url}', '${slug}');return false">Disconnect</a>
+    </div>
+    <p style="font-size:13px;color:var(--text-muted)">Switch providers by disconnecting, then reconnecting with a different calendar.</p>`;
+
+  if (status.available_providers) {
+    const unconnected = status.available_providers.filter(
+      p => !status.connections.find(c => c.provider === p)
+    );
+    if (unconnected.length > 0) {
+      html += `<div class="panel-header" style="margin-top:20px"><h3>Add another calendar</h3></div><div class="integrations-grid" style="margin-top:12px">`;
+      unconnected.forEach(p => {
+        const connectConn = status.connections.find(c => c.provider === p);
+        const url = connectConn ? connectConn.connect_url : `${API_BASE}/v1/${p}/connect/${slug}`;
+        html += `<div class="integration-card">
+          <div class="integration-logo ${PROVIDER_CLASSES[p] || ''}">${PROVIDER_LOGOS[p] || '?'}</div>
+          <div class="integration-name">${PROVIDER_NAMES[p] || p}</div>
+          <a href="${url}" target="_blank" class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;justify-content:center">Connect</a>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+  }
+
+  panel.innerHTML = html;
+  document.getElementById('dash-cal-metric').textContent = primary.healthy ? providerName : '⚠ ' + providerName;
+  document.getElementById('dash-cal-metric-sub').textContent = primary.account_email || '';
+  markCheck('check-calendar', true);
+  document.getElementById('check-calendar-label').textContent = `Calendar connected (${providerName})`;
+}
+
+async function disconnectCalendar(disconnectUrl, slug) {
+  if (!confirm('Disconnect this calendar? Your existing bookings will not be affected.')) return;
+  const sess = getSession();
+  const headers = { 'Content-Type': 'application/json' };
+  if (sess.session_token) headers['Authorization'] = `Bearer ${sess.session_token}`;
+  try {
+    const r = await fetch(disconnectUrl, { method: 'DELETE', headers });
+    if (r.ok) {
+      const status = await dashApi(`/v1/calendar/status/${slug}`);
+      renderCalendarTab(status, slug);
+    }
+  } catch (e) {
+    alert('Disconnect failed: ' + e.message);
+  }
+}
+
+document.getElementById('embed-copy-btn').addEventListener('click', () => {
+  const code = document.getElementById('dash-embed-code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.getElementById('embed-copy-btn');
+    btn.textContent = '✓ Copied!';
+    markCheck('check-embed', true);
+    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+  }).catch(() => {});
+});
+
+async function loadDashboard() {
+  const urlSlug = new URLSearchParams(window.location.search).get('slug');
+  const sess = getSession();
+  const slug = urlSlug || sess.slug;
+
+  if (!slug) {
+    document.getElementById('dash-welcome').textContent = 'Dashboard';
+    document.getElementById('dash-workspace-label').textContent = 'No workspace';
+    document.getElementById('dash-cal-panel').innerHTML =
+      '<p style="color:var(--text-muted);font-size:14px">No workspace loaded. <a href="get-started.html">Start setup →</a></p>';
+    document.getElementById('dash-embed-code').textContent = '(no workspace)';
+    return;
+  }
+
+  // Load user email
+  try {
+    const me = await dashApi('/v1/auth/me');
+    const initials = (me.email || '').slice(0, 2).toUpperCase();
+    document.getElementById('dash-user-initials').textContent = initials || '?';
+  } catch (e) {}
+
+  // Load workspace
+  try {
+    const ws = await dashApi(`/v1/workspaces/${slug}`);
+    document.getElementById('dash-workspace-label').textContent = ws.name;
+    document.getElementById('dash-welcome').textContent = `Welcome, ${ws.name}`;
+    document.getElementById('dash-embed-code').textContent = ws.embed_code;
+
+    const trialEl = document.getElementById('dash-trial-metric');
+    const trialSub = document.getElementById('dash-trial-sub');
+    if (trialEl) {
+      trialEl.textContent = ws.trial_status === 'active' ? 'Trial active' : ws.trial_status || '—';
+      if (trialSub) trialSub.textContent = ws.onboarding_step === 'complete' ? 'Setup complete' : 'Setup in progress';
+    }
+
+    markCheck('check-business', true);
+    markCheck('check-embed', false);
+  } catch (e) {
+    document.getElementById('dash-workspace-label').textContent = slug;
+    document.getElementById('dash-welcome').textContent = 'Your dashboard';
+    document.getElementById('dash-embed-code').textContent = `<script src="${API_BASE}/v1/widget/${slug}.js" async><\/script>`;
+  }
+
+  // Load calendar
+  try {
+    const status = await dashApi(`/v1/calendar/status/${slug}`);
+    renderCalendarTab(status, slug);
+  } catch (e) {
+    document.getElementById('dash-cal-panel').innerHTML =
+      '<p style="color:var(--text-muted);font-size:14px">Could not load calendar status.</p>';
+    document.getElementById('dash-cal-metric').textContent = '—';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadDashboard);
 </script>
 
 </body>
