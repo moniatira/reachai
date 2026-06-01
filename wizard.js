@@ -398,8 +398,9 @@ async function connectCalendar(provider) {
     await disconnectCalendar();
   }
 
+  // Update in-memory only — don't persist until OAuth actually completes.
+  // Saving here would cause hydrateStep3 to auto-detect on the next visit.
   state.calendar_provider = provider;
-  saveState();
 
   document.getElementById('cal-status').hidden = false;
   const providerLabel = { google: 'Google', calendly: 'Calendly', outlook: 'Outlook' }[provider] || provider;
@@ -437,6 +438,7 @@ async function connectCalendar(provider) {
 }
 
 function markCalendarConnected(conn) {
+  state.calendar_provider = conn.provider;
   state.calendar_email = conn.account_email || '';
   saveState();
 

@@ -46,8 +46,8 @@
     <div class="sidebar-section">
       <h4>Workspace</h4>
       <a href="#" onclick="showTab('overview');return false" class="active">🏠 Overview</a>
-      <a href="#" onclick="showTab('overview');return false">📅 Appointments</a>
-      <a href="#" onclick="showTab('overview');return false">💬 Conversations</a>
+      <a href="#" onclick="return false" style="display:flex;justify-content:space-between;align-items:center;opacity:.6;cursor:default">📅 Appointments <span style="font-size:10px;background:var(--indigo-50);color:var(--indigo);padding:1px 6px;border-radius:99px;font-weight:600">Soon</span></a>
+      <a href="#" onclick="return false" style="display:flex;justify-content:space-between;align-items:center;opacity:.6;cursor:default">💬 Conversations <span style="font-size:10px;background:var(--indigo-50);color:var(--indigo);padding:1px 6px;border-radius:99px;font-weight:600">Soon</span></a>
     </div>
     <div class="sidebar-section">
       <h4>Configure</h4>
@@ -60,7 +60,7 @@
     <div class="sidebar-section">
       <h4>Account</h4>
       <a href="pricing.html">💳 Billing</a>
-      <a href="#">⚙️ Settings</a>
+      <a href="#" onclick="return false" style="display:flex;justify-content:space-between;align-items:center;opacity:.6;cursor:default">⚙️ Settings <span style="font-size:10px;background:var(--indigo-50);color:var(--indigo);padding:1px 6px;border-radius:99px;font-weight:600">Soon</span></a>
       <a href="index.html">↗ Sign out</a>
     </div>
     <div class="sidebar-tier">
@@ -141,6 +141,9 @@
     </div>
 
     <div id="assistant" class="tab-panel">
+      <div style="background:var(--indigo-50);border:1px solid #C8C5F5;border-radius:10px;padding:12px 16px;font-size:13px;color:var(--indigo);margin-bottom:20px;display:flex;align-items:center;gap:10px">
+        <strong>Coming soon</strong> — editing assistant settings from the dashboard is in progress. To change these, re-run the setup wizard.
+      </div>
       <div class="panel">
         <div class="panel-header"><h3>Assistant personality</h3></div>
         <div class="form-group">
@@ -181,15 +184,18 @@
       </div>
 
       <div class="panel">
-        <div class="panel-header"><h3>Knowledge base</h3></div>
-        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Documents your assistant uses to answer questions (pricing, policies, parking, etc.).</p>
-        <div style="border:2px dashed var(--line-2);border-radius:10px;padding:24px;text-align:center;color:var(--text-muted);font-size:14px">
+        <div class="panel-header"><h3>Knowledge base <span style="font-size:11px;background:var(--indigo-50);color:var(--indigo);padding:2px 8px;border-radius:99px;font-weight:600;vertical-align:middle">Coming soon</span></h3></div>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Upload PDFs, links, or FAQs that your assistant will use to answer customer questions.</p>
+        <div style="border:2px dashed var(--line-2);border-radius:10px;padding:24px;text-align:center;color:var(--text-muted);font-size:14px;opacity:.5;pointer-events:none">
           📎 Drop PDFs, links, or paste FAQs here
         </div>
       </div>
     </div>
 
     <div id="channels" class="tab-panel">
+      <div style="background:var(--indigo-50);border:1px solid #C8C5F5;border-radius:10px;padding:12px 16px;font-size:13px;color:var(--indigo);margin-bottom:20px;display:flex;align-items:center;gap:10px">
+        <strong>Coming soon</strong> — channel management from the dashboard is in progress. Voice and web chat are live via the embed code.
+      </div>
       <h3 style="margin-bottom:18px">Pick where customers can reach you</h3>
 
       <div class="channel-toggle on" onclick="this.classList.toggle('on')">
@@ -247,12 +253,14 @@
     </div>
 
     <div id="services" class="tab-panel">
+      <div style="background:var(--indigo-50);border:1px solid #C8C5F5;border-radius:10px;padding:12px 16px;font-size:13px;color:var(--indigo);margin-bottom:20px;display:flex;align-items:center;gap:10px">
+        <strong>Coming soon</strong> — services are pulled from your connected calendar's event types. Manual editing will be available in a future update.
+      </div>
       <div class="panel">
         <div class="panel-header">
           <h3>Services & duration</h3>
-          <a href="#" class="btn btn-ghost btn-sm">+ Add service</a>
         </div>
-        <p style="color:var(--text-muted);font-size:14px;margin-bottom:18px">What your assistant offers to book. Pulled from your Google Calendar event types — edit anytime.</p>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:18px">Detected from your calendar event types. These are shown for reference — editing is coming soon.</p>
 
         <div class="appt-row">
           <div class="appt-channel">✂️</div>
