@@ -204,11 +204,15 @@ document.getElementById('step1-submit').addEventListener('click', async () => {
     saveState();
     document.getElementById('step1-sent-email').textContent = email;
     document.getElementById('step1-sent').hidden = false;
-    btn.textContent = 'Send sign-in link →';
+    btn.textContent = '✓ Sent';
+    setTimeout(() => {
+      btn.textContent = 'Send sign-in link →';
+      btn.disabled = false;
+    }, 3000);
   } catch (e) {
     showError(`Could not send link: ${e.message}`);
+    btn.textContent = 'Try again';
     btn.disabled = false;
-    btn.textContent = 'Send sign-in link →';
   }
 });
 
