@@ -417,50 +417,23 @@ async function connectCalendar(provider) {
     return;
   }
 
-  // Poll for connection (every 2 seconds, up to 5 minutes)
-  let attempts = 0;
-  const maxAttempts = 150;
-  const pollInterval = setInterval(async () => {
-    attempts++;
-    if (attempts > maxAttempts) {
-      clearInterval(pollInterval);
-      document.getElementById('cal-status').hidden = true;
-      showError('Calendar connection timed out. Please try again.');
-      return;
-    }
-
-    // If popup is closed, do one more check then stop
-    if (popup.closed) {
-      try {
-        const status = await api('GET', `/v1/calendar/status/${state.slug}`);
-        const conn = (status.connections || []).find(c => c.provider === provider);
-        if (conn) {
-          clearInterval(pollInterval);
-          markCalendarConnected(conn);
-          return;
-        }
-      } catch (e) {
-        // Auth might have failed silently
-      }
-      clearInterval(pollInterval);
-      document.getElementById('cal-status').hidden = true;
-      // Don't show error if popup was just closed without connecting — user may have cancelled
-      return;
-    }
-
-    // Popup still open — check connection status
+  // Wait for popup to close, then check status once
+  // (polling while open can false-positive on pre-existing connections)
+  const waitInterval = setInterval(async () => {
+    if (!popup.closed) return;
+    clearInterval(waitInterval);
     try {
       const status = await api('GET', `/v1/calendar/status/${state.slug}`);
       const conn = (status.connections || []).find(c => c.provider === provider);
       if (conn) {
-        clearInterval(pollInterval);
-        try { popup.close(); } catch (e) {}
         markCalendarConnected(conn);
+      } else {
+        document.getElementById('cal-status').hidden = true;
       }
     } catch (e) {
-      // Workspace might not exist yet (race condition) — keep polling
+      document.getElementById('cal-status').hidden = true;
     }
-  }, 2000);
+  }, 1000);
 }
 
 function markCalendarConnected(conn) {
@@ -486,16 +459,13 @@ function markCalendarConnected(conn) {
 document.getElementById('step3-continue').addEventListener('click', () => showStep(4));
 document.getElementById('step5-new-workspace').addEventListener('click', () => { resetState(); showStep(1); });
 
-// On step 3 load, check if calendar is already connected (returning from OAuth)
+// On step 3 load, restore calendar state only if user already chose a provider this session
 async function hydrateStep3() {
-  if (!state.slug) return;
+  if (!state.slug || !state.calendar_provider) return;
   try {
     const status = await api('GET', `/v1/calendar/status/${state.slug}`);
-    const conn = (status.connections || []).find(c => c.provider === state.calendar_provider) || status.connections[0];
-    if (conn) {
-      state.calendar_provider = conn.provider;
-      markCalendarConnected(conn);
-    }
+    const conn = (status.connections || []).find(c => c.provider === state.calendar_provider);
+    if (conn) markCalendarConnected(conn);
   } catch (e) {
     // Workspace not yet set up — that's fine
   }

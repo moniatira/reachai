@@ -378,6 +378,17 @@ const PROVIDER_LOGOS = { google: 'G', calendly: 'cL', outlook: 'O' };
 const PROVIDER_CLASSES = { google: 'gcal', calendly: 'calendly', outlook: 'outlook' };
 const PROVIDER_NAMES = { google: 'Google Calendar', calendly: 'Calendly', outlook: 'Microsoft Outlook' };
 
+async function refreshCalendarStatus(slug) {
+  const panel = document.getElementById('dash-cal-panel');
+  if (panel) panel.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:14px">Checking…</div>';
+  try {
+    const status = await dashApi(`/v1/calendar/status/${slug}`);
+    renderCalendarTab(status, slug);
+  } catch (e) {
+    if (panel) panel.innerHTML = '<p style="color:var(--text-muted);font-size:14px;padding:12px 0">Could not load calendar status. <button class="btn btn-ghost btn-sm" onclick="refreshCalendarStatus(\'' + slug + '\')">Try again</button></p>';
+  }
+}
+
 function renderCalendarTab(status, slug) {
   const panel = document.getElementById('dash-cal-panel');
   if (!status.connections || status.connections.length === 0) {
@@ -385,16 +396,19 @@ function renderCalendarTab(status, slug) {
       ? status.available_providers
       : ['google', 'calendly', 'outlook'];
     let noCalHtml = `
-      <p style="color:var(--text-muted);font-size:14px;margin-bottom:20px">Choose a calendar to connect. ReachAI will read your real availability and write new bookings directly to it.</p>
+      <p style="color:var(--text-muted);font-size:14px;margin-bottom:20px">Choose a calendar to connect. ReachAI reads your real availability and writes bookings directly to it.</p>
       <div class="integrations-grid">`;
     providers.forEach(p => {
+      const oauthUrl = `${API_BASE}/v1/${p}/connect/${slug}`;
       noCalHtml += `<div class="integration-card">
         <div class="integration-logo ${PROVIDER_CLASSES[p] || ''}">${PROVIDER_LOGOS[p] || '?'}</div>
         <div class="integration-name">${PROVIDER_NAMES[p] || p}</div>
-        <button class="btn btn-primary btn-sm" style="margin-top:10px;width:100%;justify-content:center" onclick="connectCalendarFromDashboard('${p}', '${slug}')">Connect</button>
+        <a href="${oauthUrl}" target="_blank" class="btn btn-primary btn-sm" style="margin-top:10px;width:100%;justify-content:center;text-decoration:none">Connect</a>
       </div>`;
     });
-    noCalHtml += `</div>`;
+    noCalHtml += `</div>
+      <p style="color:var(--text-muted);font-size:13px;margin-top:16px">After authorizing in the new tab, click <strong>Refresh status</strong> to confirm the connection.</p>
+      <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="refreshCalendarStatus('${slug}')">Refresh status</button>`;
     panel.innerHTML = noCalHtml;
     document.getElementById('dash-cal-metric').textContent = 'None';
     markCheck('check-calendar', false);
@@ -417,7 +431,7 @@ function renderCalendarTab(status, slug) {
         <p style="font-size:13px;color:var(--text-muted)">${primary.account_email || 'Connected'} · ${primary.is_primary ? 'Primary' : 'Secondary'}</p>
       </div>
       ${healthBadge}
-      <button class="btn btn-ghost btn-sm" onclick="connectCalendarFromDashboard('${primary.provider}', '${slug}')">Reconnect</button>
+      <a href="${API_BASE}/v1/${primary.provider}/connect/${slug}" target="_blank" class="btn btn-ghost btn-sm" style="text-decoration:none">Reconnect</a>
       <a href="#" class="btn btn-ghost btn-sm" style="color:#A32D2D" onclick="disconnectCalendar('${primary.disconnect_url}', '${slug}');return false">Disconnect</a>
     </div>
     <p style="font-size:13px;color:var(--text-muted)">Switch providers by disconnecting, then reconnecting with a different calendar.</p>`;
