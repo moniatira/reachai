@@ -94,13 +94,13 @@
       <div class="metric-grid">
         <div class="metric">
           <div class="metric-label">Bookings today</div>
-          <div class="metric-value" style="font-size:22px;color:var(--text-muted)">—</div>
-          <div class="metric-change">Analytics coming soon</div>
+          <div class="metric-value" style="font-size:28px;font-weight:700" id="dash-bookings-today">—</div>
+          <div class="metric-change" id="dash-bookings-month"></div>
         </div>
         <div class="metric">
           <div class="metric-label">Conversations</div>
-          <div class="metric-value" style="font-size:22px;color:var(--text-muted)">—</div>
-          <div class="metric-change">Analytics coming soon</div>
+          <div class="metric-value" style="font-size:28px;font-weight:700" id="dash-conversations">—</div>
+          <div class="metric-change" id="dash-conversations-booked"></div>
         </div>
         <div class="metric">
           <div class="metric-label">Calendar</div>
@@ -117,7 +117,7 @@
       <div class="panel">
         <div class="panel-header"><h3>Recent appointments</h3></div>
         <div id="dash-appts" style="padding:24px;text-align:center;color:var(--text-muted);font-size:14px">
-          Appointment history will appear here once your assistant starts booking.
+          Loading…
         </div>
       </div>
 
@@ -582,15 +582,58 @@ async function loadDashboard() {
     document.getElementById('dash-embed-code').textContent = `<script src="${API_BASE}/v1/widget/${slug}.js" async><\/script>`;
   }
 
-  // Load calendar
-  try {
-    const status = await dashApi(`/v1/calendar/status/${slug}`);
-    renderCalendarTab(status, slug);
-  } catch (e) {
-    if (e instanceof AuthError) { showSignInPrompt(slug); return; }
+  // Load calendar, analytics, and appointments in parallel
+  const [calResult, analyticsResult, appointmentsResult] = await Promise.allSettled([
+    dashApi(`/v1/calendar/status/${slug}`),
+    dashApi(`/v1/workspaces/${slug}/analytics`),
+    dashApi(`/v1/workspaces/${slug}/appointments?limit=10`),
+  ]);
+
+  if (calResult.status === 'fulfilled') {
+    renderCalendarTab(calResult.value, slug);
+  } else {
+    if (calResult.reason instanceof AuthError) { showSignInPrompt(slug); return; }
     document.getElementById('dash-cal-panel').innerHTML =
       '<p style="color:var(--text-muted);font-size:14px">Could not load calendar status.</p>';
     document.getElementById('dash-cal-metric').textContent = '—';
+  }
+
+  if (analyticsResult.status === 'fulfilled') {
+    const a = analyticsResult.value;
+    document.getElementById('dash-bookings-today').textContent = a.bookings_today;
+    document.getElementById('dash-bookings-month').textContent = `${a.bookings_this_month} this month`;
+    document.getElementById('dash-conversations').textContent = a.conversations_total;
+    const pct = a.conversations_total > 0
+      ? Math.round((a.conversations_with_booking / a.conversations_total) * 100)
+      : 0;
+    document.getElementById('dash-conversations-booked').textContent = `${pct}% converted to booking`;
+  } else {
+    document.getElementById('dash-bookings-today').textContent = '—';
+    document.getElementById('dash-bookings-month').textContent = '';
+    document.getElementById('dash-conversations').textContent = '—';
+  }
+
+  if (appointmentsResult.status === 'fulfilled') {
+    const appts = appointmentsResult.value;
+    const apptEl = document.getElementById('dash-appts');
+    if (!appts || appts.length === 0) {
+      apptEl.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:14px">No appointments yet. Your assistant will book them here.</div>';
+    } else {
+      const CHANNEL_ICON = { voice: '📞', chat: '💬', sms: '📱', email: '✉️' };
+      apptEl.innerHTML = appts.map(b => {
+        const d = new Date(b.scheduled_for);
+        const dateStr = d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+        const timeStr = d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
+        return `<div class="appt-row">
+          <div class="appt-channel">${CHANNEL_ICON[b.channel] || '📅'}</div>
+          <div class="appt-info"><h4>${b.customer_name}</h4><p>${b.service_name} · ${b.duration_minutes} min</p></div>
+          <div class="appt-time">${dateStr} · ${timeStr}</div>
+        </div>`;
+      }).join('');
+    }
+  } else {
+    document.getElementById('dash-appts').innerHTML =
+      '<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:14px">Could not load appointments.</div>';
   }
 }
 
