@@ -320,9 +320,16 @@
       <div class="panel">
         <div class="panel-header"><h3>Web chat embed code</h3></div>
         <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">Paste this line into your website just before <code style="background:var(--paper-2);padding:1px 6px;border-radius:4px;font-size:12px">&lt;/body&gt;</code>. The chat widget appears in the bottom-right corner.</p>
-        <div class="code-box">
-          <button class="code-copy" id="embed-copy-btn">Copy</button>
-          <code id="dash-embed-code">Loading…</code>
+        <div style="position:relative">
+          <div class="code-box" id="embed-code-box" style="filter:blur(5px);user-select:none;pointer-events:none">
+            <button class="code-copy" style="pointer-events:none">Copy</button>
+            <code id="dash-embed-code">Loading…</code>
+          </div>
+          <div id="embed-reveal-overlay" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(255,255,255,0.55);border-radius:10px;backdrop-filter:blur(1px)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="3" y1="3" x2="21" y2="21" stroke="#A32D2D"/></svg>
+            <span style="font-size:13px;font-weight:600;color:var(--ink)">Embed code is hidden</span>
+            <button class="btn btn-primary btn-sm" onclick="revealEmbedCode()">Reveal code</button>
+          </div>
         </div>
       </div>
     </div>
@@ -346,12 +353,12 @@
       <div class="panel" style="margin-bottom:16px">
         <div class="panel-header"><h3>Appointments report</h3></div>
         <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">All bookings with customer details and service info.</p>
-        <button class="btn btn-primary" onclick="downloadReport('appointments')">Download CSV</button>
+        <button class="btn btn-primary" onclick="downloadReport('appointments')">Download PDF</button>
       </div>
       <div class="panel" style="margin-bottom:16px">
         <div class="panel-header"><h3>Conversations report</h3></div>
         <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px">All chat sessions with booking outcome.</p>
-        <button class="btn btn-primary" onclick="downloadReport('conversations')">Download CSV</button>
+        <button class="btn btn-primary" onclick="downloadReport('conversations')">Download PDF</button>
       </div>
       <div class="panel">
         <div class="panel-header"><h3>Booking summary</h3></div>
@@ -600,15 +607,7 @@ async function connectCalendarFromDashboard(provider, slug) {
   }, 2000);
 }
 
-document.getElementById('embed-copy-btn').addEventListener('click', () => {
-  const code = document.getElementById('dash-embed-code').textContent;
-  navigator.clipboard.writeText(code).then(() => {
-    const btn = document.getElementById('embed-copy-btn');
-    btn.textContent = '✓ Copied!';
-    markCheck('check-embed', true);
-    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
-  }).catch(() => {});
-});
+// Embed copy is wired up by revealEmbedCode() after the user reveals the code.
 
 async function dashApiPost(path, body) {
   const sess = getSession();
@@ -704,6 +703,25 @@ async function loadAppointmentsFull(slug) {
   } catch (e) {
     el.innerHTML = `<div style="color:var(--text-muted);font-size:14px">Could not load appointments. <button class="btn btn-ghost btn-sm" onclick="loadAppointmentsFull('${slug}')">Retry</button></div>`;
   }
+}
+
+// ── Embed code reveal ─────────────────────────────────────────────────────────
+
+function revealEmbedCode() {
+  document.getElementById('embed-code-box').style.filter = '';
+  document.getElementById('embed-code-box').style.userSelect = '';
+  document.getElementById('embed-code-box').style.pointerEvents = '';
+  document.getElementById('embed-reveal-overlay').style.display = 'none';
+  // Wire up the copy button now that it's interactive
+  document.getElementById('embed-copy-btn').onclick = () => {
+    const code = document.getElementById('dash-embed-code').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.getElementById('embed-copy-btn');
+      btn.textContent = '✓ Copied!';
+      markCheck('check-embed', true);
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    }).catch(() => {});
+  };
 }
 
 // ── Reports ──────────────────────────────────────────────────────────────────
