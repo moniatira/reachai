@@ -278,38 +278,13 @@
     </div>
 
     <div id="services" class="tab-panel">
-      <div style="background:var(--indigo-50);border:1px solid #C8C5F5;border-radius:10px;padding:12px 16px;font-size:13px;color:var(--indigo);margin-bottom:20px;display:flex;align-items:center;gap:10px">
-        <strong>Coming soon</strong> — services are pulled from your connected calendar's event types. Manual editing will be available in a future update.
-      </div>
       <div class="panel">
         <div class="panel-header">
           <h3>Services & duration</h3>
         </div>
-        <p style="color:var(--text-muted);font-size:14px;margin-bottom:18px">Detected from your calendar event types. These are shown for reference — editing is coming soon.</p>
-
-        <div class="appt-row">
-          <div class="appt-channel">✂️</div>
-          <div class="appt-info"><h4>Haircut & styling</h4><p>45 min · 2 staff available</p></div>
-          <div class="appt-time">$65</div>
-          <a href="#" style="font-size:13px;color:var(--indigo)">Edit</a>
-        </div>
-        <div class="appt-row">
-          <div class="appt-channel">🎨</div>
-          <div class="appt-info"><h4>Full color & highlights</h4><p>2h 30min · 1 staff available</p></div>
-          <div class="appt-time">$180</div>
-          <a href="#" style="font-size:13px;color:var(--indigo)">Edit</a>
-        </div>
-        <div class="appt-row">
-          <div class="appt-channel">💅</div>
-          <div class="appt-info"><h4>Manicure (gel)</h4><p>60 min · 1 staff available</p></div>
-          <div class="appt-time">$45</div>
-          <a href="#" style="font-size:13px;color:var(--indigo)">Edit</a>
-        </div>
-        <div class="appt-row">
-          <div class="appt-channel">🪒</div>
-          <div class="appt-info"><h4>Beard trim & shave</h4><p>30 min · 2 staff available</p></div>
-          <div class="appt-time">$35</div>
-          <a href="#" style="font-size:13px;color:var(--indigo)">Edit</a>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:18px">Pulled from your connected calendar. Edit the name, description, or price shown to customers and in the AI assistant.</p>
+        <div id="services-list">
+          <div style="padding:24px;text-align:center;color:var(--text-muted);font-size:14px">Loading…</div>
         </div>
       </div>
     </div>
@@ -387,6 +362,7 @@ function showTab(tabId, evt) {
   else if (tabId === 'appointments') loadAppointmentsFull(slug);
   else if (tabId === 'reports') loadReports(slug);
   else if (tabId === 'assistant') loadKnowledgeDocs(slug);
+  else if (tabId === 'services') loadServices(slug);
 }
 
 function getSession() {
@@ -860,6 +836,102 @@ async function deleteKnowledgeDoc(docId, slug) {
     await loadKnowledgeDocs(slug);
   } catch (e) {
     alert('Delete failed: ' + e.message);
+  }
+}
+
+// ── Services ─────────────────────────────────────────────────────────────────
+
+let _services = [];
+
+function _esc(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function _fmtDuration(mins) {
+  if (mins >= 60) {
+    const h = Math.floor(mins / 60), m = mins % 60;
+    return m ? `${h}h ${m}min` : `${h}h`;
+  }
+  return `${mins} min`;
+}
+
+async function loadServices(slug) {
+  const container = document.getElementById('services-list');
+  if (!container) return;
+  try {
+    _services = await dashApi(`/v1/workspaces/${slug}/services`);
+    if (!_services.length) {
+      container.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:14px">No services found. Make sure your calendar is connected and has event types configured.</div>';
+      return;
+    }
+    container.innerHTML = _services.map((s, i) => `
+      <div class="appt-row" style="align-items:flex-start;flex-wrap:wrap">
+        <div class="appt-channel">📅</div>
+        <div class="appt-info" style="flex:1;min-width:180px">
+          <h4 id="svc-name-${i}">${_esc(s.name)}</h4>
+          <p id="svc-sub-${i}">${_fmtDuration(s.duration_minutes)}${s.description ? ' · ' + _esc(s.description) : ''}</p>
+        </div>
+        <div class="appt-time" id="svc-price-${i}">${_esc(s.price) || '—'}</div>
+        <button onclick="editService(${i})" id="svc-edit-btn-${i}"
+          style="font-size:13px;color:var(--indigo);background:none;border:none;cursor:pointer;padding:4px 8px;font-weight:600">Edit</button>
+      </div>
+      <div id="svc-edit-form-${i}" style="display:none;background:var(--paper-2);border-radius:8px;padding:16px;margin:0 0 12px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <label style="font-size:13px;font-weight:600;color:var(--ink)">Name
+            <input class="input" style="margin-top:6px" id="svc-input-name-${i}" value="${_esc(s.name)}">
+          </label>
+          <label style="font-size:13px;font-weight:600;color:var(--ink)">Price (display only)
+            <input class="input" style="margin-top:6px" placeholder="e.g. $65" id="svc-input-price-${i}" value="${_esc(s.price || '')}">
+          </label>
+        </div>
+        <label style="font-size:13px;font-weight:600;color:var(--ink);display:block;margin-bottom:12px">Description
+          <input class="input" style="margin-top:6px;width:100%" id="svc-input-desc-${i}" value="${_esc(s.description || '')}">
+        </label>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button class="btn btn-primary" style="font-size:13px;padding:8px 16px" onclick="saveService(${i})">Save</button>
+          <button class="btn" style="font-size:13px;padding:8px 16px" onclick="cancelEditService(${i})">Cancel</button>
+          <span id="svc-msg-${i}" style="font-size:13px;color:var(--text-muted)"></span>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    container.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:14px">Could not load services.</div>';
+  }
+}
+
+function editService(i) {
+  document.getElementById(`svc-edit-form-${i}`).style.display = 'block';
+  document.getElementById(`svc-edit-btn-${i}`).style.display = 'none';
+}
+
+function cancelEditService(i) {
+  document.getElementById(`svc-edit-form-${i}`).style.display = 'none';
+  document.getElementById(`svc-edit-btn-${i}`).style.display = '';
+}
+
+async function saveService(i) {
+  const slug = _currentSlug;
+  if (!slug) return;
+  const s = _services[i];
+  const name = document.getElementById(`svc-input-name-${i}`).value.trim();
+  const price = document.getElementById(`svc-input-price-${i}`).value.trim();
+  const description = document.getElementById(`svc-input-desc-${i}`).value.trim();
+  const msg = document.getElementById(`svc-msg-${i}`);
+  msg.textContent = 'Saving…';
+  try {
+    const updated = await dashApiPatch(
+      `/v1/workspaces/${slug}/services/${encodeURIComponent(s.id)}`,
+      { name, price, description }
+    );
+    _services[i] = updated;
+    document.getElementById(`svc-name-${i}`).textContent = updated.name;
+    document.getElementById(`svc-price-${i}`).textContent = updated.price || '—';
+    document.getElementById(`svc-sub-${i}`).textContent =
+      _fmtDuration(updated.duration_minutes) + (updated.description ? ' · ' + updated.description : '');
+    cancelEditService(i);
+    msg.textContent = '';
+  } catch (e) {
+    msg.textContent = 'Save failed — ' + e.message;
   }
 }
 
