@@ -909,10 +909,10 @@ async function submitAddService() {
     _services.push(created);
     document.getElementById('add-svc-name').value = '';
     document.getElementById('add-svc-price').value = '';
-    document.getElementById('add-svc-duration').value = '60';
     document.getElementById('add-svc-desc').value = '';
-    msg.textContent = '';
-    document.getElementById('add-service-form').style.display = 'none';
+    msg.style.color = 'var(--teal)';
+    msg.textContent = '✓ Added — fill in another or click Cancel to close.';
+    document.getElementById('add-svc-name').focus();
     renderServices();
   } catch (e) {
     msg.textContent = 'Failed — ' + e.message;
