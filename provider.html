@@ -508,7 +508,7 @@ function renderCalendarTab(status, slug) {
   const providerName = PROVIDER_NAMES[primary.provider] || primary.provider;
   const healthBadge = primary.healthy
     ? '<span class="connected-pill">Active</span>'
-    : '<span class="connected-pill" style="background:#FEF2F2;color:#A32D2D">Token expired — reconnect</span>';
+    : '<span class="connected-pill" style="background:#FEF2F2;color:#A32D2D">Connection issue — reconnect</span>';
 
   let html = `
     <div style="display:flex;align-items:center;gap:16px;padding:14px;background:var(--paper);border-radius:10px;margin-bottom:14px">
@@ -691,13 +691,14 @@ async function loadAppointmentsFull(slug) {
       const d = new Date(b.scheduled_for);
       const dateStr = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
       const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-      return `<div class="appt-row">
+      return `<div class="appt-row" id="appt-row-${b.id}">
         <div class="appt-channel">${CHANNEL_ICON[b.channel] || '📅'}</div>
         <div class="appt-info">
           <h4>${b.customer_name}</h4>
           <p>${b.service_name} · ${b.duration_minutes} min · ${b.customer_email}</p>
         </div>
         <div class="appt-time">${dateStr} · ${timeStr}</div>
+        <button class="btn btn-ghost btn-sm" style="color:#A32D2D;flex-shrink:0" onclick="deleteAppointment('${b.id}')">Delete</button>
       </div>`;
     }).join('');
   } catch (e) {
@@ -1030,6 +1031,19 @@ async function saveService(i) {
     renderServices();
   } catch (e) {
     msg.textContent = 'Save failed — ' + e.message;
+  }
+}
+
+async function deleteAppointment(id) {
+  const slug = _currentSlug;
+  if (!slug) return;
+  if (!confirm('Delete this appointment record?')) return;
+  try {
+    await dashApiDelete(`/v1/workspaces/${slug}/appointments/${id}`);
+    const row = document.getElementById(`appt-row-${id}`);
+    if (row) row.remove();
+  } catch (e) {
+    alert('Could not delete appointment: ' + e.message);
   }
 }
 
