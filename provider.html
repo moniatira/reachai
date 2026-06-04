@@ -478,78 +478,93 @@ async function refreshCalendarStatus(slug) {
 
 function renderCalendarTab(status, slug) {
   const panel = document.getElementById('dash-cal-panel');
+
+  // Add staff member form (always shown at bottom)
+  const addStaffHtml = `
+    <div class="panel-header" style="margin-top:24px"><h3>Add staff member</h3></div>
+    <p style="color:var(--text-muted);font-size:13px;margin-bottom:14px">Each staff member connects their own calendar. The assistant will ask customers who they'd like to book with.</p>
+    <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+      <div class="form-group" style="flex:1;min-width:140px;margin:0">
+        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px">Name</label>
+        <input type="text" id="staff-name-input" placeholder="e.g. Aisha" style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px">
+      </div>
+      <div class="form-group" style="flex:1;min-width:140px;margin:0">
+        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px">Calendar</label>
+        <select id="staff-provider-select" style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px">
+          <option value="google">Google Calendar</option>
+          <option value="outlook">Microsoft Outlook</option>
+          <option value="calendly">Calendly</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="addStaffMember('${slug}')" style="white-space:nowrap">Connect calendar</button>
+    </div>
+    <div id="staff-connect-status" style="margin-top:10px"></div>`;
+
   if (!status.connections || status.connections.length === 0) {
-    const providers = (status.available_providers && status.available_providers.length > 0)
-      ? status.available_providers
-      : ['google', 'calendly', 'outlook'];
-    let noCalHtml = `
-      <p style="color:var(--text-muted);font-size:14px;margin-bottom:20px">Choose a calendar to connect. ReachAI reads your real availability and writes bookings directly to it.</p>
-      <div class="integrations-grid">`;
-    providers.forEach(p => {
-      const oauthUrl = `${API_BASE}/v1/${p}/connect/${slug}`;
-      noCalHtml += `<div class="integration-card">
-        <div class="integration-logo ${PROVIDER_CLASSES[p] || ''}">${PROVIDER_LOGOS[p] || '?'}</div>
-        <div class="integration-name">${PROVIDER_NAMES[p] || p}</div>
-        <a href="${oauthUrl}" target="_blank" class="btn btn-primary btn-sm" style="margin-top:10px;width:100%;justify-content:center;text-decoration:none">Connect</a>
-      </div>`;
-    });
-    noCalHtml += `</div>
-      <p style="color:var(--text-muted);font-size:13px;margin-top:16px">After authorizing in the new tab, click <strong>Refresh status</strong> to confirm the connection.</p>
+    panel.innerHTML = `
+      <p style="color:var(--text-muted);font-size:14px;margin-bottom:20px">Connect a calendar so ReachAI can read real availability and write bookings directly to it.</p>
+      ${addStaffHtml}
+      <p style="color:var(--text-muted);font-size:13px;margin-top:16px">After authorizing in the new tab, click <strong>Refresh status</strong> to confirm.</p>
       <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="refreshCalendarStatus('${slug}')">Refresh status</button>`;
-    panel.innerHTML = noCalHtml;
     document.getElementById('dash-cal-metric').textContent = 'None';
     markCheck('check-calendar', false);
     return;
   }
 
-  const primary = status.connections.find(c => c.is_primary) || status.connections[0];
-  const logoClass = PROVIDER_CLASSES[primary.provider] || '';
-  const logoChar = PROVIDER_LOGOS[primary.provider] || '?';
-  const providerName = PROVIDER_NAMES[primary.provider] || primary.provider;
-  const healthBadge = primary.healthy
-    ? '<span class="connected-pill">Active</span>'
-    : '<span class="connected-pill" style="background:#FEF2F2;color:#A32D2D">Connection issue — reconnect</span>';
+  // Render each connected calendar
+  let html = '';
+  status.connections.forEach(conn => {
+    const logoClass = PROVIDER_CLASSES[conn.provider] || '';
+    const logoChar = PROVIDER_LOGOS[conn.provider] || '?';
+    const providerName = PROVIDER_NAMES[conn.provider] || conn.provider;
+    const displayName = conn.staff_name || conn.account_email || 'Connected';
+    const healthBadge = conn.healthy
+      ? '<span class="connected-pill">Active</span>'
+      : '<span class="connected-pill" style="background:#FEF2F2;color:#A32D2D">Issue — reconnect</span>';
+    const reconnectUrl = conn.staff_name
+      ? `${API_BASE}/v1/${conn.provider}/connect/${slug}?staff_name=${encodeURIComponent(conn.staff_name)}`
+      : `${API_BASE}/v1/${conn.provider}/connect/${slug}`;
 
-  let html = `
-    <div style="display:flex;align-items:center;gap:16px;padding:14px;background:var(--paper);border-radius:10px;margin-bottom:14px">
-      <div class="integration-logo ${logoClass}" style="margin:0;flex-shrink:0;width:44px;height:44px;font-size:18px">${logoChar}</div>
-      <div style="flex:1">
-        <h4 style="font-size:15px">${providerName}</h4>
-        <p style="font-size:13px;color:var(--text-muted)">${primary.account_email || 'Connected'} · ${primary.is_primary ? 'Primary' : 'Secondary'}</p>
-      </div>
-      ${healthBadge}
-      <a href="${API_BASE}/v1/${primary.provider}/connect/${slug}" target="_blank" class="btn btn-ghost btn-sm" style="text-decoration:none">Reconnect</a>
-      <a href="#" class="btn btn-ghost btn-sm" style="color:#A32D2D" onclick="disconnectCalendar('${primary.disconnect_url}', '${slug}');return false">Disconnect</a>
-    </div>
-    <p style="font-size:13px;color:var(--text-muted)">Switch providers by disconnecting, then reconnecting with a different calendar.</p>`;
+    html += `
+      <div style="display:flex;align-items:center;gap:14px;padding:14px;background:var(--paper);border-radius:10px;margin-bottom:10px">
+        <div class="integration-logo ${logoClass}" style="margin:0;flex-shrink:0;width:40px;height:40px;font-size:16px">${logoChar}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:15px;font-weight:600">${displayName}</div>
+          <div style="font-size:12px;color:var(--text-muted)">${providerName}${conn.account_email && conn.staff_name ? ' · ' + conn.account_email : ''}</div>
+        </div>
+        ${healthBadge}
+        <a href="${reconnectUrl}" target="_blank" class="btn btn-ghost btn-sm" style="text-decoration:none;flex-shrink:0">Reconnect</a>
+        <a href="#" class="btn btn-ghost btn-sm" style="color:#A32D2D;flex-shrink:0" onclick="disconnectCalendar('${conn.disconnect_url}','${slug}');return false">Remove</a>
+      </div>`;
+  });
 
-  if (status.available_providers) {
-    const unconnected = status.available_providers.filter(
-      p => !status.connections.find(c => c.provider === p)
-    );
-    if (unconnected.length > 0) {
-      html += `<div class="panel-header" style="margin-top:20px"><h3>Add another calendar</h3></div><div class="integrations-grid" style="margin-top:12px">`;
-      unconnected.forEach(p => {
-        const connectConn = status.connections.find(c => c.provider === p);
-        html += `<div class="integration-card">
-          <div class="integration-logo ${PROVIDER_CLASSES[p] || ''}">${PROVIDER_LOGOS[p] || '?'}</div>
-          <div class="integration-name">${PROVIDER_NAMES[p] || p}</div>
-          <button class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%;justify-content:center" onclick="connectCalendarFromDashboard('${p}', '${slug}')">Connect</button>
-        </div>`;
-      });
-      html += `</div>`;
-    }
-  }
-
+  html += addStaffHtml;
   panel.innerHTML = html;
-  document.getElementById('dash-cal-metric').textContent = primary.healthy ? providerName : '⚠ ' + providerName;
-  document.getElementById('dash-cal-metric-sub').textContent = primary.account_email || '';
+
+  const primary = status.connections.find(c => c.is_primary) || status.connections[0];
+  const primaryName = PROVIDER_NAMES[primary.provider] || primary.provider;
+  document.getElementById('dash-cal-metric').textContent = status.connections.length > 1
+    ? `${status.connections.length} staff`
+    : (primary.healthy ? primaryName : '⚠ ' + primaryName);
+  document.getElementById('dash-cal-metric-sub').textContent = status.connections.length > 1
+    ? status.connections.map(c => c.staff_name || c.account_email).filter(Boolean).join(', ')
+    : (primary.account_email || '');
   markCheck('check-calendar', true);
-  document.getElementById('check-calendar-label').textContent = `Calendar connected (${providerName})`;
+  document.getElementById('check-calendar-label').textContent = status.connections.length > 1
+    ? `${status.connections.length} staff calendars connected`
+    : `Calendar connected (${primaryName})`;
+}
+
+function addStaffMember(slug) {
+  const nameInput = document.getElementById('staff-name-input');
+  const providerSelect = document.getElementById('staff-provider-select');
+  const name = nameInput ? nameInput.value.trim() : '';
+  const provider = providerSelect ? providerSelect.value : 'google';
+  connectCalendarFromDashboard(provider, slug, name);
 }
 
 async function disconnectCalendar(disconnectUrl, slug) {
-  if (!confirm('Disconnect this calendar? Your existing bookings will not be affected.')) return;
+  if (!confirm('Remove this calendar? Existing bookings will not be affected.')) return;
   const sess = getSession();
   const headers = { 'Content-Type': 'application/json' };
   if (sess.session_token) headers['Authorization'] = `Bearer ${sess.session_token}`;
@@ -564,31 +579,34 @@ async function disconnectCalendar(disconnectUrl, slug) {
   }
 }
 
-async function connectCalendarFromDashboard(provider, slug) {
-  const connectUrl = `${API_BASE}/v1/${provider}/connect/${slug}`;
+async function connectCalendarFromDashboard(provider, slug, staffName) {
+  let connectUrl = `${API_BASE}/v1/${provider}/connect/${slug}`;
+  if (staffName) connectUrl += `?staff_name=${encodeURIComponent(staffName)}`;
+
   const popup = window.open(connectUrl, 'reachai_oauth', 'width=600,height=720');
   if (!popup) {
     alert('Please allow popups for this page, then try connecting again.');
     return;
   }
 
-  const panel = document.getElementById('dash-cal-panel');
-  const statusDiv = document.createElement('div');
-  statusDiv.style.cssText = 'padding:12px 0;color:var(--text-muted);font-size:14px;display:flex;align-items:center;gap:10px';
-  statusDiv.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;flex-shrink:0"></div>Waiting for authorization…';
-  panel.appendChild(statusDiv);
+  const statusEl = document.getElementById('staff-connect-status');
+  if (statusEl) {
+    statusEl.innerHTML = '<div style="display:flex;align-items:center;gap:8px;color:var(--text-muted);font-size:13px"><div class="spinner" style="width:14px;height:14px;border-width:2px"></div>Waiting for authorization…</div>';
+  }
+
+  const prevCount = (await dashApi(`/v1/calendar/status/${slug}`).catch(() => ({ connections: [] }))).connections.length;
 
   let attempts = 0;
   const pollInterval = setInterval(async () => {
     attempts++;
     if (attempts > 150) {
       clearInterval(pollInterval);
-      statusDiv.remove();
+      if (statusEl) statusEl.innerHTML = '';
       return;
     }
     if (popup.closed) {
       clearInterval(pollInterval);
-      statusDiv.remove();
+      if (statusEl) statusEl.innerHTML = '';
       try {
         const status = await dashApi(`/v1/calendar/status/${slug}`);
         renderCalendarTab(status, slug);
@@ -597,8 +615,7 @@ async function connectCalendarFromDashboard(provider, slug) {
     }
     try {
       const status = await dashApi(`/v1/calendar/status/${slug}`);
-      const conn = (status.connections || []).find(c => c.provider === provider);
-      if (conn) {
+      if ((status.connections || []).length > prevCount) {
         clearInterval(pollInterval);
         try { popup.close(); } catch (e) {}
         renderCalendarTab(status, slug);
