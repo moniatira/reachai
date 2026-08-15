@@ -26,13 +26,11 @@
 <header>
   <div class="container">
     <div class="nav">
-      <a href="index.html" class="logo"><span class="logo-mark">R∙</span>ReachAI</a>
+      <a href="index.html" class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="#fff"/><circle cx="8.5" cy="10" r="1.15" fill="#6C4CF1"/><circle cx="12" cy="10" r="1.15" fill="#6C4CF1"/><circle cx="15.5" cy="10" r="1.15" fill="#6C4CF1"/></svg></span>ReachAI</a>
       <nav class="main-nav">
         <a href="index.html">Product</a>
         <a href="integrations.html">Integrations</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="provider.html" class="active">Dashboard</a>
-      </nav>
+        <a href="pricing.html">Pricing</a>      </nav>
       <div style="display:flex;align-items:center;gap:10px">
         <span style="font-size:13px;color:var(--text-muted)" id="dash-workspace-label">Loading…</span>
         <div style="width:32px;height:32px;border-radius:50%;background:var(--indigo);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600" id="dash-user-initials">?</div>
@@ -63,8 +61,8 @@
     </div>
     <div class="sidebar-section">
       <h4>Account</h4>
-      <a href="pricing.html">💳 Billing</a>
-      <a href="index.html">↗ Sign out</a>
+      <a href="#" onclick="billingSoon();return false">💳 Billing</a>
+      <a href="index.html" onclick="signOut()">↗ Sign out</a>
     </div>
     <div class="sidebar-tier">
       <div class="tier-label">Pro plan</div>
@@ -245,27 +243,6 @@
         <div class="toggle-switch"></div>
       </div>
 
-      <div class="channel-toggle" onclick="this.classList.toggle('on')">
-        <div class="channel-toggle-info">
-          <div class="channel-toggle-icon">💬</div>
-          <div>
-            <h4>SMS — not yet configured</h4>
-            <p>Two-way texting on a dedicated US number ($4/mo for the number)</p>
-          </div>
-        </div>
-        <div class="toggle-switch"></div>
-      </div>
-
-      <div class="channel-toggle" onclick="this.classList.toggle('on')">
-        <div class="channel-toggle-info">
-          <div class="channel-toggle-icon">✉️</div>
-          <div>
-            <h4>Email — not yet configured</h4>
-            <p>Inbound parsing on booking@acmesalon.com · auto-replies with available slots</p>
-          </div>
-        </div>
-        <div class="toggle-switch"></div>
-      </div>
     </div>
 
     <div id="calendar" class="tab-panel">
@@ -380,14 +357,17 @@ let _currentSlug = null;
 function showTab(tabId, evt) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
   const panel = document.getElementById(tabId);
   if (panel) panel.classList.add('active');
-  if (evt && evt.target) evt.target.classList.add('active');
-  else {
-    document.querySelectorAll('.dash-tab').forEach(t => {
-      if (t.textContent.trim().toLowerCase() === tabId) t.classList.add('active');
-    });
-  }
+  // Highlight the matching top tab and sidebar link by tabId — never by evt.target,
+  // so the previously-selected item always clears (fixes stuck sidebar highlight).
+  document.querySelectorAll('.dash-tab').forEach(t => {
+    if (t.textContent.trim().toLowerCase() === tabId) t.classList.add('active');
+  });
+  document.querySelectorAll('.sidebar a').forEach(a => {
+    if ((a.getAttribute('onclick') || '').includes("showTab('" + tabId + "'")) a.classList.add('active');
+  });
   window.scrollTo({ top: 0, behavior: 'smooth' });
   // Lazy-load tab data
   const slug = _currentSlug;
@@ -401,6 +381,17 @@ function showTab(tabId, evt) {
 
 function getSession() {
   try { return JSON.parse(localStorage.getItem(WIZARD_KEY) || '{}'); } catch (e) { return {}; }
+}
+
+// Clear the stored session so "Sign out" truly signs the user out. Without this
+// the token lingered and Sign in / Provider portal silently re-signed the user in.
+function signOut() {
+  try { localStorage.removeItem(WIZARD_KEY); } catch (e) {}
+  return true; // allow the link to continue navigating to index.html
+}
+
+function billingSoon() {
+  alert('Billing management is coming soon. To change your plan, email hello@reachaiapp.com.');
 }
 
 class AuthError extends Error {}

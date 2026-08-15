@@ -6,18 +6,19 @@
 
 :root {
   /* Reusing tokens from styles.css for consistency */
-  --indigo: #534AB7;
-  --indigo-dark: #3C3489;
-  --indigo-bg: #EEEDFE;
-  --teal: #0F6E56;
-  --teal-bg: #E1F5EE;
-  --paper: #FAFAFC;
-  --paper-2: #F4F4F8;
-  --line: #E5E5EE;
-  --line-2: #D4D4DE;
-  --text: #1A1F3D;
-  --text-muted: #5F5E5A;
-  --text-faint: #888780;
+  --indigo: #6C4CF1;
+  --indigo-dark: #4B32C4;
+  --indigo-bg: #F1EDFF;
+  --grad: linear-gradient(135deg,#6C4CF1 0%,#8B5CF6 46%,#D946EF 100%);
+  --teal: #0F9E6E;
+  --teal-bg: #E2F7EF;
+  --paper: #FAFAFF;
+  --paper-2: #F2F0FB;
+  --line: #E9E7F5;
+  --line-2: #D8D4EC;
+  --text: #171433;
+  --text-muted: #5C5876;
+  --text-faint: #8B87A3;
   --red: #A32D2D;
   --red-bg: #FCE9E9;
   --radius: 12px;
@@ -48,25 +49,28 @@ body.wizard-body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   color: var(--text);
   text-decoration: none;
-  font-weight: 600;
-  font-size: 17px;
-  letter-spacing: -0.01em;
+  font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.02em;
 }
 
 .brand-mark {
   display: inline-flex;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   align-items: center;
   justify-content: center;
-  background: var(--indigo);
+  background: var(--grad);
   color: #FFFFFF;
-  border-radius: 7px;
+  border-radius: 10px;
+  font-family: "Outfit", sans-serif;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(108,76,241,.35);
 }
 
 .wizard-exit {

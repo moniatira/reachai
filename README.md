@@ -1,18 +1,18 @@
 # ReachAI — Deploy Guide
 
-Self-serve AI scheduling platform for SMBs. Voice + chat + SMS + email,
-connected to Google Calendar, Outlook, Cal.com, or Calendly.
+Self-serve AI scheduling platform for SMBs. Voice + chat,
+connected to Google Calendar, Outlook, or Calendly.
 
 ## What's in this zip
 
 ```
 reachai/
 ├── index.html         Landing page
-├── integrations.html  4 calendar systems + 4 channels detail
+├── integrations.html  3 calendar systems + 2 channels detail
 ├── provider.html      Self-serve dashboard (6 tabs)
 ├── pricing.html       3 tiers: $49 / $129 / $349
 ├── get-started.html   5-step setup wizard
-├── demo.html          Interactive demo of all 4 channels
+├── demo.html          Interactive demo of all channels
 └── styles.css         Shared design system
 ```
 
@@ -40,7 +40,7 @@ rm index.html, integrations.html, provider.html, pricing.html, get-started.html,
 
 # Commit and push
 git add .
-git commit -m "rebrand: BookRing → ReachAI, expand to 4 channels + 4 calendar integrations"
+git commit -m "rebrand: BookRing → ReachAI, voice + chat + 3 calendar integrations"
 git push origin main
 ```
 
@@ -61,7 +61,7 @@ cd reachai
 
 # Copy all 7 files into this folder, then:
 git add .
-git commit -m "init: ReachAI site — voice, chat, SMS, email + 4 calendar integrations"
+git commit -m "init: ReachAI site — voice, chat + 3 calendar integrations"
 git push origin main
 
 # Enable GitHub Pages in repo settings → Pages → Source: main branch / root
@@ -90,12 +90,12 @@ DNS propagation takes 1–24 hours.
 | Brand name | BookRing | ReachAI |
 | Tagline | Every ring becomes a booking | Your business, always answered |
 | Logo mark | BR | R∙ |
-| Channels | Phone + chat (2) | Voice + chat + SMS + email (4) |
-| Calendar integrations | Generic mention | Google, Outlook, Cal.com, Calendly (4 specific) |
+| Channels | Phone + chat (2) | Voice + chat (2) |
+| Calendar integrations | Generic mention | Google, Outlook, Calendly (3 specific) |
 | Dashboard | Stub page | 6 configurable tabs (Overview/Assistant/Channels/Calendar/Services/Embed) |
 | Pricing | 1 plan generic | 3 tiers ($49/$129/$349) |
 | Onboarding | Sign-up link | Full 5-step interactive wizard |
-| Demo | Single phone example | 4-tab interactive demo (voice/chat/SMS/email) |
+| Demo | Single phone example | Interactive demo (voice/chat) |
 
 ## Brand assets that need replacing if you keep the old repo
 
