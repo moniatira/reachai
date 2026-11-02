@@ -5,24 +5,27 @@
  * ============================================================ */
 
 :root {
-  /* Reusing tokens from styles.css for consistency */
+  /* Kept in step with styles.css. These drifted badly before: indigo-dark,
+     the backgrounds, the rules and all three text tones were still violet
+     while the marketing pages had moved on, so the wizard looked like a
+     different product. */
   --indigo: #175A74;
-  --indigo-dark: #4B32C4;
-  --indigo-bg: #F1EDFF;
-  --grad: linear-gradient(135deg,#175A74 0%,#2C7E9B 46%,#5CA8C0 100%);
-  --teal: #0F9E6E;
-  --teal-bg: #E2F7EF;
-  --paper: #FAFAFF;
-  --paper-2: #EFF5F8;
-  --line: #E9E7F5;
-  --line-2: #D8D4EC;
-  --text: #171433;
-  --text-muted: #5C5876;
-  --text-faint: #8B87A3;
+  --indigo-dark: #0F4255;
+  --indigo-bg: #EFF5F8;
+  --grad: #175A74;
+  --teal: #0E9268;
+  --teal-bg: #E4F6EF;
+  --paper: #F9FBFC;
+  --paper-2: #EFF3F5;
+  --line: #E2E9EC;
+  --line-2: #CDD7DC;
+  --text: #15262D;
+  --text-muted: #55646A;
+  --text-faint: #84959C;
   --red: #A32D2D;
   --red-bg: #FCE9E9;
-  --radius: 12px;
-  --radius-sm: 8px;
+  --radius: 6px;
+  --radius-sm: 3px;
 }
 
 body.wizard-body {
