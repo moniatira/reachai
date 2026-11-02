@@ -89,22 +89,21 @@
 </section>
 
 <section class="stats">
-  <div class="container" style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:0 24px">
-    <div class="stat">
-      <div class="stat-num">&lt;30s</div>
-      <div class="stat-label">Average time to first available slot</div>
-    </div>
+  <!-- Only figures we can stand behind. "<30s average time to first slot" was
+       unverifiable, and "1 live channel today" contradicted the section below
+       it, so both are gone rather than restyled. -->
+  <div class="container" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:0 24px">
     <div class="stat">
       <div class="stat-num">24/7</div>
-      <div class="stat-label">Coverage when you're on the floor</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">1</div>
-      <div class="stat-label">Live channel today — voice coming soon</div>
+      <div class="stat-label">Answers outside your opening hours</div>
     </div>
     <div class="stat">
       <div class="stat-num">5 min</div>
-      <div class="stat-label">Setup time from sign-up to live</div>
+      <div class="stat-label">From sign-up to answering</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Calendars supported: Google, Outlook, Calendly</div>
     </div>
   </div>
 </section>
@@ -112,24 +111,24 @@
 <section class="section">
   <div class="container">
     <div class="section-center">
-      <div class="section-eyebrow">One assistant, every channel</div>
-      <h2>However your customers reach out,<br>ReachAI books it.</h2>
-      <p class="section-intro">One trained assistant handles every channel and writes to one calendar. No separate tools, no missed handoffs.</p>
+      <div class="section-eyebrow">Channels</div>
+      <h2>Where your assistant answers.</h2>
+      <p class="section-intro">You train it once and it writes to the one calendar you already keep. Web chat is live today; voice is still in testing, and we'd rather say so than list it as shipped.</p>
     </div>
     <div class="channels">
       <div class="channel">
         <div class="channel-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.38 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.08 6.08l.98-.87a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         </div>
-        <h3>Voice <span style="font-size:11px;font-weight:600;color:var(--indigo-dark);background:var(--indigo-50);border:1px solid var(--indigo-100);border-radius:20px;padding:2px 9px;vertical-align:middle;letter-spacing:.02em">Coming soon</span></h3>
-        <p>Your line gets answered with your greeting. Customers talk naturally, get booked, get a confirmation text.</p>
+        <h3>Voice <span class="chan-state">In testing</span></h3>
+        <p>Your line answered with your greeting, so callers can book by talking. Not available on new accounts yet.</p>
       </div>
       <div class="channel">
         <div class="channel-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
-        <h3>Web chat</h3>
-        <p>Embed one line of code. Visitors book directly from your site — no forms, no back-and-forth.</p>
+        <h3>Web chat <span class="chan-state live">Live</span></h3>
+        <p>One line of code on your site. A visitor picks a time and leaves booked, without filling in a form or waiting for a callback.</p>
       </div>
     </div>
   </div>
@@ -140,23 +139,22 @@
     <div class="section-center">
       <div class="section-eyebrow">Calendar integrations</div>
       <h2>Connects to the calendar you<br>already use.</h2>
-      <p class="section-intro">No migrations. No new tools to learn. ReachAI reads your real availability and writes new appointments back where you'll see them.</p>
+      <p class="section-intro">Nothing to migrate. ReachAI reads your real availability before it offers a time, then writes the appointment back where you'll see it.</p>
     </div>
+    <!-- Names set as type. The G / O / cL letter tiles that were here stood in
+         for brand logos we don't have, which reads as placeholder art. -->
     <div class="integrations-grid">
       <div class="integration-card">
-        <div class="integration-logo gcal">G</div>
         <div class="integration-name">Google Calendar</div>
-        <div class="integration-type">OAuth · 2-click setup</div>
+        <div class="integration-type">Sign in with Google</div>
       </div>
       <div class="integration-card">
-        <div class="integration-logo outlook">O</div>
         <div class="integration-name">Microsoft Outlook</div>
-        <div class="integration-type">Microsoft 365 · OAuth</div>
+        <div class="integration-type">Personal and Microsoft 365</div>
       </div>
       <div class="integration-card">
-        <div class="integration-logo calendly">cL</div>
         <div class="integration-name">Calendly</div>
-        <div class="integration-type">OAuth · 2-click setup</div>
+        <div class="integration-type">Uses your existing event types</div>
       </div>
     </div>
     <div style="text-align:center;margin-top:32px">
@@ -170,7 +168,7 @@
     <div class="section-center">
       <div class="section-eyebrow">5-minute setup</div>
       <h2>Live in three steps.</h2>
-      <p class="section-intro">No engineers required. Most owners are live before their next coffee break.</p>
+      <p class="section-intro">You won't need a developer for any of it.</p>
     </div>
     <div class="steps">
       <div class="step">
@@ -181,12 +179,12 @@
       <div class="step">
         <div class="step-num">02</div>
         <h3>Connect your calendar</h3>
-        <p>One-click OAuth for Google, Outlook, or Calendly. Your assistant books directly into your calendar — no manual setup.</p>
+        <p>Sign in to Google, Outlook, or Calendly once. Bookings land straight in the calendar you already check.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <h3>Embed & go live</h3>
-        <p>Paste one line of code on your website. Forward your phone line. You're now answering 24/7.</p>
+        <h3>Embed &amp; go live</h3>
+        <p>Paste one line of code onto your site. The chat starts answering from that moment on.</p>
       </div>
     </div>
   </div>
@@ -214,18 +212,20 @@
       <div class="section-eyebrow">Built for SMBs</div>
       <h2>If you book appointments,<br>ReachAI fits.</h2>
     </div>
-    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:760px;margin:0 auto">
-      <span class="btn btn-ghost btn-sm" style="cursor:default">Salons & spas</span>
-      <span class="btn btn-ghost btn-sm" style="cursor:default">Auto detail & repair</span>
-      <span class="btn btn-ghost btn-sm" style="cursor:default">Consulting</span>
-      <span class="btn btn-ghost btn-sm" style="cursor:default">Home services</span>
-      <span class="btn btn-ghost btn-sm" style="cursor:default">Wellness clinics</span>
-      <span class="btn btn-ghost btn-sm" style="cursor:default">Agencies</span>
-      <span class="btn btn-ghost btn-sm" style="cursor:default">Legal Services</span>
-      <span class="btn btn-ghost btn-sm" style="cursor:default">Real estate</span>
-      <span class="btn btn-ghost btn-sm" style="cursor:default">Photographers</span>
-      <span class="btn btn-ghost btn-sm" style="cursor:default">Tutors & coaches</span>
-    </div>
+    <!-- A list, marked up as a list. These were ten .btn elements with
+         cursor:default — they looked clickable and weren't. -->
+    <ul class="trade-list">
+      <li>Salons &amp; spas</li>
+      <li>Auto detail &amp; repair</li>
+      <li>Consulting</li>
+      <li>Home services</li>
+      <li>Wellness clinics</li>
+      <li>Agencies</li>
+      <li>Legal services</li>
+      <li>Real estate</li>
+      <li>Photographers</li>
+      <li>Tutors &amp; coaches</li>
+    </ul>
   </div>
 </section>
 
@@ -248,7 +248,7 @@
           <span class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="#fff"/><circle cx="8.5" cy="10" r="1.15" fill="#175A74"/><circle cx="12" cy="10" r="1.15" fill="#175A74"/><circle cx="15.5" cy="10" r="1.15" fill="#175A74"/></svg></span>
           ReachAI
         </a>
-        <p>The self-serve AI front desk for SMBs. Voice and chat — one assistant, one calendar.</p>
+        <p>The AI front desk for small businesses that run on appointments.</p>
       </div>
       <div class="footer-col">
         <h4>Product</h4>

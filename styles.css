@@ -128,14 +128,26 @@ h3{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--in
 
 /* ── Integrations ───────────────────────────────────────────── */
 .integrations-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.integration-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px;text-align:center;transition:border-color .15s}
+/* Name-led, left-aligned. The invented letter tiles are gone, so centring
+   the card no longer has anything to centre around. */
+.integration-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;transition:border-color .15s}
 .integration-card:hover{border-color:var(--line-2)}
 .integration-logo{width:52px;height:52px;border-radius:var(--r);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;letter-spacing:-.02em}
 .integration-logo.gcal{background:#E8F0FE;color:#1A73E8}
 .integration-logo.outlook{background:#E3F0FD;color:#0078D4}
 .integration-logo.calendly{background:#E6EEF2;color:#175A74}
-.integration-name{font-size:14px;font-weight:600;margin-bottom:4px}
-.integration-type{font-size:11px;color:var(--text-muted)}
+.integration-name{font-family:var(--font-display);font-size:16px;font-weight:600;letter-spacing:-.015em;margin-bottom:3px}
+.integration-type{font-size:12.5px;color:var(--text-muted)}
+
+/* Channel state: live vs in-testing, as a label rather than a rounded pill. */
+.chan-state{font-family:var(--font-display);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text-faint);vertical-align:middle;margin-left:6px}
+.chan-state.live{color:var(--teal)}
+
+/* Trades we fit. Previously ten .btn elements with cursor:default — they
+   looked clickable and weren't. A list, marked up as one. */
+.trade-list{list-style:none;margin:0 auto;padding:0;max-width:720px;display:flex;flex-wrap:wrap;justify-content:center;gap:0 28px}
+.trade-list li{position:relative;font-size:15px;color:var(--text-muted);padding:6px 0}
+.trade-list li:not(:last-child)::after{content:"";position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:3px;height:3px;border-radius:50%;background:var(--line-2)}
 .connected-pill{display:inline-block;margin-top:10px;font-size:10px;padding:3px 8px;border-radius:var(--r-sm);background:var(--teal-50);color:var(--teal);font-weight:600}
 
 /* ── Steps ──────────────────────────────────────────────────── */
