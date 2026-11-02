@@ -24,12 +24,18 @@
   .faq-item p{color:var(--text-muted);font-size:14px;margin-top:12px;line-height:1.65;display:none}
   .faq-item.open h3::after{content:'−'}
   .faq-item.open p{display:block}
+  /* ── beta offer ── */
+  .beta-strip{background:var(--accent-50);border:1px solid #F6CBAE;border-radius:14px;padding:16px 22px;max-width:760px;margin:0 auto 36px;text-align:center}
+  .beta-strip strong{color:var(--accent-dark)}
+  .beta-strip p{font-size:13px;color:var(--text-muted);margin-top:4px}
+  .plan-price .was{font-size:20px;font-weight:600;color:var(--text-faint);text-decoration:line-through;text-decoration-thickness:1.5px;margin-right:8px;letter-spacing:-.02em}
+  .plan-save{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:600;letter-spacing:.02em;color:var(--accent-dark);background:var(--accent-50);border:1px solid #F6CBAE;border-radius:20px;padding:3px 10px}
 </style>
 </head>
 <body>
 
 <div class="banner">
-  Early access — <strong>14-day free trial</strong> on all plans · <a href="get-started.html">Start now →</a>
+  Beta pricing — <strong>50% off your first 12 months</strong> · <a href="get-started.html">Claim it →</a>
 </div>
 
 <header>
@@ -57,10 +63,17 @@
       <p class="section-intro" style="margin:0 auto">Every plan includes web chat and your own custom-branded widget. Voice is coming soon on Pro & Scale. Choose by booking volume.</p>
     </div>
 
+    <!-- BETA OFFER: the end date lives only here — update this one place. -->
+    <div class="beta-strip">
+      <strong>Beta tester pricing: 50% off for 12 months.</strong>
+      <p>Try everything free for 14 days with <strong>no credit card</strong>. If you subscribe before <strong>31 December 2026</strong>, you pay half price for your first 12 months. We only ask for payment when the trial ends, and full price starts from month 13.</p>
+    </div>
+
     <div class="pricing-grid">
       <div class="plan">
         <div class="plan-name">Starter</div>
-        <div class="plan-price"><span class="num">$129</span><span class="period">/mo</span></div>
+        <div class="plan-price"><span class="was">$129</span><span class="num">$64.50</span><span class="period">/mo</span></div>
+        <div class="plan-save">50% off for 12 months</div>
         <div class="plan-desc">For solo operators and small teams testing the waters.</div>
         <ul class="plan-features">
           <li>Up to 100 bookings/month</li>
@@ -76,7 +89,8 @@
       <div class="plan featured">
         <div class="plan-badge">Most popular</div>
         <div class="plan-name">Pro</div>
-        <div class="plan-price"><span class="num">$249</span><span class="period">/mo</span></div>
+        <div class="plan-price"><span class="was">$249</span><span class="num">$124.50</span><span class="period">/mo</span></div>
+        <div class="plan-save">50% off for 12 months</div>
         <div class="plan-desc">For appointment-based SMBs running their business on ReachAI.</div>
         <ul class="plan-features">
           <li>Up to 500 bookings/month</li>
@@ -93,7 +107,8 @@
 
       <div class="plan">
         <div class="plan-name">Scale</div>
-        <div class="plan-price"><span class="num">$549</span><span class="period">/mo</span></div>
+        <div class="plan-price"><span class="was">$549</span><span class="num">$274.50</span><span class="period">/mo</span></div>
+        <div class="plan-save">50% off for 12 months</div>
         <div class="plan-desc">For multi-location teams and agencies running ReachAI for clients.</div>
         <ul class="plan-features">
           <li>Up to 2,500 bookings/month</li>
@@ -122,8 +137,8 @@
     </div>
     <div class="roi-table">
       <div class="roi-row"><span>Avg. SMB service price</span><span>$85</span></div>
-      <div class="roi-row"><span>ReachAI Pro plan</span><span>$249/mo</span></div>
-      <div class="roi-row"><span>Bookings needed to break even</span><span>~3 per month</span></div>
+      <div class="roi-row"><span>ReachAI Pro plan (beta price)</span><span>$124.50/mo</span></div>
+      <div class="roi-row"><span>Bookings needed to break even</span><span>~2 per month</span></div>
       <div class="roi-row"><span>Avg. after-hours calls SMBs miss</span><span>12–25 / month</span></div>
       <div class="roi-row highlight"><span>Typical recovered revenue</span><span>$1,000–$2,100 / month</span></div>
     </div>
@@ -184,7 +199,11 @@
       </div>
       <div class="faq-item" onclick="this.classList.toggle('open')">
         <h3>How does the 14-day trial work?</h3>
-        <p>No credit card required. Try ReachAI free for 14 days. After day 14 you choose a paid plan or your account pauses — no surprise charges.</p>
+        <p>No credit card, and nothing to cancel. Sign up, connect your calendar, and your assistant starts answering — the 14 days begin once setup is complete, so time spent getting ready doesn't count against you. Your dashboard shows the days remaining. When the trial ends your assistant pauses until you pick a plan; nothing is charged automatically and your data stays put.</p>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <h3>How does the 50% beta discount work?</h3>
+        <p>Subscribe before 31 December 2026 and 50% comes off every invoice for your first 12 months, on whichever plan you choose. From month 13 the plan renews at the standard price, and we'll email you before that happens. Switching plans during the 12 months keeps the discount.</p>
       </div>
       <div class="faq-item" onclick="this.classList.toggle('open')">
         <h3>What if I go over my booking limit?</h3>
@@ -201,7 +220,7 @@
 <section class="cta-section">
   <div class="container">
     <h2>Try ReachAI free for 14 days.</h2>
-    <p>No credit card. Cancel any time.</p>
+    <p>No credit card. 50% off your first 12 months when you subscribe.</p>
     <div class="cta-row">
       <a href="get-started.html" class="btn btn-primary btn-lg">Start free trial →</a>
       <a href="demo.html" class="btn btn-ghost btn-lg">See live demo</a>

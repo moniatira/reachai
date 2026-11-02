@@ -64,12 +64,11 @@
       <a href="#" onclick="billingSoon();return false">💳 Billing</a>
       <a href="index.html" onclick="signOut()">↗ Sign out</a>
     </div>
+    <!-- Real trial state, populated from /v1/workspaces/{slug}. There is no
+         booking quota or plan assignment yet, so nothing here is invented. -->
     <div class="sidebar-tier">
-      <div class="tier-label">Pro plan</div>
-      <div class="tier-usage">142 of 500 bookings used</div>
-      <div style="width:100%;height:4px;background:var(--line);border-radius:2px;margin-top:8px;overflow:hidden">
-        <div style="width:28%;height:100%;background:var(--indigo)"></div>
-      </div>
+      <div class="tier-label" id="tier-label">Free trial</div>
+      <div class="tier-usage" id="tier-usage">Checking…</div>
     </div>
   </aside>
 
@@ -1096,8 +1095,51 @@ async function loadDashboard() {
     const trialEl = document.getElementById('dash-trial-metric');
     const trialSub = document.getElementById('dash-trial-sub');
     if (trialEl) {
-      trialEl.textContent = ws.trial_status === 'active' ? 'Trial active' : ws.trial_status || '—';
-      if (trialSub) trialSub.textContent = ws.onboarding_step === 'complete' ? 'Setup complete' : 'Setup in progress';
+      // 'active' means a paid plan, not a running trial — the old label
+      // conflated the two. trial_days_left is null unless a trial is running.
+      const left = ws.trial_days_left;
+      if (ws.trial_status === 'active') {
+        trialEl.textContent = 'Plan active';
+        if (trialSub) trialSub.textContent = 'Thanks for subscribing';
+      } else if (ws.trial_status === 'trial' && left === 0) {
+        trialEl.textContent = 'Trial ended';
+        if (trialSub) trialSub.textContent = 'Start a plan to switch your assistant back on';
+      } else if (ws.trial_status === 'trial' && left != null) {
+        trialEl.textContent = left === 1 ? '1 day left' : `${left} days left`;
+        if (trialSub) {
+          trialSub.textContent = left <= 3
+            ? 'Trial ending soon — no card on file'
+            : 'Free trial · no card needed';
+        }
+      } else if (ws.trial_status === 'past_due' || ws.trial_status === 'canceled') {
+        trialEl.textContent = ws.trial_status === 'past_due' ? 'Payment overdue' : 'Canceled';
+        if (trialSub) trialSub.textContent = 'Contact hello@reachaiapp.com';
+      } else {
+        trialEl.textContent = 'Not started';
+        if (trialSub) {
+          trialSub.textContent = ws.onboarding_step === 'complete'
+            ? 'Setup complete' : 'Finish setup to start your trial';
+        }
+      }
+    }
+
+    // Sidebar tier block — mirrors the tile above, no invented quota.
+    const tierLabel = document.getElementById('tier-label');
+    const tierUsage = document.getElementById('tier-usage');
+    if (tierLabel && tierUsage) {
+      if (ws.trial_status === 'active') {
+        tierLabel.textContent = ws.plan ? `${ws.plan} plan` : 'Active plan';
+        tierUsage.textContent = 'Subscription active';
+      } else if (ws.trial_status === 'trial' && left === 0) {
+        tierLabel.textContent = 'Trial ended';
+        tierUsage.textContent = 'Add a card to resume service';
+      } else if (ws.trial_status === 'trial' && left != null) {
+        tierLabel.textContent = 'Free trial';
+        tierUsage.textContent = left === 1 ? '1 day remaining' : `${left} days remaining`;
+      } else {
+        tierLabel.textContent = 'Free trial';
+        tierUsage.textContent = 'Starts when setup is complete';
+      }
     }
 
     // Populate assistant form fields
