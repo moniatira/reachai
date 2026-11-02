@@ -23,7 +23,7 @@ const initialState = {
   assistant_name: 'Sarah',
   greeting: "Hi! I'm Sarah. How can I help you today?",
   tone: 'warm',
-  brand_color: '#534AB7',
+  brand_color: '#175A74',
 };
 
 function loadState() {
@@ -485,15 +485,15 @@ function hydrateStep4() {
   document.getElementById('step4-name').value = state.assistant_name || 'Sarah';
   document.getElementById('step4-tone').value = state.tone || 'warm';
   document.getElementById('step4-greeting').value = state.greeting || "Hi! I'm Sarah. How can I help you today?";
-  document.getElementById('step4-color').value = state.brand_color || '#534AB7';
-  document.getElementById('step4-color-text').value = state.brand_color || '#534AB7';
+  document.getElementById('step4-color').value = state.brand_color || '#175A74';
+  document.getElementById('step4-color-text').value = state.brand_color || '#175A74';
   updatePreview();
 }
 
 function updatePreview() {
   const name = document.getElementById('step4-name').value || 'Sarah';
   const greeting = document.getElementById('step4-greeting').value || `Hi! I'm ${name}. How can I help you today?`;
-  const color = document.getElementById('step4-color').value || '#534AB7';
+  const color = document.getElementById('step4-color').value || '#175A74';
 
   document.getElementById('preview-assistant-name').textContent = name;
   document.getElementById('preview-greeting').textContent = greeting;

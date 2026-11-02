@@ -108,7 +108,7 @@
 <header>
   <div class="container">
     <div class="nav">
-      <a href="index.html" class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="#fff"/><circle cx="8.5" cy="10" r="1.15" fill="#6C4CF1"/><circle cx="12" cy="10" r="1.15" fill="#6C4CF1"/><circle cx="15.5" cy="10" r="1.15" fill="#6C4CF1"/></svg></span>ReachAI</a>
+      <a href="index.html" class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="#fff"/><circle cx="8.5" cy="10" r="1.15" fill="#175A74"/><circle cx="12" cy="10" r="1.15" fill="#175A74"/><circle cx="15.5" cy="10" r="1.15" fill="#175A74"/></svg></span>ReachAI</a>
       <nav class="main-nav">
         <a href="index.html">Product</a>
         <a href="integrations.html">Integrations</a>
@@ -292,21 +292,21 @@
               <div class="mfield">
                 <label>Brand color</label>
                 <div style="display:flex;gap:8px">
-                  <input type="color" id="demo-color" value="#534AB7" style="width:44px;height:40px;border-radius:6px;border:1px solid var(--line);padding:2px;cursor:pointer" oninput="document.getElementById('demo-color-text').value=this.value;mockUpdatePreview()">
-                  <input class="minput" id="demo-color-text" value="#534AB7" style="width:100px" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){document.getElementById('demo-color').value=this.value;mockUpdatePreview()}">
+                  <input type="color" id="demo-color" value="#175A74" style="width:44px;height:40px;border-radius:6px;border:1px solid var(--line);padding:2px;cursor:pointer" oninput="document.getElementById('demo-color-text').value=this.value;mockUpdatePreview()">
+                  <input class="minput" id="demo-color-text" value="#175A74" style="width:100px" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){document.getElementById('demo-color').value=this.value;mockUpdatePreview()}">
                 </div>
               </div>
             </div>
             <div class="mock-preview-pane">
               <div class="preview-label">Live preview</div>
               <div class="mock-chat-widget">
-                <div class="mock-chat-head" id="demo-preview-head" style="background:#534AB7">
+                <div class="mock-chat-head" id="demo-preview-head" style="background:#175A74">
                   <span class="mock-chat-dot"></span>
                   <span id="demo-preview-name">Sarah</span>
                 </div>
                 <div class="mock-chat-body">
                   <div class="mock-chat-msg mock-chat-bot" id="demo-preview-greeting">Hi! I'm Sarah. How can I help you today?</div>
-                  <div class="mock-chat-msg mock-chat-user" style="background:#534AB7" id="demo-preview-user-msg">I'd like to book an appointment</div>
+                  <div class="mock-chat-msg mock-chat-user" style="background:#175A74" id="demo-preview-user-msg">I'd like to book an appointment</div>
                   <div class="mock-chat-msg mock-chat-bot">Of course! What day works for you?</div>
                 </div>
               </div>
@@ -469,7 +469,7 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="index.html" class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="#fff"/><circle cx="8.5" cy="10" r="1.15" fill="#6C4CF1"/><circle cx="12" cy="10" r="1.15" fill="#6C4CF1"/><circle cx="15.5" cy="10" r="1.15" fill="#6C4CF1"/></svg></span>ReachAI</a>
+        <a href="index.html" class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="#fff"/><circle cx="8.5" cy="10" r="1.15" fill="#175A74"/><circle cx="12" cy="10" r="1.15" fill="#175A74"/><circle cx="15.5" cy="10" r="1.15" fill="#175A74"/></svg></span>ReachAI</a>
         <p>The self-serve AI front desk for SMBs. Voice and chat — one assistant, one calendar.</p>
       </div>
       <div class="footer-col">
@@ -538,8 +538,8 @@ function mockReset() {
   document.querySelectorAll('.mock-cal-card').forEach(c => c.classList.remove('picked'));
   document.getElementById('demo-asst-name').value = 'Sarah';
   document.getElementById('demo-greeting').value = "Hi! I'm Sarah. How can I help you today?";
-  document.getElementById('demo-color').value = '#534AB7';
-  document.getElementById('demo-color-text').value = '#534AB7';
+  document.getElementById('demo-color').value = '#175A74';
+  document.getElementById('demo-color-text').value = '#175A74';
   mockUpdatePreview();
   mockGoTo(1);
 }
@@ -601,7 +601,7 @@ function mockChangeCal() {
 function mockUpdatePreview() {
   const name = document.getElementById('demo-asst-name').value || 'Sarah';
   const greeting = document.getElementById('demo-greeting').value || `Hi! I'm ${name}. How can I help you today?`;
-  const color = document.getElementById('demo-color').value || '#534AB7';
+  const color = document.getElementById('demo-color').value || '#175A74';
   document.getElementById('demo-preview-name').textContent = name;
   document.getElementById('demo-preview-greeting').textContent = greeting;
   document.getElementById('demo-preview-head').style.background = color;

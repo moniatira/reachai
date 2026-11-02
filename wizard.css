@@ -6,14 +6,14 @@
 
 :root {
   /* Reusing tokens from styles.css for consistency */
-  --indigo: #6C4CF1;
+  --indigo: #175A74;
   --indigo-dark: #4B32C4;
   --indigo-bg: #F1EDFF;
-  --grad: linear-gradient(135deg,#6C4CF1 0%,#8B5CF6 46%,#D946EF 100%);
+  --grad: linear-gradient(135deg,#175A74 0%,#2C7E9B 46%,#5CA8C0 100%);
   --teal: #0F9E6E;
   --teal-bg: #E2F7EF;
   --paper: #FAFAFF;
-  --paper-2: #F2F0FB;
+  --paper-2: #EFF5F8;
   --line: #E9E7F5;
   --line-2: #D8D4EC;
   --text: #171433;
@@ -70,7 +70,7 @@ body.wizard-body {
   font-family: "Outfit", sans-serif;
   font-weight: 700;
   font-size: 15px;
-  box-shadow: 0 4px 12px rgba(108,76,241,.35);
+  box-shadow: 0 4px 12px rgba(23,96,125,.35);
 }
 
 .wizard-exit {
@@ -653,7 +653,7 @@ select.input {
 
 .chat-mock-bot {
   background: #FFFFFF;
-  border: 1px solid #534AB733;
+  border: 1px solid #175A7433;
   align-self: flex-start;
   color: var(--text);
 }
